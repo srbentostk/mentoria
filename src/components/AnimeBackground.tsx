@@ -121,7 +121,7 @@ const AnimeBackground = () => {
 
     // Create array of particles
     const dipCurve = generateDipCurve(canvas.width, canvas.height);
-    const particleCount = Math.floor((canvas.width * canvas.height) / 8000); // Adjust for density
+    const particleCount = Math.floor((canvas.width * canvas.height) / 8000);
     const particles: DipParticle[] = [];
     
     for (let i = 0; i < particleCount; i++) {

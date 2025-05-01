@@ -5,7 +5,7 @@ const VideoSection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Simulate loading delay
+    // Simple loading effect
     const timer = setTimeout(() => {
       setIsLoaded(true);
     }, 1000);
@@ -14,7 +14,7 @@ const VideoSection = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-full min-h-[300px] bg-black/30 rounded-lg overflow-hidden anime-card">
+    <div className="relative w-full h-full min-h-[300px] bg-black/30 rounded-lg overflow-hidden">
       {!isLoaded && (
         <div className="absolute inset-0 flex items-center justify-center bg-anime-purple/10 animate-pulse">
           <div className="w-16 h-16 border-4 border-t-anime-purple border-opacity-50 rounded-full animate-spin"></div>

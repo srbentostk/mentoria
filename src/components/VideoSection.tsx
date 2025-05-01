@@ -22,16 +22,14 @@ const VideoSection = () => {
       )}
       
       <div className={`w-full h-full ${isLoaded ? 'opacity-100' : 'opacity-0'} transition-opacity duration-700`}>
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-anime-blue/30 to-anime-purple/30">
-          <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center cursor-pointer group">
-            <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[20px] border-l-white border-b-[10px] border-b-transparent ml-1 group-hover:scale-110 transition-transform"></div>
-          </div>
-        </div>
-        
-        {/* This would be replaced with an actual video player in production */}
-        <div className="w-full h-full min-h-[300px] bg-black/20 flex items-center justify-center">
-          <span className="text-white/50 text-sm">Vídeo de apresentação</span>
-        </div>
+        <iframe 
+          src="https://www.youtube.com/embed/XNxu7HmiSWM" 
+          className="w-full h-full min-h-[300px]" 
+          title="The Dip by Seth Godin" 
+          frameBorder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowFullScreen
+        ></iframe>
       </div>
     </div>
   );

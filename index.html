@@ -21,9 +21,9 @@
     />
     <style>
       :root {
-        --anime-pink: #ff61d3;
-        --anime-violet: #7f6aff;
-        --anime-purple: #8a2be2;
+        --anime-pink: #fc7100;
+        --anime-violet: #eea300;
+        --anime-purple: #e7a10a;
         --background: #0f0c29;
         --gradient: linear-gradient(to right, #24243e, #302b63, #0f0c29);
       }
@@ -54,7 +54,7 @@
         font-weight: bold;
         background: linear-gradient(
           90deg,
-          #fff,
+          #e0ad4d,
           var(--anime-pink),
           var(--anime-violet)
         );
@@ -85,7 +85,7 @@
         gap: 2rem;
       }
       .anime-glow {
-        box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        box-shadow: 0 0 15px rgba(87, 0, 168, 0.5);
       }
       .form-section {
         background: rgba(0, 0, 0, 0.3);
@@ -142,7 +142,7 @@
         cursor: pointer;
         transition: opacity 0.2s, transform 0.2s;
         margin-top: 0.5rem;
-        box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        box-shadow: 0 0 15px rgba(251, 247, 255, 0.5);
         animation: pulse-slow 2.5s infinite;
       }
       .form-btn:disabled {
@@ -157,21 +157,7 @@
         border: 1px solid;
         font-size: 1rem;
       }
-      .video-section {
-        flex: 1 1 320px;
-        min-width: 300px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .video-section video,
-      .video-section iframe {
-        width: 100%;
-        max-width: 420px;
-        border-radius: 1rem;
-        box-shadow: 0 0 15px 0 rgba(138, 43, 226, 0.25);
-        background: #000;
-      }
+
       .mentoria-section {
         margin: 3rem 0 2rem 0;
         text-align: center;
@@ -220,12 +206,53 @@
         color: #fff8;
         font-size: 0.95rem;
       }
+      .video-section {
+        flex: 2 1 600px; /* aumentado o flex-grow e base width */
+        min-width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .video-section .video-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 1000px; /* aumentado o tamanho máximo */
+        aspect-ratio: 16 / 9;
+        background: #000;
+        border-radius: 2rem;
+        overflow: hidden;
+        box-shadow: 0 0 32px 0 rgba(138, 43, 226, 0.25);
+      }
+      .video-section .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+        border-radius: 2rem; /* bordas arredondadas no iframe também */
+        background: #000;
+      }
+      @supports not (aspect-ratio: 16 / 9) {
+        .video-section .video-wrapper {
+          height: 0;
+          padding-bottom: 56.25%; /* 16:9 */
+        }
+        .video-section .video-wrapper iframe {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          left: 0;
+          top: 0;
+        }
+      }
       @media (max-width: 900px) {
         .anime-card {
           flex-direction: column;
           padding: 1.2rem;
         }
-        .video-section,
+
         .form-section {
           min-width: 0;
           max-width: 100%;
@@ -252,13 +279,14 @@
       </div>
       <div class="anime-card anime-glow">
         <div class="video-section">
-          <!-- Troque o src abaixo pelo mesmo vídeo usado atualmente -->
-          <iframe
-            src="https://www.youtube.com/embed/XNxu7HmiSWM?si=PlfN-DtnuFDi10n6"
-            title="Vídeo de apresentação"
-            frameborder="0"
-            allowfullscreen
-          ></iframe>
+          <div class="video-wrapper">
+            <iframe
+              src="https://www.youtube.com/embed/XNxu7HmiSWM?si=PlfN-DtnuFDi10n6&vq=hd1080"
+              title="Vídeo de apresentação"
+              frameborder="0"
+              allowfullscreen
+            ></iframe>
+          </div>
         </div>
         <div class="form-section">
           <h2>Entre para nossa lista de espera</h2>
@@ -331,7 +359,8 @@
               style="
                 width: 100%;
                 display: flex;
-                align-items: center;
+                align-items: right;
+                justify-content: space-between;
                 margin-bottom: 1rem;
               "
             >
@@ -342,7 +371,7 @@
                 id="gdpr"
                 value="Concordo em receber os e-mails"
                 required
-                style="margin-right: 6px"
+                style="margin-right: 1px"
               />
               <label for="gdpr" style="font-size: 0.95rem"
                 >Concordo em receber os e-mails</label

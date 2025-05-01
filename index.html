@@ -1,6 +1,5 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,12 +9,329 @@
     <meta property="og:title" content="Mentoria Especializada" />
     <meta property="og:description" content="Entre na nossa lista de espera para mentoria especializada" />
     <meta property="og:type" content="website" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --anime-pink: #ff61d3;
+        --anime-violet: #7f6aff;
+        --anime-purple: #8a2be2;
+        --background: #0F0C29;
+        --gradient: linear-gradient(to right, #24243e, #302b63, #0F0C29);
+      }
+      body {
+        margin: 0;
+        font-family: 'Inter', Arial, sans-serif;
+        background: var(--background);
+        background: var(--gradient);
+        color: #fff;
+        min-height: 100vh;
+      }
+      .anime-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 800 800'%3E%3Cg fill='none' stroke='%23404' stroke-width='1'%3E%3Cpath d='M769 229L1037 260.9M927 880L731 737 520 660 309 538 40 599 295 764 126.5 879.5 40 599-197 493 102 382-31 229 126.5 79.5-69-63'/%3E%3Cpath d='M-31 229L237 261 390 382 603 493 308.5 537.5 101.5 381.5M370 905L295 764'/%3E%3Cpath d='M520 660L578 842 731 737 840 599 603 493 520 660 295 764 309 538'/%3E%3C/g%3E%3C/svg%3E");
+        opacity: 0.07;
+        background-size: cover;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      .hero-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        background: linear-gradient(90deg, #fff, var(--anime-pink), var(--anime-violet));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        margin-bottom: 1rem;
+        animation: pulse-slow 2.5s infinite;
+      }
+      @keyframes pulse-slow {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+      }
+      .anime-card {
+        background: rgba(255,255,255,0.05);
+        border-radius: 1.2rem;
+        box-shadow: 0 0 15px 0 rgba(138,43,226,0.15);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+      }
+      .anime-glow {
+        box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+      }
+      .form-section {
+        background: rgba(0,0,0,0.3);
+        border-radius: 1rem;
+        padding: 2rem;
+        flex: 1 1 320px;
+        min-width: 300px;
+        max-width: 400px;
+      }
+      .form-section h2 {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+      .form-section p {
+        color: #fff9;
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      form label {
+        display: block;
+        margin-bottom: 0.3rem;
+        font-weight: 500;
+        color: #fff;
+      }
+      form input {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        border: 1px solid #fff3;
+        background: rgba(255,255,255,0.08);
+        color: #fff;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+        outline: none;
+        transition: border 0.2s;
+      }
+      form input:focus {
+        border: 1.5px solid var(--anime-pink);
+      }
+      .form-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 0.5rem;
+        background: linear-gradient(90deg, var(--anime-pink), var(--anime-violet));
+        color: #fff;
+        cursor: pointer;
+        transition: opacity 0.2s, transform 0.2s;
+        margin-top: 0.5rem;
+        box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
+        animation: pulse-slow 2.5s infinite;
+      }
+      .form-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      #form-message {
+        display: none;
+        margin-top: 1rem;
+        padding: 0.7rem 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid;
+        font-size: 1rem;
+      }
+      .video-section {
+        flex: 1 1 320px;
+        min-width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .video-section video, .video-section iframe {
+        width: 100%;
+        max-width: 420px;
+        border-radius: 1rem;
+        box-shadow: 0 0 15px 0 rgba(138,43,226,0.25);
+        background: #000;
+      }
+      .mentoria-section {
+        margin: 3rem 0 2rem 0;
+        text-align: center;
+      }
+      .mentoria-section h2 {
+        font-size: 2rem;
+        font-weight: bold;
+        background: linear-gradient(90deg, var(--anime-pink), var(--anime-violet));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+        margin-bottom: 1.5rem;
+      }
+      .mentoria-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        justify-content: center;
+      }
+      .mentoria-item {
+        background: rgba(255,255,255,0.07);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        min-width: 220px;
+        max-width: 260px;
+        flex: 1 1 220px;
+        color: #fff;
+        box-shadow: 0 0 10px 0 rgba(138,43,226,0.10);
+      }
+      .mentoria-item .number {
+        font-size: 2rem;
+        font-weight: bold;
+        color: var(--anime-pink);
+        margin-bottom: 0.5rem;
+      }
+      .footer {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #fff2;
+        text-align: center;
+        color: #fff8;
+        font-size: 0.95rem;
+      }
+      @media (max-width: 900px) {
+        .anime-card {
+          flex-direction: column;
+          padding: 1.2rem;
+        }
+        .video-section, .form-section {
+          min-width: 0;
+          max-width: 100%;
+        }
+      }
+    </style>
   </head>
-
   <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
+    <div class="anime-bg"></div>
+    <div class="container">
+      <div style="text-align:center; margin-bottom:2.5rem;">
+        <h1 class="hero-title">Mentoria Especializada</h1>
+        <p style="color:#fff9; font-size:1.2rem; max-width:600px; margin:0 auto;">
+          Descubra como potencializar seus resultados com inteligência artificial e automações personalizadas para o seu negócio
+        </p>
+      </div>
+      <div class="anime-card anime-glow">
+        <div class="video-section">
+          <!-- Troque o src abaixo pelo mesmo vídeo usado atualmente -->
+          <iframe src="https://youtu.be/XNxu7HmiSWM" title="Vídeo de apresentação" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="form-section">
+          <h2>Entre para nossa lista de espera</h2>
+          <p>Preencha o formulário abaixo para receber informações exclusivas sobre a mentoria</p>
+          <form id="lead-form" autocomplete="off">
+            <label for="name">Primeiro Nome</label>
+            <input type="text" id="name" name="name" placeholder="Seu nome" required />
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Seu melhor email" required />
+            <label for="whatsapp">Telefone (WhatsApp)</label>
+            <input type="tel" id="whatsapp" name="whatsapp" placeholder="(xx) xxxxx-xxxx" />
+            <button type="submit" class="form-btn anime-glow" id="submit-button">Entrar na lista</button>
+            <div id="form-message"></div>
+          </form>
+        </div>
+      </div>
+      <div class="mentoria-section">
+        <h2>Mentoria</h2>
+        <div class="mentoria-list">
+          <div class="mentoria-item">
+            <div class="number">1</div>
+            <div class="title" style="font-weight:bold; margin-bottom:0.5rem;">Mentoria personalizada</div>
+            <div class="desc">Mentoria individualizada para o seu negócio, focada em resultados reais.</div>
+          </div>
+          <div class="mentoria-item">
+            <div class="number">2</div>
+            <div class="title" style="font-weight:bold; margin-bottom:0.5rem;">Automações para seu negócio</div>
+            <div class="desc">Desenvolvo algumas automações para ajudar no seu negócio e otimizar processos.</div>
+          </div>
+          <div class="mentoria-item">
+            <div class="number">3</div>
+            <div class="title" style="font-weight:bold; margin-bottom:0.5rem;">Aproveite a IA ao máximo</div>
+            <div class="desc">Te ensino a tirar o melhor proveito possível da Inteligência Artificial.</div>
+          </div>
+          <div class="mentoria-item">
+            <div class="number">4</div>
+            <div class="title" style="font-weight:bold; margin-bottom:0.5rem;">Suporte detalhado</div>
+            <div class="desc">Explico detalhadamente para você, basta entrar na lista de interessados.</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        © 2025 Mentoria Especializada. Todos os direitos reservados.
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('lead-form');
+        const submitButton = document.getElementById('submit-button');
+        const formMessage = document.getElementById('form-message');
+
+        // --- Configuração ---
+        // !! IMPORTANTE: Defina o email para onde os leads devem ser enviados !!
+        const recipientEmail = "luizcarlos_bs@live.com";
+        // Assunto do email que você receberá
+        const emailSubject = "Novo Lead Recebido do Site Principal";
+        // --------------------
+
+        if (form) {
+          form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            // Pega os valores dos campos
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+
+            // Validação simples (pode ser melhorada)
+            if (!name || !email) {
+              showMessage("Por favor, preencha o nome e o email.", 'error');
+              return;
+            }
+
+            // Monta o corpo do email
+            let emailBody = `Um novo lead foi enviado pelo formulário do site:\n\n`;
+            emailBody += `Nome: ${name}\n`;
+            emailBody += `Email: ${email}\n`;
+            if (whatsapp) {
+              emailBody += `WhatsApp: ${whatsapp}\n`;
+            }
+
+            // Codifica os componentes para a URL mailto
+            const encodedSubject = encodeURIComponent(emailSubject);
+            const encodedBody = encodeURIComponent(emailBody);
+
+            // Cria o link mailto
+            const mailtoLink = `mailto:${recipientEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+
+            // Tenta abrir o cliente de email
+            window.location.href = mailtoLink;
+
+            // Exibe uma mensagem informativa para o usuário
+            showMessage("Seu cliente de e-mail será aberto para enviar as informações. Por favor, complete o envio por lá.", 'info');
+
+            // Opcional: Limpar o formulário após tentativa de envio
+            // form.reset();
+          });
+        }
+
+        function showMessage(message, type = 'info') {
+          if (formMessage) {
+            formMessage.textContent = message;
+            formMessage.style.display = 'block';
+            if (type === 'error') {
+              formMessage.style.backgroundColor = '#f2dede';
+              formMessage.style.color = '#a94442';
+              formMessage.style.borderColor = '#ebccd1';
+            } else {
+              formMessage.style.backgroundColor = '#d9edf7';
+              formMessage.style.color = '#31708f';
+              formMessage.style.borderColor = '#bce8f1';
+            }
+          }
+        }
+      });
+    </script>
   </body>
 </html>

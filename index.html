@@ -4,23 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mentoria Especializada</title>
-    <meta name="description" content="Entre na nossa lista de espera para mentoria especializada" />
+    <meta
+      name="description"
+      content="Entre na nossa lista de espera para mentoria especializada"
+    />
     <meta name="author" content="Mentoria Especializada" />
     <meta property="og:title" content="Mentoria Especializada" />
-    <meta property="og:description" content="Entre na nossa lista de espera para mentoria especializada" />
+    <meta
+      property="og:description"
+      content="Entre na nossa lista de espera para mentoria especializada"
+    />
     <meta property="og:type" content="website" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
       :root {
         --anime-pink: #ff61d3;
         --anime-violet: #7f6aff;
         --anime-purple: #8a2be2;
-        --background: #0F0C29;
-        --gradient: linear-gradient(to right, #24243e, #302b63, #0F0C29);
+        --background: #0f0c29;
+        --gradient: linear-gradient(to right, #24243e, #302b63, #0f0c29);
       }
       body {
         margin: 0;
-        font-family: 'Inter', Arial, sans-serif;
+        font-family: "Inter", Arial, sans-serif;
         background: var(--background);
         background: var(--gradient);
         color: #fff;
@@ -43,7 +52,12 @@
       .hero-title {
         font-size: 2.5rem;
         font-weight: bold;
-        background: linear-gradient(90deg, #fff, var(--anime-pink), var(--anime-violet));
+        background: linear-gradient(
+          90deg,
+          #fff,
+          var(--anime-pink),
+          var(--anime-violet)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -52,13 +66,18 @@
         animation: pulse-slow 2.5s infinite;
       }
       @keyframes pulse-slow {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0.7; }
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.7;
+        }
       }
       .anime-card {
-        background: rgba(255,255,255,0.05);
+        background: rgba(255, 255, 255, 0.05);
         border-radius: 1.2rem;
-        box-shadow: 0 0 15px 0 rgba(138,43,226,0.15);
+        box-shadow: 0 0 15px 0 rgba(138, 43, 226, 0.15);
         padding: 2rem;
         margin-bottom: 2rem;
         display: flex;
@@ -69,7 +88,7 @@
         box-shadow: 0 0 15px rgba(138, 43, 226, 0.5);
       }
       .form-section {
-        background: rgba(0,0,0,0.3);
+        background: rgba(0, 0, 0, 0.3);
         border-radius: 1rem;
         padding: 2rem;
         flex: 1 1 320px;
@@ -97,7 +116,7 @@
         padding: 0.75rem;
         border-radius: 0.5rem;
         border: 1px solid #fff3;
-        background: rgba(255,255,255,0.08);
+        background: rgba(255, 255, 255, 0.08);
         color: #fff;
         font-size: 1rem;
         margin-bottom: 1rem;
@@ -114,7 +133,11 @@
         font-weight: bold;
         border: none;
         border-radius: 0.5rem;
-        background: linear-gradient(90deg, var(--anime-pink), var(--anime-violet));
+        background: linear-gradient(
+          90deg,
+          var(--anime-pink),
+          var(--anime-violet)
+        );
         color: #fff;
         cursor: pointer;
         transition: opacity 0.2s, transform 0.2s;
@@ -141,11 +164,12 @@
         align-items: center;
         justify-content: center;
       }
-      .video-section video, .video-section iframe {
+      .video-section video,
+      .video-section iframe {
         width: 100%;
         max-width: 420px;
         border-radius: 1rem;
-        box-shadow: 0 0 15px 0 rgba(138,43,226,0.25);
+        box-shadow: 0 0 15px 0 rgba(138, 43, 226, 0.25);
         background: #000;
       }
       .mentoria-section {
@@ -155,7 +179,11 @@
       .mentoria-section h2 {
         font-size: 2rem;
         font-weight: bold;
-        background: linear-gradient(90deg, var(--anime-pink), var(--anime-violet));
+        background: linear-gradient(
+          90deg,
+          var(--anime-pink),
+          var(--anime-violet)
+        );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
@@ -169,14 +197,14 @@
         justify-content: center;
       }
       .mentoria-item {
-        background: rgba(255,255,255,0.07);
+        background: rgba(255, 255, 255, 0.07);
         border-radius: 1rem;
         padding: 1.5rem;
         min-width: 220px;
         max-width: 260px;
         flex: 1 1 220px;
         color: #fff;
-        box-shadow: 0 0 10px 0 rgba(138,43,226,0.10);
+        box-shadow: 0 0 10px 0 rgba(138, 43, 226, 0.1);
       }
       .mentoria-item .number {
         font-size: 2rem;
@@ -197,7 +225,8 @@
           flex-direction: column;
           padding: 1.2rem;
         }
-        .video-section, .form-section {
+        .video-section,
+        .form-section {
           min-width: 0;
           max-width: 100%;
         }
@@ -207,30 +236,155 @@
   <body>
     <div class="anime-bg"></div>
     <div class="container">
-      <div style="text-align:center; margin-bottom:2.5rem;">
+      <div style="text-align: center; margin-bottom: 2.5rem">
         <h1 class="hero-title">Mentoria Especializada</h1>
-        <p style="color:#fff9; font-size:1.2rem; max-width:600px; margin:0 auto;">
-          Descubra como potencializar seus resultados com inteligência artificial e automações personalizadas para o seu negócio
+        <p
+          style="
+            color: #fff9;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+          "
+        >
+          Descubra como potencializar seus resultados com inteligência
+          artificial e automações personalizadas para o seu negócio
         </p>
       </div>
       <div class="anime-card anime-glow">
         <div class="video-section">
           <!-- Troque o src abaixo pelo mesmo vídeo usado atualmente -->
-          <iframe src="https://youtu.be/XNxu7HmiSWM" title="Vídeo de apresentação" frameborder="0" allowfullscreen></iframe>
+          <iframe
+            src="https://www.youtube.com/embed/XNxu7HmiSWM?si=PlfN-DtnuFDi10n6"
+            title="Vídeo de apresentação"
+            frameborder="0"
+            allowfullscreen
+          ></iframe>
         </div>
         <div class="form-section">
           <h2>Entre para nossa lista de espera</h2>
-          <p>Preencha o formulário abaixo para receber informações exclusivas sobre a mentoria</p>
-          <form id="lead-form" autocomplete="off">
-            <label for="name">Primeiro Nome</label>
-            <input type="text" id="name" name="name" placeholder="Seu nome" required />
+          <p>
+            Preencha o formulário abaixo para receber informações exclusivas
+            sobre a mentoria
+          </p>
+          <form
+            klicksend-form-id="eYuR0by"
+            autocomplete="off"
+            method="post"
+            action="//handler.send.hotmart.com/subscription/eYuR0by"
+          >
+            <label for="first_name">Primeiro Nome</label>
+            <input
+              type="text"
+              autocomplete="off"
+              name="first_name"
+              id="first_name"
+              placeholder="Seu nome"
+              value=""
+              required
+            />
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" placeholder="Seu melhor email" required />
-            <label for="whatsapp">Telefone (WhatsApp)</label>
-            <input type="tel" id="whatsapp" name="whatsapp" placeholder="(xx) xxxxx-xxxx" />
-            <button type="submit" class="form-btn anime-glow" id="submit-button">Entrar na lista</button>
-            <div id="form-message"></div>
+            <input
+              type="email"
+              autocomplete="off"
+              name="email"
+              id="email"
+              placeholder="Seu melhor email"
+              value=""
+              required
+            />
+            <label for="phone">Telefone (WhatsApp)</label>
+            <input
+              type="text"
+              autocomplete="off"
+              name="phone"
+              id="phone"
+              placeholder="(xx) xxxxx-xxxx"
+              value=""
+            />
+            <div
+              klicksend-gdpr-text
+              style="
+                font-size: 10px;
+                color: #86919a;
+                margin-bottom: 5px;
+                text-align: left;
+              "
+            >
+              <p>
+                Esses dados serão utilizados para entrarmos em contato com você
+                e disponibilizarmos mais conteúdos e ofertas. Caso você não
+                queira mais receber os nosso emails, cada email que você
+                receber, incluirá ao final, um link que poderá ser usado para
+                remover o seu email da nossa lista de distribuição.
+              </p>
+              <p>
+                Para mais informações, acesse:
+                <a
+                  href="https://hotmart.com/pt-br/legal/privacidade-de-dados/"
+                  target="_blank"
+                  rel="noopener"
+                  >https://hotmart.com/pt-br/legal/privacidade-de-dados/</a
+                >
+              </p>
+            </div>
+            <div
+              style="
+                width: 100%;
+                display: flex;
+                align-items: center;
+                margin-bottom: 1rem;
+              "
+            >
+              <input
+                type="checkbox"
+                autocomplete="off"
+                name="gdpr"
+                id="gdpr"
+                value="Concordo em receber os e-mails"
+                required
+                style="margin-right: 6px"
+              />
+              <label for="gdpr" style="font-size: 0.95rem"
+                >Concordo em receber os e-mails</label
+              >
+            </div>
+            <div style="position: absolute; left: -5000px" aria-hidden="true">
+              <input
+                type="text"
+                autocomplete="new-password"
+                name="b_eYuR0by"
+                tabindex="-1"
+                value=""
+              />
+            </div>
+            <button
+              type="submit"
+              class="form-btn anime-glow"
+              klicksend-form-submit-id="eYuR0by"
+            >
+              Entrar na lista
+            </button>
           </form>
+          <script>
+            // Adiciona parâmetros da URL ao action do formulário Hotmart
+            var pageParams = new URLSearchParams(window.location.search);
+            var form = document.querySelector(
+              'form[klicksend-form-id="eYuR0by"]'
+            );
+            if (form) {
+              var formActionUrl = new URL(form.action, window.location.origin);
+              var formActionSearchParams =
+                formActionUrl.searchParams.size > 0
+                  ? formActionUrl.searchParams.toString() + "&"
+                  : "";
+              var combinedParams =
+                formActionSearchParams + pageParams.toString();
+              form.action =
+                formActionUrl.origin +
+                formActionUrl.pathname +
+                (combinedParams ? "?" + combinedParams : "");
+            }
+          </script>
         </div>
       </div>
       <div class="mentoria-section">
@@ -238,23 +392,43 @@
         <div class="mentoria-list">
           <div class="mentoria-item">
             <div class="number">1</div>
-            <div class="title" style="font-weight:bold; margin-bottom:0.5rem;">Mentoria personalizada</div>
-            <div class="desc">Mentoria individualizada para o seu negócio, focada em resultados reais.</div>
+            <div class="title" style="font-weight: bold; margin-bottom: 0.5rem">
+              Mentoria personalizada
+            </div>
+            <div class="desc">
+              Mentoria individualizada para o seu negócio, focada em resultados
+              reais.
+            </div>
           </div>
           <div class="mentoria-item">
             <div class="number">2</div>
-            <div class="title" style="font-weight:bold; margin-bottom:0.5rem;">Automações para seu negócio</div>
-            <div class="desc">Desenvolvo algumas automações para ajudar no seu negócio e otimizar processos.</div>
+            <div class="title" style="font-weight: bold; margin-bottom: 0.5rem">
+              Automações para seu negócio
+            </div>
+            <div class="desc">
+              Desenvolvo algumas automações para ajudar no seu negócio e
+              otimizar processos.
+            </div>
           </div>
           <div class="mentoria-item">
             <div class="number">3</div>
-            <div class="title" style="font-weight:bold; margin-bottom:0.5rem;">Aproveite a IA ao máximo</div>
-            <div class="desc">Te ensino a tirar o melhor proveito possível da Inteligência Artificial.</div>
+            <div class="title" style="font-weight: bold; margin-bottom: 0.5rem">
+              Aproveite a IA ao máximo
+            </div>
+            <div class="desc">
+              Te ensino a tirar o melhor proveito possível da Inteligência
+              Artificial.
+            </div>
           </div>
           <div class="mentoria-item">
             <div class="number">4</div>
-            <div class="title" style="font-weight:bold; margin-bottom:0.5rem;">Suporte detalhado</div>
-            <div class="desc">Explico detalhadamente para você, basta entrar na lista de interessados.</div>
+            <div class="title" style="font-weight: bold; margin-bottom: 0.5rem">
+              Suporte detalhado
+            </div>
+            <div class="desc">
+              Explico detalhadamente para você, basta entrar na lista de
+              interessados.
+            </div>
           </div>
         </div>
       </div>
@@ -263,10 +437,10 @@
       </div>
     </div>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const form = document.getElementById('lead-form');
-        const submitButton = document.getElementById('submit-button');
-        const formMessage = document.getElementById('form-message');
+      document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("lead-form");
+        const submitButton = document.getElementById("submit-button");
+        const formMessage = document.getElementById("form-message");
 
         // --- Configuração ---
         // !! IMPORTANTE: Defina o email para onde os leads devem ser enviados !!
@@ -276,17 +450,17 @@
         // --------------------
 
         if (form) {
-          form.addEventListener('submit', function(event) {
+          form.addEventListener("submit", function (event) {
             event.preventDefault(); // Impede o envio padrão do formulário
 
             // Pega os valores dos campos
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const whatsapp = document.getElementById('whatsapp').value;
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const whatsapp = document.getElementById("whatsapp").value;
 
             // Validação simples (pode ser melhorada)
             if (!name || !email) {
-              showMessage("Por favor, preencha o nome e o email.", 'error');
+              showMessage("Por favor, preencha o nome e o email.", "error");
               return;
             }
 
@@ -309,25 +483,28 @@
             window.location.href = mailtoLink;
 
             // Exibe uma mensagem informativa para o usuário
-            showMessage("Seu cliente de e-mail será aberto para enviar as informações. Por favor, complete o envio por lá.", 'info');
+            showMessage(
+              "Seu cliente de e-mail será aberto para enviar as informações. Por favor, complete o envio por lá.",
+              "info"
+            );
 
             // Opcional: Limpar o formulário após tentativa de envio
             // form.reset();
           });
         }
 
-        function showMessage(message, type = 'info') {
+        function showMessage(message, type = "info") {
           if (formMessage) {
             formMessage.textContent = message;
-            formMessage.style.display = 'block';
-            if (type === 'error') {
-              formMessage.style.backgroundColor = '#f2dede';
-              formMessage.style.color = '#a94442';
-              formMessage.style.borderColor = '#ebccd1';
+            formMessage.style.display = "block";
+            if (type === "error") {
+              formMessage.style.backgroundColor = "#f2dede";
+              formMessage.style.color = "#a94442";
+              formMessage.style.borderColor = "#ebccd1";
             } else {
-              formMessage.style.backgroundColor = '#d9edf7';
-              formMessage.style.color = '#31708f';
-              formMessage.style.borderColor = '#bce8f1';
+              formMessage.style.backgroundColor = "#d9edf7";
+              formMessage.style.color = "#31708f";
+              formMessage.style.borderColor = "#bce8f1";
             }
           }
         }

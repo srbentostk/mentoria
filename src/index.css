@@ -99,9 +99,8 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
-    background: #0F0C29;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0F0C29);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #24243e, #302b63, #0F0C29); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #121826;  /* Azul escuro */
+    color: #e5e5e5; /* Escala de cinza claro */
   }
 }
 
@@ -128,7 +127,7 @@
 
 .anime-card {
   backdrop-filter: blur(16px);
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(18, 24, 38, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -136,4 +135,44 @@
   background-size: 200% 100%;
   background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
   animation: shimmer 3s infinite linear;
+}
+
+/* Novas classes baseadas na referência */
+.grid-card {
+  position: relative;
+}
+
+.grid-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: linear-gradient(rgba(18, 24, 38, 0.9) 1px, transparent 1px), 
+                    linear-gradient(90deg, rgba(18, 24, 38, 0.9) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.form-container {
+  background-color: #96633F; /* Cor de madeira */
+  background-image: linear-gradient(135deg, #96633F 0%, #A67B5B 100%);
+}
+
+.wood-text {
+  color: #A67B5B;
+}
+
+.dark-blue {
+  color: #121826;
+}
+
+.dark-blue-bg {
+  background-color: #121826;
+}
+
+.mentoria-item {
+  border-left: 3px solid #96633F;
 }

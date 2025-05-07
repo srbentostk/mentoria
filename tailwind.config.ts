@@ -65,10 +65,11 @@ export default {
 				},
 				anime: {
 					purple: "#8A2BE2",
-					blue: "#6495ED",
+					blue: "#121826", // Azul escuro
 					pink: "#FF69B4",
 					violet: "#9370DB",
-					cyan: "#00FFFF"
+					cyan: "#00FFFF",
+					wood: "#96633F" // Cor de madeira
 				}
 			},
 			borderRadius: {
@@ -115,9 +116,10 @@ export default {
 			},
 			backgroundImage: {
 				'anime-gradient': 'linear-gradient(90deg, hsla(277, 75%, 84%, 1) 0%, hsla(297, 50%, 51%, 1) 100%)',
-				'anime-card': 'linear-gradient(135deg, rgba(76, 0, 255, 0.1) 0%, rgba(255, 0, 204, 0.1) 100%)',
-				'anime-button': 'linear-gradient(90deg, #9370DB, #FF69B4)',
-				'anime-shimmer': 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%)'
+				'anime-card': 'linear-gradient(135deg, rgba(18, 24, 38, 0.7) 0%, rgba(18, 24, 38, 0.5) 100%)',
+				'anime-button': 'linear-gradient(90deg, #96633F, #A67B5B)', // Gradiente de madeira
+				'anime-shimmer': 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%)',
+				'wood-gradient': 'linear-gradient(135deg, #96633F 0%, #A67B5B 100%)' // Gradiente de madeira
 			}
 		}
 	},

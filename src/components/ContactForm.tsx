@@ -50,7 +50,7 @@ const ContactForm = () => {
       method="post" 
       action="//handler.send.hotmart.com/subscription/eYuR0by"
       onSubmit={handleSubmit}
-      className="space-y-4 w-full"
+      className="space-y-4 w-full rounded-lg p-6 bg-wood-gradient"
     >
       <div className="space-y-2">
         <Input
@@ -58,11 +58,11 @@ const ContactForm = () => {
           autoComplete="off"
           name="email"
           id="email"
-          placeholder="Email"
+          placeholder="Seu melhor e-mail"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="bg-white/10 border-white/20 text-white placeholder:text-white/50 h-12"
+          className="bg-white/20 border-white/20 text-white placeholder:text-white/70 h-12 rounded-md"
         />
       </div>
       <div className="space-y-2">
@@ -71,11 +71,11 @@ const ContactForm = () => {
           autoComplete="off"
           name="first_name"
           id="first_name"
-          placeholder="Primeiro Nome"
+          placeholder="Nome completo"
           value={firstName}
           onChange={(e) => setFirstName(e.target.value)}
           required
-          className="bg-white/10 border-white/20 text-white placeholder:text-white/50 h-12"
+          className="bg-white/20 border-white/20 text-white placeholder:text-white/70 h-12 rounded-md"
         />
       </div>
       <div className="space-y-2">
@@ -84,25 +84,16 @@ const ContactForm = () => {
           autoComplete="off"
           name="phone"
           id="phone"
-          placeholder="Telefone"
+          placeholder="WhatsApp com DDD"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           required
-          className="bg-white/10 border-white/20 text-white placeholder:text-white/50 h-12"
+          className="bg-white/20 border-white/20 text-white placeholder:text-white/70 h-12 rounded-md"
         />
       </div>
 
-      <div className="text-white/70 text-xs mt-4 text-left">
-        <p>Esses dados serão utilizados para entrarmos em contato com você e disponibilizarmos mais conteúdos e ofertas. Caso você não queira mais receber os nosso emails, cada email que você receber, incluirá ao final, um link que poderá ser usado para remover o seu email da nossa lista de distribuição.</p>
-        <p className="mt-2">
-          Para mais informações, acesse: 
-          <a href="https://hotmart.com/pt-br/legal/privacidade-de-dados/" 
-             target="_blank" 
-             rel="noopener" 
-             className="text-anime-pink ml-1 hover:underline">
-            https://hotmart.com/pt-br/legal/privacidade-de-dados/
-          </a>
-        </p>
+      <div className="text-white/90 text-xs mt-4 text-left">
+        <p>Esses dados serão utilizados para entrarmos em contato com você e disponibilizarmos mais conteúdos e ofertas.</p>
       </div>
 
       <div className="flex items-center space-x-2">
@@ -112,11 +103,11 @@ const ContactForm = () => {
           required
           value="Concordo em receber os e-mails"
           onCheckedChange={(checked) => setGdprConsent(checked === true)}
-          className="bg-white/10 border-white/20 data-[state=checked]:bg-anime-pink"
+          className="bg-white/20 border-white/20 data-[state=checked]:bg-white"
         />
         <label 
           htmlFor="gdpr" 
-          className="text-sm text-white/80 font-medium leading-none cursor-pointer">
+          className="text-sm text-white/90 font-medium leading-none cursor-pointer">
           Concordo em receber os e-mails
         </label>
       </div>
@@ -134,10 +125,9 @@ const ContactForm = () => {
       <Button 
         type="submit" 
         disabled={isSubmitting}
-        className="w-full py-6 text-lg font-bold transition-all duration-300 bg-anime-button hover:opacity-90 hover:scale-105 animate-pulse-slow anime-glow"
-        klicksend-form-submit-id='eYuR0by'
+        className="w-full py-6 text-lg font-bold tracking-wider transition-all duration-300 bg-violet-900 hover:bg-violet-800 hover:scale-105 text-white"
       >
-        {isSubmitting ? 'Processando...' : 'Entrar na lista'}
+        {isSubmitting ? 'Processando...' : 'QUERO ENTRAR NA LISTA VIP!'}
       </Button>
 
       <script dangerouslySetInnerHTML={{ __html: `

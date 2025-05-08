@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Obrigado - Lista de Espera</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
+    <style>
+      :root {
+        --highlight: #d35400; /* Laranja escuro (madeira) */
+        --secondary: #2c3e50; /* Azul escuro */
+        --background: #0f0c29;
+        --gradient: linear-gradient(to right, var(--secondary), var(--highlight));
+      }
+      body {
+        margin: 0;
+        font-family: "Inter", Arial, sans-serif;
+        color: #333;
+        min-height: 100vh;
+        background: var(--background);
+      }
+      .anime-bg {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background: url('./Banner Youtube.png') no-repeat center center;
+        background-size: cover;
+      }
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+      }
+      .hero-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #000;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+      .message {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        background: rgba(255, 255, 255, 0);
+        border-radius: 1rem;
+      }
+      .product-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+      }
+      .product {
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        flex: 1 1 300px;
+        max-width: 320px;
+        position: relative;
+        text-align: center;
+      }
+      .product h3 {
+        color: #000;
+        margin-bottom: 1rem;
+      }
+      .info-icon {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: var(--highlight);
+        color: #fff;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 100;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.7);
+      }
+      .modal-content {
+        background-color: #fff;
+        margin: 10% auto;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        max-width: 600px;
+        position: relative;
+        color: #333;
+      }
+      .close-modal {
+        color: #aaa;
+        position: absolute;
+        top: 0.5rem;
+        right: 1rem;
+        font-size: 1.5rem;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      /* Stripe Button adjustment */
+      .stripe-container {
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="anime-bg"></div>
+    <div class="container">
+      <div style="background: rgba(255, 255, 255, 0.85); border-radius: 1rem;">
+      <h1 class="hero-title">Obrigado!</h1>
+      <p class="message">
+        Agradecemos por ter entrado na lista de espera. Se você está procurando por uma
+        das IAs pré-treinadas, confira os produtos abaixo:
+      </p>
+      <div class="product-container">
+        <!-- Produto 1 -->
+        <div class="product">
+          <div class="info-icon" onclick="openModal('modal1')">?</div>
+          <h3>O Elixir da Declaração e Planejamento</h3>
+          <!-- Stripe Buy Button Produto 1 -->
+          <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+          <stripe-buy-button
+            buy-button-id="buy_btn_1RM4SWCklDynlRivMeyBF67k"
+            publishable-key="pk_live_51RLw3UCklDynlRiv0hHN8rmmjZa7ZF8u7XIVyqaWG9Gpu3nm4qHCSXjBciM3fwgqJTHjijCSnSWa34zg4LCjbg2p00Omfm2R1X"
+          ></stripe-buy-button>
+          <div class="stripe-container"></div>
+        </div>
+        <!-- Produto 2 -->
+        <div class="product">
+          <div class="info-icon" onclick="openModal('modal2')">?</div>
+          <h3>A Essência da Venda Ativa</h3>
+          <!-- Stripe Buy Button Produto 2 -->
+          <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+          <stripe-buy-button
+            buy-button-id="buy_btn_1RM4L6CklDynlRivPHDxfbEZ"
+            publishable-key="pk_live_51RLw3UCklDynlRiv0hHN8rmmjZa7ZF8u7XIVyqaWG9Gpu3nm4qHCSXjBciM3fwgqJTHjijCSnSWa34zg4LCjbg2p00Omfm2R1X"
+          ></stripe-buy-button>
+          <div class="stripe-container"></div>
+        </div>
+        <!-- Produto 3 -->
+        <div class="product">
+          <div class="info-icon" onclick="openModal('modal3')">?</div>
+          <h3>O Pergaminho dos Segredos do Sucesso</h3>
+          <!-- Stripe Buy Button Produto 3 -->
+          <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+          <stripe-buy-button
+            buy-button-id="buy_btn_1RM4QoCklDynlRivBR07waxF"
+            publishable-key="pk_live_51RLw3UCklDynlRiv0hHN8rmmjZa7ZF8u7XIVyqaWG9Gpu3nm4qHCSXjBciM3fwgqJTHjijCSnSWa34zg4LCjbg2p00Omfm2R1X"
+          ></stripe-buy-button>
+          <div class="stripe-container"></div>
+        </div>
+      </div>
+      
+      <!-- Modal Produto 1 -->
+      <div id="modal1" class="modal">
+        <div class="modal-content">
+          <span class="close-modal" onclick="closeModal('modal1')">&times;</span>
+          <h2>Declaração e Investimentos</h2>
+          <p>
+            Esta IA foi treinada com conteúdos que ensinam tudo que é preciso saber para fazer a melhor declaração de imposto possível, seja para MEI ou pessoa física. Ela traz todas as dicas para pagar menos imposto legalmente e fornece orientações seguras sobre investimentos conservadores, ajudando você a otimizar sua situação financeira de forma inteligente.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Modal Produto 2 -->
+      <div id="modal2" class="modal">
+        <div class="modal-content">
+          <span class="close-modal" onclick="closeModal('modal2')">&times;</span>
+          <h2>Conteúdos de Vendas</h2>
+          <p>
+            Esta IA foi treinada nos melhores conteúdos do mundo sobre vendas. Ela foi projetada para ajudar a melhorar seu pitch de vendas, a captar clientes com mais eficiência e a aumentar sua taxa de conversão. Além disso, auxilia na quebra de objeções e aprimora a conversação, oferecendo simulações e treinamentos detalhados baseados em estratégias comprovadas.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Modal Produto 3 -->
+      <div id="modal3" class="modal">
+        <div class="modal-content">
+          <span class="close-modal" onclick="closeModal('modal3')">&times;</span>
+          <h2>Criação de Conteúdo</h2>
+          <p>
+            Esta IA foi treinada com os melhores conteúdos sobre criação de conteúdo. Ela está preparada para ajudar na escrita e avaliação de roteiros, oferece dicas de edição, atalhos, técnicas de gravação e orientações sobre composição de cenas. Também fornece sugestões para melhorar o engajamento, a retenção e o storytelling, desbloqueando sua criatividade e facilitando o fluxo de ideias.
+          </p>
+        </div>
+      </div>
+      </div>
+      
+      <div class="footer">
+        © 2025 Mentoria Especializada. Todos os direitos reservados.
+      </div>
+    </div>
+    
+    <script>
+      function openModal(modalId) {
+        document.getElementById(modalId).style.display = 'block';
+      }
+      function closeModal(modalId) {
+        document.getElementById(modalId).style.display = 'none';
+      }
+      // Close modal when clicking outside the modal content
+      window.onclick = function(event) {
+        var modals = document.getElementsByClassName('modal');
+        for (var i = 0; i < modals.length; i++) {
+          if (event.target == modals[i]) {
+            modals[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -292,7 +292,6 @@
  jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';
  return;
  }
-
  try {
  const response = await fetch(`/codes/${code.toLowerCase()}.json`);
  if (!response.ok) {
@@ -300,28 +299,42 @@
  }
  const data = await response.json();
         const content = data[code];
+        jsonContentDiv.innerHTML = ''; // Clear previous content
+        jsonContentBlockDiv.style.display = 'none'; // Hide the block by default
 
-        jsonContentBlockDiv.style.display = 'block'; // Show the content block
+        let contentHtml = '';
+        let hasContent = false;
 
-        if (content && typeof content === 'object' && content.video && content.prompt) {
-          // Display video (iframe) and prompt
-          jsonContentDiv.innerHTML = `
-            <h3 style="color: #ff6600; margin-bottom: 0.5rem;">Vídeo:</h3>
- <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
- <iframe src="${content.video.replace('tiktok.com', 'tiktok.com/embed')}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-screen" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
- </div>
-            <h3 style="color: #ff6600; margin-top: 1.5rem; margin-bottom: 0.5rem;">Prompt:</h3>
-            <pre style="white-space: pre-wrap; word-wrap: break-word; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem;">${content.prompt}</pre>
- `;
-        } else if (content) {
-          // Display generic text if it's not the expected object format
-          jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Conteúdo não disponível neste formato.</p>';
+        if (content && typeof content === 'object') {
+          if (content.video) {
+            hasContent = true;
+            contentHtml += `
+              <h3 style="color: #ff6600; margin-bottom: 0.5rem;">Vídeo:</h3>
+              <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
+                <iframe src="https://www.youtube.com/embed/${content.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+              </div>
+            `;
+          }
+
+          if (content.prompt) {
+            hasContent = true;
+            contentHtml += `
+              <h3 style="color: #ff6600; margin-top: 1.5rem; margin-bottom: 0.5rem;">Prompt:</h3>
+              <pre style="white-space: pre-wrap; word-wrap: break-word; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem;">${content.prompt}</pre>
+            `;
+          }
         }
- else {
-          jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Conteúdo não encontrado para este código específico.</p>';
- }
+
+        if (hasContent) {
+          jsonContentDiv.innerHTML = contentHtml;
+          jsonContentBlockDiv.style.display = 'block'; // Show the block if content is found
+        } else {
+          jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Conteúdo não disponível para este código.</p>';
+          jsonContentBlockDiv.style.display = 'block'; // Still show the block to display the "not available" message
+        }
  } catch (error) {
-        jsonContentBlockDiv.style.display = 'block'; // Show the block even on error
+        jsonContentDiv.innerHTML = ''; // Clear previous content
+        jsonContentBlockDiv.style.display = 'block'; // Show the block to display the error message
         jsonContentDiv.innerHTML = `<p style="color: #e74c3c;">Erro ao buscar o código: ${error.message}</p>`;
  }
  });

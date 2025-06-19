@@ -169,7 +169,16 @@
   </head>
   <body>
     <div class="anime-bg"></div>
+    <div style="background: rgba(0, 0, 0, 0.8); border-radius: 1rem; padding: 2rem; margin-top: 2rem;">
+ <h2 style="color: rgba(255, 255, 255, 0.6);">Buscar Conteúdo por Código</h2>
+ <p style="color: rgba(255, 255, 255, 0.6); font-size: 1rem; margin-bottom: 1.5rem;">Digite seu código para acessar o conteúdo exclusivo.</p>
+ <input type="text" id="codeInput" placeholder="Digite seu código aqui" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #fff3; background: rgba(255, 255, 255, 0.9); color: #000000; font-size: 1rem; margin-bottom: 1rem; outline: none; transition: border 0.2s;">
+ <button id="searchButton" class="form-btn" style="width: 100%; padding: 1rem; font-size: 1.1rem; font-weight: bold; border: none; border-radius: 0.5rem; background: linear-gradient(90deg, var(--highlight), var(--secondary)); color: #fff; cursor: pointer; transition: opacity 0.2s, transform 0.2s;">
+ Buscar Código
+ </button>
+ </div>
     <div class="container">
+      
       
       <div style="text-align: center; margin-bottom: 2.5rem">
         <!--
@@ -223,6 +232,11 @@
             }
           </script>
         </div>
+ 
+ <div id="jsonContent" style="margin-top: 1.5rem; color: #ffffff; font-size: 1rem; line-height: 1.6;">
+ <!-- Conteúdo do JSON será exibido aqui -->
+ </div>
+ </div>
       </div>
       <!--
       <div class="mentoria-section">
@@ -264,5 +278,28 @@
         © 2025 Me Chame de Bento. Todos os direitos reservados.
       </div>
     </div>
+ <script>
+ document.getElementById('searchButton').addEventListener('click', async () => {
+ const codeInput = document.getElementById('codeInput');
+ const jsonContentDiv = document.getElementById('jsonContent');
+ const code = codeInput.value.trim();
+
+ if (!code) {
+ jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';
+ return;
+ }
+
+ try {
+ const response = await fetch(`/codes/${code.toLowerCase()}.json`);
+ if (!response.ok) {
+ throw new Error('Código não encontrado.');
+ }
+ const data = await response.json();
+ jsonContentDiv.innerHTML = `<p>${data[code] || 'Conteúdo não encontrado para este código específico.'}</p>`;
+ } catch (error) {
+ jsonContentDiv.innerHTML = `<p style="color: #e74c3c;">Erro ao buscar o código: ${error.message}</p>`;
+ }
+ });
+ </script>
   </body>
 </html>

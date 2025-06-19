@@ -8,23 +8,33 @@
         --gradient: linear-gradient(to right, var(--secondary), var(--highlight));
       }
       body {
-        margin: 0;
-        font-family: "Inter", Arial, sans-serif;
-        /* Como o background possui uma imagem clara, usamos cores de fonte escuras */
-        color: #333;
+ margin: 0;
+ font-family: "Inter", Arial, sans-serif;
+ color: #f0f0f0; /* Cor do texto para contrastar com o fundo escuro */
         min-height: 100vh;
-        background: var(--background);
+ background-color: #000; /* Fundo preto base */
       }
+ @keyframes infinite-gradient {
+        0% {
+          background-position: 0% 50%;
+ }
+        100% {
+          background-position: 100% 50%;
+ }
+ }
       .anime-bg {
         position: fixed;
-        inset: 0;
+ inset: 0;
         z-index: -1;
         pointer-events: none;
         /* Removida a imagem caso esteja definida aqui */
-        background: url('./Banner Youtube.png') no-repeat center center;
-        
+ background: linear-gradient(-45deg, #222, #444, #222, #444);
+ background-size: 400% 400%;
+ animation: infinite-gradient 15s ease infinite;
+
       }
       .container {
+        inset: 0;
         max-width: 1100px;
         margin: 0 auto;
         padding: 2rem 1rem;
@@ -168,7 +178,7 @@
     </style>
   </head>
   <body>
-    <div class="anime-bg"></div>
+ <div class="anime-bg"></div>
     <div style="background: rgba(0, 0, 0, 0.8); border-radius: 1rem; padding: 2rem; margin-top: 2rem;">
  <h2 style="color: rgba(255, 255, 255, 0.6);">Buscar Conteúdo por Código</h2>
  <p style="color: rgba(255, 255, 255, 0.6); font-size: 1rem; margin-bottom: 1.5rem;">Digite seu código para acessar o conteúdo exclusivo.</p>
@@ -177,9 +187,9 @@
  Buscar Código
  </button>
  </div>
-    <div id="jsonContentBlock" style="background: rgba(0, 0, 0, 0.8); border-radius: 1rem; padding: 2rem; margin-top: 1.5rem; display: none;">
+    <div id="jsonContentBlock" style="background: rgba(0, 0, 0, 0.8); border-radius: 1rem; padding: 2rem; margin-top: 1.5rem; display: none; color: #f0f0f0;">
       <h2 style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1rem;">Conteúdo Exclusivo</h2>
-      <div id="jsonContent" style="color: #ffffff; font-size: 1rem; line-height: 1.6;">
+      <div id="jsonContent" style="font-size: 1rem; line-height: 1.6;">
         <!-- Conteúdo do JSON será exibido aqui -->
       </div>
     </div>

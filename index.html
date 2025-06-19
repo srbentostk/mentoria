@@ -177,10 +177,18 @@
  Buscar Código
  </button>
  </div>
+    <div id="jsonContentBlock" style="background: rgba(0, 0, 0, 0.8); border-radius: 1rem; padding: 2rem; margin-top: 1.5rem; display: none;">
+      <h2 style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1rem;">Conteúdo Exclusivo</h2>
+      <div id="jsonContent" style="color: #ffffff; font-size: 1rem; line-height: 1.6;">
+        <!-- Conteúdo do JSON será exibido aqui -->
+      </div>
+    </div>
     <div class="container">
       
       
-      <div style="text-align: center; margin-bottom: 2.5rem">
+      <div style="text-align: center; margin-bottom: 2.5rem; margin-top: 2.5rem;">
+        <!-- Adicionado margin-top para espaçar do bloco de conteúdo -->
+
         <!--
         <h1 class="hero-title">Lista de Espera</h1>
         <p style="color: #fff9; font-size: 1.2rem; max-width: 600px; margin: 0 auto">
@@ -232,11 +240,6 @@
             }
           </script>
         </div>
- 
- <div id="jsonContent" style="margin-top: 1.5rem; color: #ffffff; font-size: 1rem; line-height: 1.6;">
- <!-- Conteúdo do JSON será exibido aqui -->
- </div>
- </div>
       </div>
       <!--
       <div class="mentoria-section">
@@ -281,23 +284,58 @@
  <script>
  document.getElementById('searchButton').addEventListener('click', async () => {
  const codeInput = document.getElementById('codeInput');
- const jsonContentDiv = document.getElementById('jsonContent');
+ const jsonContentBlockDiv = document.getElementById('jsonContentBlock');
+ const jsonContentDiv = document.getElementById('jsonContent'); // This will contain the actual content (video/prompt)
  const code = codeInput.value.trim();
 
  if (!code) {
  jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';
  return;
  }
-
  try {
  const response = await fetch(`/codes/${code.toLowerCase()}.json`);
  if (!response.ok) {
  throw new Error('Código não encontrado.');
  }
  const data = await response.json();
- jsonContentDiv.innerHTML = `<p>${data[code] || 'Conteúdo não encontrado para este código específico.'}</p>`;
+        const content = data[code];
+        jsonContentDiv.innerHTML = ''; // Clear previous content
+        jsonContentBlockDiv.style.display = 'none'; // Hide the block by default
+
+        let contentHtml = '';
+        let hasContent = false;
+
+        if (content && typeof content === 'object') {
+          if (content.video) {
+            hasContent = true;
+            contentHtml += `
+              <h3 style="color: #ff6600; margin-bottom: 0.5rem;">Vídeo:</h3>
+              <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
+                <iframe src="https://www.youtube.com/embed/${content.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+              </div>
+            `;
+          }
+
+          if (content.prompt) {
+            hasContent = true;
+            contentHtml += `
+              <h3 style="color: #ff6600; margin-top: 1.5rem; margin-bottom: 0.5rem;">Prompt:</h3>
+              <pre style="white-space: pre-wrap; word-wrap: break-word; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem;">${content.prompt}</pre>
+            `;
+          }
+        }
+
+        if (hasContent) {
+          jsonContentDiv.innerHTML = contentHtml;
+          jsonContentBlockDiv.style.display = 'block'; // Show the block if content is found
+        } else {
+          jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Conteúdo não disponível para este código.</p>';
+          jsonContentBlockDiv.style.display = 'block'; // Still show the block to display the "not available" message
+        }
  } catch (error) {
- jsonContentDiv.innerHTML = `<p style="color: #e74c3c;">Erro ao buscar o código: ${error.message}</p>`;
+        jsonContentDiv.innerHTML = ''; // Clear previous content
+        jsonContentBlockDiv.style.display = 'block'; // Show the block to display the error message
+        jsonContentDiv.innerHTML = `<p style="color: #e74c3c;">Erro ao buscar o código: ${error.message}</p>`;
  }
  });
  </script>

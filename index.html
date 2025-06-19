@@ -298,6 +298,8 @@
  const jsonContentDiv = document.getElementById('jsonContent'); // This will contain the actual content (video/prompt)
  const code = codeInput.value.trim();
 
+ console.log('Search button clicked. Code input:', code);
+
  if (!code) {
  jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';
  return;

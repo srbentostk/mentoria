@@ -10,7 +10,7 @@
       body {
  margin: 0;
  font-family: "Inter", Arial, sans-serif;
- color: #f0f0f0; /* Cor do texto para contrastar com o fundo escuro */
+ color: #ddd; /* Cor do texto para contrastar com o fundo escuro */
         min-height: 100vh;
  background-color: #000; /* Fundo preto base */
       }
@@ -28,7 +28,7 @@
         z-index: -1;
         pointer-events: none;
         /* Removida a imagem caso esteja definida aqui */
- background: linear-gradient(-45deg, #222, #444, #222, #444);
+ background: linear-gradient(-45deg, #333, #555, #333, #555);
  background-size: 400% 400%;
  animation: infinite-gradient 15s ease infinite;
 
@@ -297,6 +297,8 @@
  const jsonContentBlockDiv = document.getElementById('jsonContentBlock');
  const jsonContentDiv = document.getElementById('jsonContent'); // This will contain the actual content (video/prompt)
  const code = codeInput.value.trim();
+
+ console.log('Search button clicked. Code input:', code);
 
  if (!code) {
  jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';

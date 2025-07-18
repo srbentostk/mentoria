@@ -14,7 +14,8 @@
       /* Laranja escuro (madeira) */
       --secondary: #2c3e50;
       /* Azul escuro */
-      --background: #0f0c29;
+      --background: #151d2a;
+      /* New background color */
       --gradient: linear-gradient(to right, var(--secondary), var(--highlight));
       --game-blue: #00BFFF;
       /* Azul Elétrico */
@@ -34,8 +35,8 @@
       color: #ddd;
       /* Cor do texto principal para contrastar com o fundo */
       min-height: 100vh;
-      background-color: #000;
-      /* Fundo preto base */
+      background-color: var(--background);
+      /* Use the new background variable */
       display: flex;
       /* Usar flexbox para centralizar o conteúdo */
       justify-content: center;
@@ -64,10 +65,9 @@
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      background: linear-gradient(-45deg, #333, #555, #333, #555);
-      /* Gradiente cinza */
-      background-size: 400% 400%;
-      animation: infinite-gradient 15s ease infinite;
+      background: var(--background);
+      /* Use the new background variable */
+      /* Removed the gradient animation as the user requested a solid color */
     }
 
     .game-container {
@@ -361,6 +361,7 @@
         min-width: 100%;
       }
     }
+
   </style>
 </head>
 

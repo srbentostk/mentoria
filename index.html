@@ -1,355 +1,616 @@
+<!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <style>
-      :root {
-        --highlight: #d35400; /* Laranja escuro (madeira) */
-        --secondary: #2c3e50; /* Azul escuro */
-        --background: #0f0c29;
-        --gradient: linear-gradient(to right, var(--secondary), var(--highlight));
-      }
-      body {
- margin: 0;
- font-family: "Inter", Arial, sans-serif;
- color: #ddd; /* Cor do texto para contrastar com o fundo escuro */
-        min-height: 100vh;
- background-color: #000; /* Fundo preto base */
-      }
- @keyframes infinite-gradient {
-        0% {
-          background-position: 0% 50%;
- }
-        100% {
-          background-position: 100% 50%;
- }
- }
-      .anime-bg {
-        position: fixed;
- inset: 0;
-        z-index: -1;
-        pointer-events: none;
-        /* Removida a imagem caso esteja definida aqui */
- background: linear-gradient(-45deg, #333, #555, #333, #555);
- background-size: 400% 400%;
- animation: infinite-gradient 15s ease infinite;
 
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Me Chame de Bento</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --highlight: #d35400;
+      /* Laranja escuro (madeira) */
+      --secondary: #2c3e50;
+      /* Azul escuro */
+      --background: #0f0c29;
+      --gradient: linear-gradient(to right, var(--secondary), var(--highlight));
+      --game-blue: #00BFFF;
+      /* Azul Elétrico */
+      --game-dark-bg: rgba(0, 0, 0, 0.8);
+      /* Fundo escuro semi-transparente */
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", Arial, sans-serif;
+      color: #ddd;
+      /* Cor do texto principal para contrastar com o fundo */
+      min-height: 100vh;
+      background-color: #000;
+      /* Fundo preto base */
+      display: flex;
+      /* Usar flexbox para centralizar o conteúdo */
+      justify-content: center;
+      /* Centralizar horizontalmente */
+      align-items: center;
+      /* Centralizar verticalmente */
+      padding: 2rem 1rem;
+      /* Adicionar padding ao body */
+      box-sizing: border-box;
+      /* Incluir padding no tamanho total */
+    }
+
+    @keyframes infinite-gradient {
+      0% {
+        background-position: 0% 50%;
       }
-      .container {
-        inset: 0;
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 2rem 1rem;
+
+      100% {
+        background-position: 100% 50%;
       }
-      /* Títulos fora do container agora com cor escura */
-      .hero-title {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #000000;
-        margin-bottom: 1rem;
-      }
-      .anime-card {
-        /* Removida a sombra roxa e ajustada a opacidade para melhor legibilidade */
-        background: rgba(255, 255, 255, 0.);
-        border-radius: 1.2rem;
-        /* Removida a classe de sombra roxa (anime-glow) */
-        box-shadow: 0 0 15px 0 rgba(138, 43, 226, 0);
-        padding: 2rem;
-        margin-bottom: 2rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 2rem;
-      }
-      /* Removida a seção de banner (imagem) para deixar apenas o formulário */
-      .form-section {
-        background: rgba(0, 0, 0, 0.8);
-        border-radius: 1rem;
-        padding: 2rem;
-        flex: 1 1 320px;
-        min-width: 300px;
-        max-width: 400px;
-      }
-      .form-section h2 {
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-        color: #ff6600;
-      }
-      .form-section p {
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 1rem;
-        margin-bottom: 1.5rem;
-      }
-      form label {
-        display: block;
-        margin-bottom: 0.3rem;
-        font-weight: 500;
-        color: #ffffff;
-      }
-      form input {
-        width: 100%;
-        padding: 0.75rem;
-        border-radius: 0.5rem;
-        border: 1px solid #fff3;
-        background: rgba(255, 255, 255, 0.9);
-        color: #000000;
-        font-size: 1rem;
-        margin-bottom: 1rem;
-        outline: none;
-        transition: border 0.2s;
-      }
-      form input:focus {
-        border: 1.5px solid var(--highlight);
-      }
-      .form-btn {
-        width: 100%;
-        padding: 1rem;
-        font-size: 1.1rem;
-        font-weight: bold;
-        border: none;
-        border-radius: 0.5rem;
-        background: linear-gradient(90deg, var(--highlight), var(--secondary));
-        color: #fff;
-        cursor: pointer;
-        transition: opacity 0.2s, transform 0.2s;
-        margin-top: 0.5rem;
-        box-shadow: none;
-      }
-      .form-btn:disabled {
-        opacity: 0.8;
-        cursor: not-allowed;
-      }
-      #form-message {
-        display: none;
-        margin-top: 1rem;
-        padding: 0.7rem 1rem;
-        border-radius: 0.5rem;
-        border: 1px solid;
-        font-size: 1rem;
-      }
-      .mentoria-section {
-        margin: 3rem 0 2rem 0;
-        text-align: center;
-      }
-      .mentoria-section h2 {
+    }
+
+    .anime-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(-45deg, #333, #555, #333, #555);
+      /* Gradiente cinza */
+      background-size: 400% 400%;
+      animation: infinite-gradient 15s ease infinite;
+    }
+
+    .game-container {
+      max-width: 900px;
+      /* Encontre esta linha */
+      width: 100%;
+      /* Ocupa 100% da largura disponível até o max-width */
+      margin: 0 auto;
+      /* Centraliza o container */
+      text-align: center;
+      /* Centraliza texto e elementos inline/inline-block */
+      display: flex;
+      /* Usar flexbox para organizar os blocos principais */
+      flex-direction: column;
+      /* Empilhar os blocos verticalmente */
+      gap: 2rem;
+      /* Espaço entre os blocos principais */
+    }
+
+    .central-game-elements {
+      background: var(--game-dark-bg);
+      border-radius: 1rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      /* Input e botão empilhados */
+      align-items: center;
+      /* Centraliza input e botão */
+      gap: 1rem;
+      /* Espaço entre input e botão */
+    }
+
+    .game-title {
+      font-family: 'Roboto', sans-serif;
+      font-size: 5rem;
+      /* Mantenha o tamanho que você preferir */
+      font-weight: 700;
+      color: #d35400;
+      /* Mude a cor do texto principal para branco */
+      /* Removidas as linhas de text-stroke */
+      text-shadow:
+        -1px -1px 0 #000,
+        /* Contorno superior esquerdo */
+        1px -1px 0 #000,
+        /* Contorno superior direito */
+        -1px 1px 0 #000,
+        /* Contorno inferior esquerdo */
+        1px 1px 0 #000,
+        /* Contorno inferior direito */
+        0 0 1px #f3c4a5,
+        /* Brilho */
+        0 0 5px #f1a878,
+        /* Brilho maior */
+        0 0 3px #141414;
+      /* Brilho ainda maior */
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .game-input {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 2px solid var(--game-blue);
+      /* Borda com cor de destaque */
+      background: rgba(255, 255, 255, 0.9);
+      /* Fundo quase branco */
+      color: #000000;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+      /* Incluir padding e borda no tamanho */
+    }
+
+    .game-input:focus {
+      border-color: var(--highlight);
+      /* Cor de destaque ao focar */
+    }
+
+    .game-button {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 0.5rem;
+      background: var(--highlight);
+      /* Cor do botão */
+      color: #fff;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: none;
+    }
+
+    .game-button:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .game-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #jsonContentBlock {
+      background: var(--game-dark-bg);
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-top: 0;
+      /* Espaço já definido pelo gap do game-container */
+      display: none;
+      /* Escondido por padrão */
+      color: #f0f0f0;
+      text-align: left;
+      /* Conteúdo interno alinhado à esquerda */
+    }
+
+    #jsonContentBlock h3 {
+      color: var(--game-blue);
+      /* Títulos de seção com cor de destaque */
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    #jsonContentBlock h4 {
+      color: #ff6600;
+      /* Títulos de propriedades com cor secundária */
+      margin-top: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    #jsonContentBlock pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 0.5rem;
+      color: #ddd;
+    }
+
+    #jsonContentBlock iframe {
+      display: block;
+      /* Garante que o iframe ocupe a largura disponível */
+      max-width: 100%;
+      /* Não permite que o iframe ultrapasse o contêiner */
+    }
+
+    .secondary-game-elements {
+      display: flex;
+      flex-direction: column;
+      /* ALTERADO: Empilha os elementos verticalmente */
+      gap: 2rem;
+      /* Espaço entre o formulário e o texto */
+      /* Remova ou ajuste flex-wrap se não for mais necessário para layout lado a lado */
+      flex-wrap: wrap;
+      /* Pode manter, mas terá menos efeito com column */
+      margin-top: 0;
+    }
+
+    .form-section {
+      background: var(--game-dark-bg);
+      border-radius: 1rem;
+      padding: 2rem;
+      flex: 1;
+      /* Ocupa o espaço disponível */
+      min-width: 300px;
+      /* Largura mínima antes de quebrar */
+    }
+
+    .form-section h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      color: var(--game-blue);
+      /* Título do formulário com cor de destaque */
+    }
+
+    .form-section p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-section label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    .form-section input[type="text"],
+    .form-section input[type="email"] {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.9);
+      color: #000000;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      outline: none;
+      transition: border 0.2s;
+      box-sizing: border-box;
+    }
+
+    .form-section input[type="text"]:focus,
+    .form-section input[type="email"]:focus {
+      border-color: var(--highlight);
+    }
+
+
+    .form-section .form-btn {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 0.5rem;
+      background: var(--secondary);
+      /* Cor diferente para o botão de inscrição */
+      color: #fff;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: 0.5rem;
+      box-shadow: none;
+    }
+
+    .form-section .form-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .form-section .form-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+
+    .explanatory-text {
+      background: var(--game-dark-bg);
+      border-radius: 1rem;
+      padding: 2rem;
+      flex: 1;
+      /* Ocupa o espaço disponível */
+      min-width: 300px;
+      /* Largura mínima antes de quebrar */
+      text-align: left;
+      /* Texto alinhado à esquerda */
+      color: #f0f0f0;
+      /* Cor do texto explicativo */
+    }
+
+    .explanatory-text h2 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      color: var(--game-blue);
+      /* Título do texto explicativo com cor de destaque */
+    }
+
+    .explanatory-text p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+
+    .footer {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      /* Borda suave */
+      text-align: center;
+      color: #aaa;
+      /* Cor mais clara para o footer */
+      font-size: 0.95rem;
+      width: 100%;
+      /* Garante que o footer ocupe a largura total */
+      /*margin-bottom: 0; /* Remove margin-bottom se houver */
+    }
+
+
+    @media (max-width: 768px) {
+
+      /* Ajustes para telas menores */
+      .game-title {
         font-size: 2rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 1.5rem;
+        /* Diminui o tamanho do título */
       }
-      .mentoria-list {
-        display: flex;
-        flex-wrap: wrap;
+
+      .secondary-game-elements {
+        flex-direction: column;
+        /* Empilha formulário e texto */
         gap: 1.5rem;
-        justify-content: center;
+        /* Diminui o espaço entre eles */
       }
-      .mentoria-item {
-        background: rgba(255, 255, 255, 0.75);
-        border-radius: 1rem;
-        padding: 1.5rem;
-        min-width: 220px;
-        max-width: 260px;
-        flex: 1 1 220px;
-        color: #333;
-        box-shadow: 0 0 10px 0 rgba(138, 43, 226, 0.1);
+
+      .form-section,
+      .explanatory-text {
+        min-width: 100%;
+        /* Ocupa a largura total */
       }
-      .mentoria-item .number {
-        font-size: 2rem;
-        font-weight: bold;
-        color: var(--highlight);
-        margin-bottom: 0.5rem;
-      }
-      .footer {
-        margin-top: 3rem;
-        padding-top: 2rem;
-        border-top: 1px solid #fff2;
-        text-align: center;
-        color: #333;
-        font-size: 0.95rem;
-      }
-      @media (max-width: 900px) {
-        .anime-card {
-          flex-direction: column;
-          padding: 1.2rem;
-        }
-        .form-section {
-          min-width: 0;
-          max-width: 100%;
-        }
-      }
-    </style>
-  </head>
-  <body>
- <div class="anime-bg"></div>
-    <div style="background: rgba(0, 0, 0, 0.8); border-radius: 1rem; padding: 2rem; margin-top: 2rem;">
- <h2 style="color: rgba(255, 255, 255, 0.6);">Buscar Conteúdo por Código</h2>
- <p style="color: rgba(255, 255, 255, 0.6); font-size: 1rem; margin-bottom: 1.5rem;">Digite seu código para acessar o conteúdo exclusivo.</p>
- <input type="text" id="codeInput" placeholder="Digite seu código aqui" style="width: 100%; padding: 0.75rem; border-radius: 0.5rem; border: 1px solid #fff3; background: rgba(255, 255, 255, 0.9); color: #000000; font-size: 1rem; margin-bottom: 1rem; outline: none; transition: border 0.2s;">
- <button id="searchButton" class="form-btn" style="width: 100%; padding: 1rem; font-size: 1.1rem; font-weight: bold; border: none; border-radius: 0.5rem; background: linear-gradient(90deg, var(--highlight), var(--secondary)); color: #fff; cursor: pointer; transition: opacity 0.2s, transform 0.2s;">
- Buscar Código
- </button>
- </div>
-    <div id="jsonContentBlock" style="background: rgba(0, 0, 0, 0.8); border-radius: 1rem; padding: 2rem; margin-top: 1.5rem; display: none; color: #f0f0f0;">
-      <h2 style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1rem;">Conteúdo Exclusivo</h2>
-      <div id="jsonContent" style="font-size: 1rem; line-height: 1.6;">
+    }
+  </style>
+</head>
+
+<body>
+  <div class="anime-bg"></div>
+
+  <div class="game-container">
+    <div class="central-game-elements">
+      <h1 class="game-title">ME CHAME DE BENTO</h1>
+      <input type="text" id="codeInput" class="game-input" placeholder="Digite seu código aqui">
+      <button id="searchButton" class="game-button">COLETE A RECOMPENSA GRATUITA</button>
+    </div>
+
+    <div id="jsonContentBlock">
+      <h3 style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1rem;">Conteúdo Exclusivo</h3>
+      <div id="jsonContent">
         <!-- Conteúdo do JSON será exibido aqui -->
       </div>
     </div>
-    <div class="container">
-      
-      
-      <div style="text-align: center; margin-bottom: 2.5rem; margin-top: 2.5rem;">
-        <!-- Adicionado margin-top para espaçar do bloco de conteúdo -->
 
-        <!--
-        <h1 class="hero-title">Lista de Espera</h1>
-        <p style="color: #fff9; font-size: 1.2rem; max-width: 600px; margin: 0 auto">
-          Descubra como potencializar seus resultados com inteligência artificial e automações personalizadas para o seu negócio
-        </p>---->
-      </div>
-      <div class="anime-card anime-glow">
-        <!-- Substituímos a seção de vídeo por uma seção de banner com imagem de background -->
-        <div class="banner-section"></div>
-        <div class="form-section">
-          <h2>Entre para nossa lista de espera</h2>
-          <p>Preencha o formulário abaixo para receber informações exclusivas sobre a mentoria</p>
-          <form klicksend-form-id="eYuR0by" autocomplete="off" method="post" action="//handler.send.hotmart.com/subscription/eYuR0by">
-            <label for="first_name">Primeiro Nome</label>
-            <input type="text" autocomplete="off" name="first_name" id="first_name" placeholder="Seu nome" value="" required />
-            <label for="email">Email</label>
-            <input type="email" autocomplete="off" name="email" id="email" placeholder="Seu melhor email" value="" required />
-            <label for="phone">Telefone (WhatsApp)</label>
-            <input type="text" autocomplete="off" name="phone" id="phone" placeholder="(xx) xxxxx-xxxx" value="" />
-            <div klicksend-gdpr-text style="font-size: 10px; color: #86919a; margin-bottom: 5px; text-align: left">
-              <p>
-                Esses dados serão utilizados para entrarmos em contato com você e disponibilizarmos mais conteúdos e ofertas. Caso você não queira mais receber os nossos emails, cada email que você receber incluirá, ao final, um link para remover seu email da nossa lista de distribuição.
-              </p>
-              <p>
-                Para mais informações, acesse:
-                <a href="https://hotmart.com/pt-br/legal/privacidade-de-dados/" target="_blank" rel="noopener">https://hotmart.com/pt-br/legal/privacidade-de-dados/</a>
-              </p>
-            </div>
-            <div style="width: 100%; display: flex; align-items: center; justify-content: flex-start; margin-bottom: 1rem">
-              <input type="checkbox" autocomplete="off" name="gdpr" id="gdpr" value="Concordo em receber os e-mails" required style="width: auto; margin-right: 8px;" />
-              <label for="gdpr" style="font-size: 0.95rem">Concordo em receber os e-mails</label>
-            </div>
-            <div style="position: absolute; left: -5000px" aria-hidden="true">
-              <input type="text" autocomplete="new-password" name="b_eYuR0by" tabindex="-1" value="" />
-            </div>
-            <button type="submit" class="form-btn anime-glow" klicksend-form-submit-id="eYuR0by">
-              Entrar na lista
-            </button>
-          </form>
-          <script>
-            // Adiciona parâmetros da URL ao action do formulário Hotmart
-            var pageParams = new URLSearchParams(window.location.search);
-            var form = document.querySelector('form[klicksend-form-id="eYuR0by"]');
-            if (form) {
-              var formActionUrl = new URL(form.action, window.location.origin);
-              var formActionSearchParams = formActionUrl.searchParams.size > 0 ? formActionUrl.searchParams.toString() + "&" : "";
-              var combinedParams = formActionSearchParams + pageParams.toString();
-              form.action = formActionUrl.origin + formActionUrl.pathname + (combinedParams ? "?" + combinedParams : "");
-            }
-          </script>
-        </div>
-      </div>
-      <!--
-      <div class="mentoria-section">
-        <h2>Lista de Espera</h2>
-        <div class="mentoria-list">
-          <div class="mentoria-item">
-            <div class="number">1</div>
-            <div class="title" style="font-weight: bold; margin-bottom: 0.5rem">Mentoria personalizada</div>
-            <div class="desc">
-              Mentoria individualizada para o seu negócio, focada em resultados reais.
-            </div>
-          </div>
-          <div class="mentoria-item">
-            <div class="number">2</div>
-            <div class="title" style="font-weight: bold; margin-bottom: 0.5rem">Automações para seu negócio</div>
-            <div class="desc">
-              Desenvolvo algumas automações para ajudar no seu negócio e otimizar processos.
-            </div>
-          </div>
-          <div class="mentoria-item">
-            <div class="number">3</div>
-            <div class="title" style="font-weight: bold; margin-bottom: 0.5rem">Aproveite a IA ao máximo</div>
-            <div class="desc">
-              Te ensino a tirar o melhor proveito possível da Inteligência Artificial.
-            </div>
-          </div>
-          <div class="mentoria-item">
-            <div class="number">4</div>
-            <div class="title" style="font-weight: bold; margin-bottom: 0.5rem">Suporte detalhado</div>
-            <div class="desc">
-              Explico detalhadamente para você; basta entrar na lista de interessados.
-            </div>
+    <div class="secondary-game-elements">
+      <div class="explanatory-text">
+        <h2>🎮 O PRIMEIRO JOGO DO MUNDO ONDE VOCÊ É O PROTAGONISTA DA SUA PRÓPRIA TRANSFORMAÇÃO</h2>
+        <p>Bem-vindo ao único jogo onde vencer significa realizar seus sonhos na vida real</p>
+        <p>Imagine um jogo onde cada missão completada te aproxima dos seus objetivos reais. Onde cada skill
+          desbloqueado se torna uma habilidade poderosa no seu dia a dia. E onde o prêmio final não é virtual - é a vida
+          que você sempre quis ter.</p>
+        <p>Eu sou desenvolvedor de jogos e especialista em inteligência artificial. Depois de anos criando mundos
+          virtuais, decidi criar algo que nunca existiu: um jogo que transforma sua realidade.</p>
 
-          </div>
-        </div>
+        <h3>🚀 COMO FUNCIONA O JOGO</h3>
+        <h4>SEU PERSONAGEM É VOCÊ</h4>
+        <p>Não existe avatar. Não existe mundo fantasioso. Você é o protagonista, e o cenário é sua vida real. Cada
+          conquista no jogo é uma conquista real na sua carreira e nos seus projetos.</p>
+        <h4>MISSÕES QUE MUDAM SUA VIDA</h4>
+        <p>Esqueça objetivos abstratos. Aqui você vai dominar habilidades reais:</p>
+
+        <h4>🎯 ANÁLISE E ESTRATÉGIA</h4>
+        <ul>
+          <li>Mudar completamente a forma de analisar feedbacks dos clientes</li>
+          <li>Entender profundamente as dores e desejos do seu público</li>
+          <li>Analisar tudo que deu certo e errado nos seus projetos</li>
+          <li>Criar um planejamento detalhado e eficiente para qualquer objetivo</li>
+          <li>Organizar sua vida pessoal com sistemas inteligentes</li>
+        </ul>
+
+        <h4>🚀 AUTOMAÇÃO E PRODUTIVIDADE</h4>
+        <ul>
+          <li>Criar automações que multiplicam seus resultados exponencialmente</li>
+          <li>Desenvolver ferramentas personalizadas que desbloqueiam superpoderes</li>
+          <li>Criar análise de dados com plano de ação específico</li>
+          <li>Construir fluxos de trabalho que funcionam 24/7</li>
+        </ul>
+
+        <h4>💰 VENDAS E CONVERSÃO</h4>
+        <ul>
+          <li>Fazer ofertas irresistíveis baseadas em dados reais</li>
+          <li>Recuperar vendas perdidas com estratégias personalizadas</li>
+          <li>Transformar audiência em leads qualificados</li>
+          <li>Conseguir mais clientes com abordagens precisas</li>
+          <li>Desenvolver produtos que o mercado realmente quer</li>
+        </ul>
+
+        <h4>📝 CRIAÇÃO DE CONTEÚDO</h4>
+        <ul>
+          <li>Produzir conteúdos que engajam e educam seu público</li>
+          <li>Criar roteiros profissionais para vídeos e apresentações</li>
+          <li>Desenvolver copy persuasivo para qualquer canal</li>
+          <li>Gerar ideias infinitas para posts, vídeos e campanhas</li>
+          <li>Adaptar conteúdo para diferentes plataformas automaticamente</li>
+        </ul>
+
+        <h4>🔧 FERRAMENTAS AVANÇADAS</h4>
+        <ul>
+          <li>Fazer prompts profissionais que entregam resultados consistentes</li>
+          <li>Criar chatbots inteligentes para atendimento</li>
+          <li>Desenvolver sistemas de recomendação personalizados</li>
+          <li>Construir dashboards automatizados para tomada de decisão</li>
+          <li>Integrar IA em qualquer processo do seu negócio</li>
+        </ul>
+
+        <h4>MUNDO ABERTO = LIBERDADE TOTAL</h4>
+        <p>Você escolhe sua jornada. Quer começar criando vídeos? Perfeito. Prefere dominar automações primeiro? Pode
+          ser. O mapa é seu, a ordem é sua escolha.</p>
+
+        <h4>SISTEMA DE EVOLUÇÃO REAL</h4>
+        <p>A cada missão completada, você não só ganha XP - você ganha superpoderes reais:</p>
+        <ul>
+          <li>Velocidade: Produza em minutos o que antes levava horas</li>
+          <li>Criatividade: Desbloqueie ideias que seus concorrentes nem sonham</li>
+          <li>Eficiência: Automatize processos e foque no que realmente importa</li>
+          <li>Impacto: Crie conteúdo que engaja e converte como nunca antes</li>
+        </ul>
+
+        <h3>🎯 ESCOLHA SEU MODO DE JOGO</h3>
+        <h4>🏆 MODO MENTORIA (Disponível Agora)</h4>
+        <p>Para quem quer resultados extraordinários com acompanhamento VIP</p>
+        <p>Eu desenho sua jornada pessoalmente. Em 8 sessões semanais, construímos juntos suas missões customizadas para
+          seus objetivos específicos. É como ter um coach pessoal que conhece todos os segredos da IA.</p>
+        <p>Investimento diferenciado para uma experiência única</p>
+
+        <h4>📚 MODO HISTÓRIA (Em Desenvolvimento)</h4>
+        <p>Para aventureiros que preferem explorar no próprio ritmo</p>
+        <p>Curso estruturado com missões progressivas, aulas gravadas, conteúdos exclusivos e algumas sessões ao vivo.
+          Você avança quando quiser, como quiser.</p>
+        <p>Lançamento nas próximas semanas</p>
+
+        <h3>💡 POR QUE ESTE JOGO VAI MUDAR SUA VIDA?</h3>
+        <p>Porque pela primeira vez, aprender não é chato. É viciante. É recompensador. E cada "fase" completada se
+          torna uma habilidade que ninguém pode tirar de você.</p>
+        <p>Porque você não vai apenas usar IA - você vai DOMINAR IA. Não como mais um usuário, mas como alguém que cria
+          suas próprias ferramentas e soluções.</p>
+        <p>Porque o limite não é a tecnologia - é sua criatividade. E eu vou te ensinar a expandir essa criatividade
+          além do que você imaginava ser possível.</p>
+
+        <h3>🚨 ÚLTIMAS VAGAS ABERTAS</h3>
+        <p>O jogo está prestes a começar. Os primeiros jogadores terão acesso exclusivo às estratégias mais avançadas e
+          acompanhamento mais próximo.</p>
+        <p>Não perca a chance de ser protagonista da sua própria transformação.</p>
+        <p>👉 Inscreva-se agora no formulário abaixo e garante sua vaga antes que as portas se fechem.</p>
+
+        <p>P.S.: Este não é apenas mais um curso sobre IA. É uma experiência gamificada única que vai transformar
+          completamente como você trabalha, cria e vive. Você está pronto para jogar?</p>
       </div>
-    -->
-      <div class="footer">
-        © 2025 Me Chame de Bento. Todos os direitos reservados.
+
+      <div class="form-section">
+        <h2>Interessado?</h2>
+        <p>Inscreva-se para saber mais sobre os próximos conteúdos e modos de jogo!</p>
+        <form klicksend-form-id="eYuR0by" autocomplete="off" method="post"
+          action="//handler.send.hotmart.com/subscription/eYuR0by">
+          <label for="first_name">Primeiro Nome</label>
+          <input type="text" autocomplete="off" name="first_name" id="first_name" placeholder="Seu nome" value=""
+            required />
+          <label for="email">Email</label>
+          <input type="email" autocomplete="off" name="email" id="email" placeholder="Seu melhor email" value=""
+            required />
+          <label for="phone">Telefone (WhatsApp)</label>
+          <input type="text" autocomplete="off" name="phone" id="phone" placeholder="(xx) xxxxx-xxxx" value="" />
+          <div klicksend-gdpr-text style="font-size: 10px; color: #86919a; margin-bottom: 5px; text-align: left">
+            <p>
+              Esses dados serão utilizados para entrarmos em contato com você e disponibilizarmos mais conteúdos e
+              ofertas. Caso você não queira mais receber os nossos emails, cada email que você receber incluirá, ao
+              final, um link para remover seu email da nossa lista de distribuição.
+            </p>
+            <p>
+              Para mais informações, acesse:
+              <a href="https://hotmart.com/pt-br/legal/privacidade-de-dados/" target="_blank"
+                rel="noopener">https://hotmart.com/pt-br/legal/privacidade-de-dados/</a>
+            </p>
+          </div>
+          <div
+            style="width: 100%; display: flex; align-items: center; justify-content: flex-start; margin-bottom: 1rem">
+            <input type="checkbox" autocomplete="off" name="gdpr" id="gdpr" value="Concordo em receber os e-mails"
+              required style="width: auto; margin-right: 8px;" />
+            <label for="gdpr" style="font-size: 0.95rem">Concordo em receber os e-mails</label>
+          </div>
+          <div style="position: absolute; left: -5000px" aria-hidden="true">
+            <input type="text" autocomplete="new-password" name="b_eYuR0by" tabindex="-1" value="" />
+          </div>
+          <button type="submit" class="form-btn" klicksend-form-submit-id="eYuR0by">
+            SE INSCREVA
+          </button>
+        </form>
+        <script>
+          // Adiciona parâmetros da URL ao action do formulário Hotmart
+          var pageParams = new URLSearchParams(window.location.search);
+          var form = document.querySelector('form[klicksend-form-id="eYuR0by"]');
+          if (form) {
+            var formActionUrl = new URL(form.action, window.location.origin);
+            var formActionSearchParams = formActionUrl.searchParams.size > 0 ? formActionUrl.searchParams.toString() + "&" : "";
+            var combinedParams = formActionSearchParams + pageParams.toString();
+            form.action = formActionUrl.origin + formActionUrl.pathname + (combinedParams ? "?" + combinedParams : "");
+          }
+        </script>
       </div>
     </div>
- <script>
- document.getElementById('searchButton').addEventListener('click', async () => {
- const codeInput = document.getElementById('codeInput');
- const jsonContentBlockDiv = document.getElementById('jsonContentBlock');
- const jsonContentDiv = document.getElementById('jsonContent'); // This will contain the actual content (video/prompt)
- const code = codeInput.value.trim();
+    <div class="footer">
+      © 2025 Me Chame de Bento. Todos os direitos reservados.
+    </div>
+  </div>
 
- console.log('Search button clicked. Code input:', code);
 
- if (!code) {
- jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';
- return;
- }
- try {
- const response = await fetch(`/codes/${code.toLowerCase()}.json`);
- if (!response.ok) {
- throw new Error('Código não encontrado.');
- }
- const data = await response.json();
-        const content = data[code];
-        jsonContentDiv.innerHTML = ''; // Clear previous content
-        jsonContentBlockDiv.style.display = 'none'; // Hide the block by default
 
-        let contentHtml = '';
-        let hasContent = false;
+  <script>
+    document.getElementById('searchButton').addEventListener('click', async () => {
+    const codeInput = document.getElementById('codeInput');
+    const jsonContentBlockDiv = document.getElementById('jsonContentBlock');
+    const jsonContentDiv = document.getElementById('jsonContent'); // This will contain the actual content (video/prompt)
+    const code = codeInput.value.trim();
+   
+    console.log('Search button clicked. Code input:', code);
+   
+    if (!code) {
+    jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';
+    jsonContentBlockDiv.style.display = 'block'; // Show block to display the message
+    return;
+    }
+    try {
+    const response = await fetch(`/codes/${code.toLowerCase()}.json`);
+    if (!response.ok) {
+    throw new Error('Código não encontrado.');
+    }
+    const data = await response.json();
+           const content = data[code];
+           jsonContentDiv.innerHTML = ''; // Clear previous content
+           jsonContentBlockDiv.style.display = 'none'; // Hide the block by default
+   
+           let contentHtml = '';
+           let hasContent = false;
+   
+           if (content && typeof content === 'object') {
+             if (content.video) {
+               hasContent = true;
+               contentHtml += `
+                 <h3 style="color: #ff6600; margin-bottom: 0.5rem;">Vídeo:</h3>
+                 <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
+                   <iframe src="https://www.youtube.com/embed/${content.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+                 </div>
+               `;
+             }
+   
+             if (content.prompt) {
+               hasContent = true;
+               contentHtml += `
+                 <h3 style="color: #ff6600; margin-top: 1.5rem; margin-bottom: 0.5rem;">Prompt:</h3>
+                 <pre style="white-space: pre-wrap; word-wrap: break-word; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem;">${content.prompt}</pre>
+               `;
+             }
+           }
+   
+           if (hasContent) {
+             jsonContentDiv.innerHTML = contentHtml;
+             jsonContentBlockDiv.style.display = 'block'; // Show the block if content is found
+           } else {
+             // Se content existe mas não tem video nem prompt, ou se content não existe
+              jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Conteúdo não disponível para este código.</p>';
+              jsonContentBlockDiv.style.display = 'block'; // Still show the block to display the message
+           }
+    } catch (error) {
+           jsonContentDiv.innerHTML = ''; // Clear previous content
+           jsonContentBlockDiv.style.display = 'block'; // Show the block to display the error message
+           jsonContentDiv.innerHTML = `<p style="color: #e74c3c;">Erro ao buscar o código: ${error.message}</p>`;
+    }
+    });
+    </script>
+   
 
-        if (content && typeof content === 'object') {
-          if (content.video) {
-            hasContent = true;
-            contentHtml += `
-              <h3 style="color: #ff6600; margin-bottom: 0.5rem;">Vídeo:</h3>
-              <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
-                <iframe src="https://www.youtube.com/embed/${content.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-              </div>
-            `;
-          }
+</body>
 
-          if (content.prompt) {
-            hasContent = true;
-            contentHtml += `
-              <h3 style="color: #ff6600; margin-top: 1.5rem; margin-bottom: 0.5rem;">Prompt:</h3>
-              <pre style="white-space: pre-wrap; word-wrap: break-word; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem;">${content.prompt}</pre>
-            `;
-          }
-        }
-
-        if (hasContent) {
-          jsonContentDiv.innerHTML = contentHtml;
-          jsonContentBlockDiv.style.display = 'block'; // Show the block if content is found
-        } else {
-          jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Conteúdo não disponível para este código.</p>';
-          jsonContentBlockDiv.style.display = 'block'; // Still show the block to display the "not available" message
-        }
- } catch (error) {
-        jsonContentDiv.innerHTML = ''; // Clear previous content
-        jsonContentBlockDiv.style.display = 'block'; // Show the block to display the error message
-        jsonContentDiv.innerHTML = `<p style="color: #e74c3c;">Erro ao buscar o código: ${error.message}</p>`;
- }
- });
- </script>
-  </body>
 </html>

@@ -20,6 +20,12 @@
       /* Azul Elétrico */
       --game-dark-bg: rgba(0, 0, 0, 0.8);
       /* Fundo escuro semi-transparente */
+      --reward-bg: rgba(255, 165, 0, 0.1);
+      /* Light orange background for reward */
+      --reward-border: #ff6600;
+      /* Orange border for reward */
+      --reward-title: #ffd700;
+      /* Gold color for reward title */
     }
 
     body {
@@ -40,6 +46,7 @@
       /* Adicionar padding ao body */
       box-sizing: border-box;
       /* Incluir padding no tamanho total */
+      position: relative;
     }
 
     @keyframes infinite-gradient {
@@ -65,19 +72,14 @@
 
     .game-container {
       max-width: 900px;
-      /* Encontre esta linha */
       width: 100%;
-      /* Ocupa 100% da largura disponível até o max-width */
       margin: 0 auto;
-      /* Centraliza o container */
       text-align: center;
-      /* Centraliza texto e elementos inline/inline-block */
       display: flex;
-      /* Usar flexbox para organizar os blocos principais */
       flex-direction: column;
-      /* Empilhar os blocos verticalmente */
       gap: 2rem;
-      /* Espaço entre os blocos principais */
+      z-index: 1;
+      position: relative;
     }
 
     .central-game-elements {
@@ -86,36 +88,23 @@
       padding: 2rem;
       display: flex;
       flex-direction: column;
-      /* Input e botão empilhados */
       align-items: center;
-      /* Centraliza input e botão */
       gap: 1rem;
-      /* Espaço entre input e botão */
     }
 
     .game-title {
       font-family: 'Roboto', sans-serif;
       font-size: 5rem;
-      /* Mantenha o tamanho que você preferir */
       font-weight: 700;
       color: #d35400;
-      /* Mude a cor do texto principal para branco */
-      /* Removidas as linhas de text-stroke */
       text-shadow:
         -1px -1px 0 #000,
-        /* Contorno superior esquerdo */
         1px -1px 0 #000,
-        /* Contorno superior direito */
         -1px 1px 0 #000,
-        /* Contorno inferior esquerdo */
         1px 1px 0 #000,
-        /* Contorno inferior direito */
         0 0 1px #f3c4a5,
-        /* Brilho */
         0 0 5px #f1a878,
-        /* Brilho maior */
         0 0 3px #141414;
-      /* Brilho ainda maior */
       margin-bottom: 1.5rem;
       text-align: center;
     }
@@ -125,20 +114,16 @@
       padding: 0.75rem;
       border-radius: 0.5rem;
       border: 2px solid var(--game-blue);
-      /* Borda com cor de destaque */
       background: rgba(255, 255, 255, 0.9);
-      /* Fundo quase branco */
       color: #000000;
       font-size: 1rem;
       outline: none;
       transition: border-color 0.2s;
       box-sizing: border-box;
-      /* Incluir padding e borda no tamanho */
     }
 
     .game-input:focus {
       border-color: var(--highlight);
-      /* Cor de destaque ao focar */
     }
 
     .game-button {
@@ -149,7 +134,6 @@
       border: none;
       border-radius: 0.5rem;
       background: var(--highlight);
-      /* Cor do botão */
       color: #fff;
       cursor: pointer;
       transition: opacity 0.2s, transform 0.2s;
@@ -166,30 +150,65 @@
       cursor: not-allowed;
     }
 
+    .animation-container {
+      display: none;
+      /* Hidden by default */
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+      min-height: 200px;
+      /* Ensure it takes up some space */
+    }
+
+    .animation-container img {
+      max-width: 100%;
+      height: auto;
+    }
+
     #jsonContentBlock {
-      background: var(--game-dark-bg);
+      background: var(--reward-bg);
+      border: 2px solid var(--reward-border);
       border-radius: 1rem;
       padding: 2rem;
       margin-top: 0;
-      /* Espaço já definido pelo gap do game-container */
       display: none;
-      /* Escondido por padrão */
       color: #f0f0f0;
       text-align: left;
-      /* Conteúdo interno alinhado à esquerda */
+      box-shadow: 0 0 20px var(--reward-border);
+      /* Add glow effect */
+      animation: pulse 2s infinite;
+      /* Add subtle pulsing animation */
     }
 
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 10px var(--reward-border);
+      }
+
+      50% {
+        box-shadow: 0 0 30px var(--reward-border);
+      }
+
+      100% {
+        box-shadow: 0 0 10px var(--reward-border);
+      }
+    }
+
+
     #jsonContentBlock h3 {
-      color: var(--game-blue);
-      /* Títulos de seção com cor de destaque */
+      color: var(--reward-title);
+      /* Gold color for title */
       margin-bottom: 1rem;
       text-align: center;
+      font-size: 1.8rem;
+      /* Larger title */
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+      /* Gold text shadow */
     }
 
     #jsonContentBlock h4 {
       color: #ff6600;
-      /* Títulos de propriedades com cor secundária */
-      margin-top: 1rem;
+      margin-top: 1.5rem;
       margin-bottom: 0.5rem;
     }
 
@@ -200,24 +219,20 @@
       padding: 1rem;
       border-radius: 0.5rem;
       color: #ddd;
+      border: 1px dashed rgba(255, 102, 0, 0.5);
+      /* Dashed orange border */
     }
 
     #jsonContentBlock iframe {
       display: block;
-      /* Garante que o iframe ocupe a largura disponível */
       max-width: 100%;
-      /* Não permite que o iframe ultrapasse o contêiner */
     }
 
     .secondary-game-elements {
       display: flex;
       flex-direction: column;
-      /* ALTERADO: Empilha os elementos verticalmente */
       gap: 2rem;
-      /* Espaço entre o formulário e o texto */
-      /* Remova ou ajuste flex-wrap se não for mais necessário para layout lado a lado */
       flex-wrap: wrap;
-      /* Pode manter, mas terá menos efeito com column */
       margin-top: 0;
     }
 
@@ -226,9 +241,7 @@
       border-radius: 1rem;
       padding: 2rem;
       flex: 1;
-      /* Ocupa o espaço disponível */
       min-width: 300px;
-      /* Largura mínima antes de quebrar */
     }
 
     .form-section h2 {
@@ -236,7 +249,6 @@
       font-weight: bold;
       margin-bottom: 0.5rem;
       color: var(--game-blue);
-      /* Título do formulário com cor de destaque */
     }
 
     .form-section p {
@@ -281,7 +293,6 @@
       border: none;
       border-radius: 0.5rem;
       background: var(--secondary);
-      /* Cor diferente para o botão de inscrição */
       color: #fff;
       cursor: pointer;
       transition: opacity 0.2s, transform 0.2s;
@@ -305,13 +316,9 @@
       border-radius: 1rem;
       padding: 2rem;
       flex: 1;
-      /* Ocupa o espaço disponível */
       min-width: 300px;
-      /* Largura mínima antes de quebrar */
       text-align: left;
-      /* Texto alinhado à esquerda */
       color: #f0f0f0;
-      /* Cor do texto explicativo */
     }
 
     .explanatory-text h2 {
@@ -319,7 +326,6 @@
       font-weight: bold;
       margin-bottom: 1rem;
       color: var(--game-blue);
-      /* Título do texto explicativo com cor de destaque */
     }
 
     .explanatory-text p {
@@ -332,36 +338,27 @@
       margin-top: 3rem;
       padding-top: 2rem;
       border-top: 1px solid rgba(255, 255, 255, 0.1);
-      /* Borda suave */
       text-align: center;
       color: #aaa;
-      /* Cor mais clara para o footer */
       font-size: 0.95rem;
       width: 100%;
-      /* Garante que o footer ocupe a largura total */
-      /*margin-bottom: 0; /* Remove margin-bottom se houver */
     }
 
 
     @media (max-width: 768px) {
 
-      /* Ajustes para telas menores */
       .game-title {
         font-size: 2rem;
-        /* Diminui o tamanho do título */
       }
 
       .secondary-game-elements {
         flex-direction: column;
-        /* Empilha formulário e texto */
         gap: 1.5rem;
-        /* Diminui o espaço entre eles */
       }
 
       .form-section,
       .explanatory-text {
         min-width: 100%;
-        /* Ocupa a largura total */
       }
     }
   </style>
@@ -375,6 +372,10 @@
       <h1 class="game-title">ME CHAME DE BENTO</h1>
       <input type="text" id="codeInput" class="game-input" placeholder="Digite seu código aqui">
       <button id="searchButton" class="game-button">COLETE A RECOMPENSA GRATUITA</button>
+    </div>
+
+    <div class="animation-container" id="animationContainer">
+      <img src="img/treasure_chest_animation_transparent.gif" alt="Treasure Chest Animation">
     </div>
 
     <div id="jsonContentBlock">
@@ -545,71 +546,101 @@
     </div>
   </div>
 
-
+  <audio id="treasureSound" src="sfx/treasure_sfx.mp3"></audio>
 
   <script>
     document.getElementById('searchButton').addEventListener('click', async () => {
-    const codeInput = document.getElementById('codeInput');
-    const jsonContentBlockDiv = document.getElementById('jsonContentBlock');
-    const jsonContentDiv = document.getElementById('jsonContent'); // This will contain the actual content (video/prompt)
-    const code = codeInput.value.trim();
-   
-    console.log('Search button clicked. Code input:', code);
-   
-    if (!code) {
-    jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';
-    jsonContentBlockDiv.style.display = 'block'; // Show block to display the message
-    return;
-    }
-    try {
-    const response = await fetch(`/codes/${code.toLowerCase()}.json`);
-    if (!response.ok) {
-    throw new Error('Código não encontrado.');
-    }
-    const data = await response.json();
-           const content = data[code];
-           jsonContentDiv.innerHTML = ''; // Clear previous content
-           jsonContentBlockDiv.style.display = 'none'; // Hide the block by default
-   
-           let contentHtml = '';
-           let hasContent = false;
-   
-           if (content && typeof content === 'object') {
-             if (content.video) {
-               hasContent = true;
-               contentHtml += `
-                 <h3 style="color: #ff6600; margin-bottom: 0.5rem;">Vídeo:</h3>
+      const codeInput = document.getElementById('codeInput');
+      const searchButton = document.getElementById('searchButton');
+      const centralGameElements = document.querySelector('.central-game-elements');
+      const animationContainer = document.getElementById('animationContainer');
+      const jsonContentBlockDiv = document.getElementById('jsonContentBlock');
+      const jsonContentDiv = document.getElementById('jsonContent');
+      const treasureSound = document.getElementById('treasureSound');
+
+      const code = codeInput.value.trim();
+
+      console.log('Search button clicked. Code input:', code);
+
+      if (!code) {
+        jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';
+        jsonContentBlockDiv.style.display = 'block';
+        jsonContentBlockDiv.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      codeInput.style.display = 'none';
+      searchButton.style.display = 'none';
+      animationContainer.style.display = 'flex';
+      jsonContentBlockDiv.style.display = 'none';
+
+      if (treasureSound) {
+        treasureSound.currentTime = 0;
+        treasureSound.play().catch(error => console.error("Error playing sound:", error));
+      }
+
+      const animationDuration = 3000; // Adjust this based on the GIF duration
+
+      setTimeout(async () => {
+        try {
+          const response = await fetch(`/codes/${code.toLowerCase()}.json`);
+          if (!response.ok) {
+            throw new Error('Código não encontrado.');
+          }
+          const data = await response.json();
+          const content = data[code]; // Corrected: Use original case for lookup
+          jsonContentDiv.innerHTML = '';
+
+          let contentHtml = '';
+          let hasContent = false;
+
+          if (content && typeof content === 'object') {
+            if (content.video) {
+              hasContent = true;
+              contentHtml += `
+                 <h3 style="color: var(--reward-title); margin-bottom: 0.5rem;">Vídeo:</h3>
                  <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
                    <iframe src="https://www.youtube.com/embed/${content.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
                  </div>
                `;
-             }
-   
-             if (content.prompt) {
-               hasContent = true;
-               contentHtml += `
-                 <h3 style="color: #ff6600; margin-top: 1.5rem; margin-bottom: 0.5rem;">Prompt:</h3>
-                 <pre style="white-space: pre-wrap; word-wrap: break-word; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem;">${content.prompt}</pre>
+            }
+
+            if (content.prompt) {
+              hasContent = true;
+              contentHtml += `
+                 <h3 style="color: var(--reward-title); margin-top: 1.5rem; margin-bottom: 0.5rem;">Prompt:</h3>
+                 <pre style="white-space: pre-wrap; word-wrap: break-word; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem; border: 1px dashed rgba(255, 102, 0, 0.5);">${content.prompt}</pre>
                `;
-             }
-           }
-   
-           if (hasContent) {
-             jsonContentDiv.innerHTML = contentHtml;
-             jsonContentBlockDiv.style.display = 'block'; // Show the block if content is found
-           } else {
-             // Se content existe mas não tem video nem prompt, ou se content não existe
-              jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Conteúdo não disponível para este código.</p>';
-              jsonContentBlockDiv.style.display = 'block'; // Still show the block to display the message
-           }
-    } catch (error) {
-           jsonContentDiv.innerHTML = ''; // Clear previous content
-           jsonContentBlockDiv.style.display = 'block'; // Show the block to display the error message
-           jsonContentDiv.innerHTML = `<p style="color: #e74c3c;">Erro ao buscar o código: ${error.message}</p>`;
-    }
+            }
+          }
+
+          animationContainer.style.display = 'none';
+          codeInput.style.display = 'block';
+          searchButton.style.display = 'block';
+
+          if (hasContent) {
+            jsonContentDiv.innerHTML = contentHtml;
+            jsonContentBlockDiv.style.display = 'block';
+            jsonContentBlockDiv.scrollIntoView({ behavior: 'smooth' });
+          } else {
+            jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Conteúdo não disponível para este código.</p>';
+            jsonContentBlockDiv.style.display = 'block';
+            jsonContentBlockDiv.scrollIntoView({ behavior: 'smooth' });
+          }
+        } catch (error) {
+          animationContainer.style.display = 'none';
+          codeInput.style.display = 'block';
+          searchButton.style.display = 'block';
+
+          jsonContentDiv.innerHTML = '';
+          jsonContentBlockDiv.style.display = 'block';
+          jsonContentDiv.innerHTML = `<p style="color: #e74c3c;">Erro ao buscar o código: ${error.message}</p>`;
+          jsonContentBlockDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, animationDuration);
     });
-    </script>
-   
+  </script>
+
 
 </body>
 

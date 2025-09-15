@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Autenticação | Jornada dos Poderes Digitais</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body class="layout--split">
+    <aside class="panel panel--accent">
+      <a class="brand" href="./index.html">← Voltar para a jornada</a>
+      <h1>Entre para a guilda</h1>
+      <p>
+        Use seu e-mail e senha ou conecte com o Google. Após criar a conta, verifique o e-mail para
+        receber o emblema “Email Verificado”.
+      </p>
+      <ul class="list list--compact">
+        <li>Progresso sincronizado via Firestore e PlayFab.</li>
+        <li>Envie suas provas direto para o Storage.</li>
+        <li>Desbloqueie missões assim que o e-mail for confirmado.</li>
+      </ul>
+    </aside>
+
+    <main class="panel">
+      <section class="auth">
+        <div class="auth__tabs" role="tablist">
+          <button id="tab-login" class="auth__tab" data-tab="login" aria-selected="true">
+            Entrar
+          </button>
+          <button id="tab-signup" class="auth__tab" data-tab="signup">Criar conta</button>
+        </div>
+
+        <form id="login-form" class="form" data-auth="login" autocomplete="on">
+          <label class="form__field">
+            <span>E-mail</span>
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label class="form__field">
+            <span>Senha</span>
+            <input type="password" name="password" required autocomplete="current-password" />
+          </label>
+          <button class="button" type="submit">Entrar</button>
+          <p class="form__feedback" role="alert" aria-live="polite"></p>
+        </form>
+
+        <form id="signup-form" class="form is-hidden" data-auth="signup" autocomplete="on">
+          <label class="form__field">
+            <span>Nome público</span>
+            <input type="text" name="displayName" required autocomplete="nickname" />
+          </label>
+          <label class="form__field">
+            <span>E-mail</span>
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label class="form__field">
+            <span>Senha</span>
+            <input type="password" name="password" required autocomplete="new-password" />
+          </label>
+          <button class="button" type="submit">Criar conta</button>
+          <p class="form__feedback" role="alert" aria-live="polite"></p>
+        </form>
+
+        <div class="auth__divider">
+          <span>ou</span>
+        </div>
+        <button id="google-login" class="button button--ghost" type="button">Continuar com Google</button>
+
+        <section class="card auth__status">
+          <h2>Status da verificação</h2>
+          <p id="verification-status">Faça login para verificar seu e-mail.</p>
+          <button id="resend-verification" class="button button--small" type="button">
+            Reenviar e-mail de verificação
+          </button>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="./scripts/firebase-init.js"></script>
+    <script type="module" src="./scripts/auth.js"></script>
+  </body>
+</html>

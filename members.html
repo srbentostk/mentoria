@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Área de Membros | Jornada dos Poderes Digitais</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+    <header class="dashboard__header">
+      <a class="brand" href="./index.html">← Voltar</a>
+      <div class="dashboard__status">
+        <div>
+          <h1>Área de Membros</h1>
+          <p>Gerencie sua conta, acompanhe a missão de onboarding e envie provas.</p>
+        </div>
+        <div class="dashboard__actions">
+          <button id="refresh-profile" class="button button--ghost" type="button">Sincronizar agora</button>
+          <button id="logout" class="button button--small" type="button">Sair</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="card">
+        <h2>Minha conta</h2>
+        <dl class="details">
+          <div>
+            <dt>UID (Firebase)</dt>
+            <dd id="profile-uid">—</dd>
+          </div>
+          <div>
+            <dt>Display Name</dt>
+            <dd id="profile-display-name">—</dd>
+          </div>
+          <div>
+            <dt>E-mail</dt>
+            <dd id="profile-email">—</dd>
+          </div>
+          <div>
+            <dt>Status do e-mail</dt>
+            <dd id="profile-email-verified">—</dd>
+          </div>
+          <div>
+            <dt>PlayFab ID</dt>
+            <dd id="profile-playfab">—</dd>
+          </div>
+        </dl>
+        <div class="tags" id="profile-badges"></div>
+      </section>
+
+      <section class="card">
+        <h2>Missões disponíveis</h2>
+        <p>Confira o catálogo público e aceite a missão de onboarding.</p>
+        <ul id="missions-list" class="cards"></ul>
+      </section>
+
+      <section class="card">
+        <h2>Missão de Onboarding</h2>
+        <p id="onboarding-status">Carregando missão...</p>
+        <button id="start-onboarding" class="button" type="button">Começar missão</button>
+        <div class="progress">
+          <div class="progress__label">Progresso</div>
+          <div class="progress__bar"><span id="onboarding-progress" style="width: 0%"></span></div>
+          <div class="progress__info">
+            <span id="onboarding-progress-count">0 de 5</span>
+            <span id="onboarding-due">Prazo não definido</span>
+          </div>
+        </div>
+        <form id="proof-form" class="form" enctype="multipart/form-data">
+          <label class="form__field">
+            <span>Envie sua prova (imagem, PDF ou vídeo curto)</span>
+            <input type="file" name="proof" accept="image/*,application/pdf,video/*" required />
+          </label>
+          <label class="form__field">
+            <span>Notas / contexto</span>
+            <textarea name="notes" rows="3" placeholder="Detalhe a venda realizada"></textarea>
+          </label>
+          <button class="button" type="submit">Enviar prova para validação</button>
+          <p class="form__feedback" role="alert" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Estatísticas</h2>
+        <dl class="details details--inline">
+          <div>
+            <dt>XP</dt>
+            <dd id="stats-xp">0</dd>
+          </div>
+          <div>
+            <dt>Moeda</dt>
+            <dd id="stats-currency">0</dd>
+          </div>
+          <div>
+            <dt>Badges</dt>
+            <dd id="stats-badges">—</dd>
+          </div>
+        </dl>
+        <audio id="reward-audio" preload="auto">
+          <source src="./assets/sfx/reward.mp3" type="audio/mpeg" />
+        </audio>
+      </section>
+    </main>
+
+    <script type="module" src="./scripts/firebase-init.js"></script>
+    <script type="module" src="./scripts/playfab.js"></script>
+    <script type="module" src="./scripts/missions.js"></script>
+    <script type="module" src="./scripts/onboarding.js"></script>
+    <script type="module" src="./scripts/members.js"></script>
+    <script type="module" src="./scripts/rewards.js"></script>
+  </body>
+</html>

@@ -1,24 +1,35 @@
-# Logs
-logs
-*.log
+# Dependências de pacotes (caso use ferramentas locais opcionais)
+node_modules/
+
+# Logs e caches do npm/yarn/pnpm
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Variáveis de ambiente e credenciais locais
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+firebase-debug.log
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# Artifacts específicos de IDE/SO
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+*.swp
+.vscode/
+.idea/
+
+# Build output opcional
+/dist/
+/build/
+
+# Dados temporários de deploy Firebase ou PlayFab (não versionar)
+.firebase/
+.playfab/
+
+# Cache de automações
+.cache/
+.tmp/

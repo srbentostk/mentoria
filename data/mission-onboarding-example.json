@@ -1,0 +1,45 @@
+{
+  "": "./mission.schema.json",
+  "id": "onboarding",
+  "title": "Missão de Onboarding: 5 vendas em 14 dias",
+  "summary": "Valide sua primeira meta com 5 vendas verificadas e libere novos poderes digitais.",
+  "category": "onboarding",
+  "goal": {
+    "value": 5,
+    "label": "Registrar cinco vendas aprovadas"
+  },
+  "timebox": {
+    "days": 14,
+    "label": "14 dias corridos"
+  },
+  "deliverables": [
+    "Registrar cada venda no Firestore",
+    "Enviar prova correspondente ao Storage",
+    "Atualizar progresso diário com feedback"
+  ],
+  "rewards": {
+    "xp": 500,
+    "currency": 250,
+    "badges": [
+      "emailVerified",
+      "onboardingStarted",
+      "onboardingCompleted"
+    ]
+  },
+  "checklist": [
+    {
+      "id": "briefing",
+      "title": "Alinhamento inicial",
+      "items": [
+        "Assistir ao vídeo de apresentação",
+        "Baixar o PDF da missão",
+        "Enviar primeira prova até 24h"
+      ]
+    }
+  ],
+  "resources": {
+    "pdf": "{URL_PDF_ONBOARDING}",
+    "prompt": "{URL_PROMPT_ONBOARDING}",
+    "video": "{URL_VIDEO_HOTMART}"
+  }
+}

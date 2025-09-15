@@ -1,648 +1,164 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Me Chame de Bento</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --highlight: #d35400;
-      /* Laranja escuro (madeira) */
-      --secondary: #2c3e50;
-      /* Azul escuro */
-      --background: #151d2a;
-      /* New background color */
-      --gradient: linear-gradient(to right, var(--secondary), var(--highlight));
-      --game-blue: #00BFFF;
-      /* Azul Elétrico */
-      --game-dark-bg: rgba(0, 0, 0, 0.8);
-      /* Fundo escuro semi-transparente */
-      --reward-bg: rgba(255, 165, 0, 0.1);
-      /* Light orange background for reward */
-      --reward-border: #ff6600;
-      /* Orange border for reward */
-      --reward-title: #ffd700;
-      /* Gold color for reward title */
-    }
-
-    body {
-      margin: 0;
-      font-family: "Inter", Arial, sans-serif;
-      color: #ddd;
-      /* Cor do texto principal para contrastar com o fundo */
-      min-height: 100vh;
-      background-color: var(--background);
-      /* Use the new background variable */
-      display: flex;
-      /* Usar flexbox para centralizar o conteúdo */
-      justify-content: center;
-      /* Centralizar horizontalmente */
-      align-items: center;
-      /* Centralizar verticalmente */
-      padding: 2rem 1rem;
-      /* Adicionar padding ao body */
-      box-sizing: border-box;
-      /* Incluir padding no tamanho total */
-      position: relative;
-    }
-
-    @keyframes infinite-gradient {
-      0% {
-        background-position: 0% 50%;
-      }
-
-      100% {
-        background-position: 100% 50%;
-      }
-    }
-
-    .anime-bg {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background: var(--background);
-      /* Use the new background variable */
-      /* Removed the gradient animation as the user requested a solid color */
-    }
-
-    .game-container {
-      max-width: 900px;
-      width: 100%;
-      margin: 0 auto;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      z-index: 1;
-      position: relative;
-    }
-
-    .central-game-elements {
-      background: var(--game-dark-bg);
-      border-radius: 1rem;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .game-title {
-      font-family: 'Roboto', sans-serif;
-      font-size: 5rem;
-      font-weight: 700;
-      color: #d35400;
-      text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000,
-        0 0 1px #f3c4a5,
-        0 0 5px #f1a878,
-        0 0 3px #141414;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-
-    .game-input {
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      border: 2px solid var(--game-blue);
-      background: rgba(255, 255, 255, 0.9);
-      color: #000000;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-      box-sizing: border-box;
-    }
-
-    .game-input:focus {
-      border-color: var(--highlight);
-    }
-
-    .game-button {
-      width: 100%;
-      padding: 1rem;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 0.5rem;
-      background: var(--highlight);
-      color: #fff;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.2s;
-      box-shadow: none;
-    }
-
-    .game-button:hover {
-      opacity: 0.9;
-      transform: scale(1.02);
-    }
-
-    .game-button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .animation-container {
-      display: none;
-      /* Hidden by default */
-      justify-content: center;
-      align-items: center;
-      margin-top: 20px;
-      min-height: 200px;
-      /* Ensure it takes up some space */
-    }
-
-    .animation-container img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    #jsonContentBlock {
-      background: var(--reward-bg);
-      border: 2px solid var(--reward-border);
-      border-radius: 1rem;
-      padding: 2rem;
-      margin-top: 0;
-      display: none;
-      color: #f0f0f0;
-      text-align: left;
-      box-shadow: 0 0 20px var(--reward-border);
-      /* Add glow effect */
-      animation: pulse 2s infinite;
-      /* Add subtle pulsing animation */
-    }
-
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 10px var(--reward-border);
-      }
-
-      50% {
-        box-shadow: 0 0 30px var(--reward-border);
-      }
-
-      100% {
-        box-shadow: 0 0 10px var(--reward-border);
-      }
-    }
-
-
-    #jsonContentBlock h3 {
-      color: var(--reward-title);
-      /* Gold color for title */
-      margin-bottom: 1rem;
-      text-align: center;
-      font-size: 1.8rem;
-      /* Larger title */
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-      /* Gold text shadow */
-    }
-
-    #jsonContentBlock h4 {
-      color: #ff6600;
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    #jsonContentBlock pre {
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      background: rgba(255, 255, 255, 0.05);
-      padding: 1rem;
-      border-radius: 0.5rem;
-      color: #ddd;
-      border: 1px dashed rgba(255, 102, 0, 0.5);
-      /* Dashed orange border */
-    }
-
-    #jsonContentBlock iframe {
-      display: block;
-      max-width: 100%;
-    }
-
-    .secondary-game-elements {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      flex-wrap: wrap;
-      margin-top: 0;
-    }
-
-    .form-section {
-      background: var(--game-dark-bg);
-      border-radius: 1rem;
-      padding: 2rem;
-      flex: 1;
-      min-width: 300px;
-    }
-
-    .form-section h2 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-      color: var(--game-blue);
-    }
-
-    .form-section p {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .form-section label {
-      display: block;
-      margin-bottom: 0.3rem;
-      font-weight: 500;
-      color: #ffffff;
-    }
-
-    .form-section input[type="text"],
-    .form-section input[type="email"] {
-      width: 100%;
-      padding: 0.75rem;
-      border-radius: 0.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      background: rgba(255, 255, 255, 0.9);
-      color: #000000;
-      font-size: 1rem;
-      margin-bottom: 1rem;
-      outline: none;
-      transition: border 0.2s;
-      box-sizing: border-box;
-    }
-
-    .form-section input[type="text"]:focus,
-    .form-section input[type="email"]:focus {
-      border-color: var(--highlight);
-    }
-
-
-    .form-section .form-btn {
-      width: 100%;
-      padding: 1rem;
-      font-size: 1.1rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 0.5rem;
-      background: var(--secondary);
-      color: #fff;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.2s;
-      margin-top: 0.5rem;
-      box-shadow: none;
-    }
-
-    .form-section .form-btn:hover {
-      opacity: 0.9;
-      transform: scale(1.02);
-    }
-
-    .form-section .form-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-
-    .explanatory-text {
-      background: var(--game-dark-bg);
-      border-radius: 1rem;
-      padding: 2rem;
-      flex: 1;
-      min-width: 300px;
-      text-align: left;
-      color: #f0f0f0;
-    }
-
-    .explanatory-text h2 {
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      color: var(--game-blue);
-    }
-
-    .explanatory-text p {
-      margin-bottom: 1rem;
-      line-height: 1.6;
-    }
-
-
-    .footer {
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      text-align: center;
-      color: #aaa;
-      font-size: 0.95rem;
-      width: 100%;
-    }
-
-
-    @media (max-width: 768px) {
-
-      .game-title {
-        font-size: 2rem;
-      }
-
-      .secondary-game-elements {
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-
-      .form-section,
-      .explanatory-text {
-        min-width: 100%;
-      }
-    }
-
-  </style>
-</head>
-
-<body>
-  <div class="anime-bg"></div>
-
-  <div class="game-container">
-    <div class="central-game-elements">
-      <h1 class="game-title">ME CHAME DE BENTO</h1>
-      <input type="text" id="codeInput" class="game-input" placeholder="Digite seu código aqui">
-      <button id="searchButton" class="game-button">COLETE A RECOMPENSA GRATUITA</button>
-    </div>
-
-    <div class="animation-container" id="animationContainer">
-      <img src="img/treasure_chest_animation_transparent.gif" alt="Treasure Chest Animation">
-    </div>
-
-    <div id="jsonContentBlock">
-      <h3 style="color: rgba(255, 255, 255, 0.6); margin-bottom: 1rem;">Conteúdo Exclusivo</h3>
-      <div id="jsonContent">
-        <!-- Conteúdo do JSON será exibido aqui -->
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jornada dos Poderes Digitais</title>
+    <meta
+      name="description"
+      content="Ative os poderes digitais da sua equipe com a missão de onboarding de 5 vendas em 14 dias."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="hero__content">
+        <h1>Jornada dos Poderes Digitais</h1>
+        <p>
+          Um programa intensivo de 14 dias para formar agentes digitais capazes de gerar
+          resultados reais. Crie sua conta, participe do onboarding e comprove 5 vendas para
+          desbloquear recompensas exclusivas.
+        </p>
+        <div class="hero__cta">
+          <a class="button" href="./auth.html">Entrar ou criar conta</a>
+          <a class="button button--ghost" href="{URL_VIDEO_HOTMART}" target="_blank" rel="noreferrer">
+            Assistir apresentação
+          </a>
+        </div>
+        <div class="hero__badges">
+          <span class="badge">Missão inicial: 5 vendas em 14 dias</span>
+          <span class="badge">Aulas + provas + recompensas digitais</span>
+          <span class="badge">Integração Firebase + PlayFab</span>
+        </div>
       </div>
-    </div>
-
-    <div class="secondary-game-elements">
-      <div class="explanatory-text">
-        <h2>🎮 O PRIMEIRO JOGO DO MUNDO ONDE VOCÊ É O PROTAGONISTA DA SUA PRÓPRIA TRANSFORMAÇÃO</h2>
-        <p>Bem-vindo ao único jogo onde vencer significa realizar seus sonhos na vida real</p>
-        <p>Imagine um jogo onde cada missão completada te aproxima dos seus objetivos reais. Onde cada skill
-          desbloqueado se torna uma habilidade poderosa no seu dia a dia. E onde o prêmio final não é virtual - é a vida
-          que você sempre quis ter.</p>
-        <p>Eu sou desenvolvedor de jogos e especialista em inteligência artificial. Depois de anos criando mundos
-          virtuais, decidi criar algo que nunca existiu: um jogo que transforma sua realidade.</p>
-
-        <h3>🚀 COMO FUNCIONA O JOGO</h3>
-        <h4>SEU PERSONAGEM É VOCÊ</h4>
-        <p>Não existe avatar. Não existe mundo fantasioso. Você é o protagonista, e o cenário é sua vida real. Cada
-          conquista no jogo é uma conquista real na sua carreira e nos seus projetos.</p>
-        <h4>MISSÕES QUE MUDAM SUA VIDA</h4>
-        <p>Esqueça objetivos abstratos. Aqui você vai dominar habilidades reais:</p>
-
-        <h4>🎯 ANÁLISE E ESTRATÉGIA</h4>
-        <ul>
-          <li>Mudar completamente a forma de analisar feedbacks dos clientes</li>
-          <li>Entender profundamente as dores e desejos do seu público</li>
-          <li>Analisar tudo que deu certo e errado nos seus projetos</li>
-          <li>Criar um planejamento detalhado e eficiente para qualquer objetivo</li>
-          <li>Organizar sua vida pessoal com sistemas inteligentes</li>
-        </ul>
-
-        <h4>🚀 AUTOMAÇÃO E PRODUTIVIDADE</h4>
-        <ul>
-          <li>Criar automações que multiplicam seus resultados exponencialmente</li>
-          <li>Desenvolver ferramentas personalizadas que desbloqueiam superpoderes</li>
-          <li>Criar análise de dados com plano de ação específico</li>
-          <li>Construir fluxos de trabalho que funcionam 24/7</li>
-        </ul>
-
-        <h4>💰 VENDAS E CONVERSÃO</h4>
-        <ul>
-          <li>Fazer ofertas irresistíveis baseadas em dados reais</li>
-          <li>Recuperar vendas perdidas com estratégias personalizadas</li>
-          <li>Transformar audiência em leads qualificados</li>
-          <li>Conseguir mais clientes com abordagens precisas</li>
-          <li>Desenvolver produtos que o mercado realmente quer</li>
-        </ul>
-
-        <h4>📝 CRIAÇÃO DE CONTEÚDO</h4>
-        <ul>
-          <li>Produzir conteúdos que engajam e educam seu público</li>
-          <li>Criar roteiros profissionais para vídeos e apresentações</li>
-          <li>Desenvolver copy persuasivo para qualquer canal</li>
-          <li>Gerar ideias infinitas para posts, vídeos e campanhas</li>
-          <li>Adaptar conteúdo para diferentes plataformas automaticamente</li>
-        </ul>
-
-        <h4>🔧 FERRAMENTAS AVANÇADAS</h4>
-        <ul>
-          <li>Fazer prompts profissionais que entregam resultados consistentes</li>
-          <li>Criar chatbots inteligentes para atendimento</li>
-          <li>Desenvolver sistemas de recomendação personalizados</li>
-          <li>Construir dashboards automatizados para tomada de decisão</li>
-          <li>Integrar IA em qualquer processo do seu negócio</li>
-        </ul>
-
-        <h4>MUNDO ABERTO = LIBERDADE TOTAL</h4>
-        <p>Você escolhe sua jornada. Quer começar criando vídeos? Perfeito. Prefere dominar automações primeiro? Pode
-          ser. O mapa é seu, a ordem é sua escolha.</p>
-
-        <h4>SISTEMA DE EVOLUÇÃO REAL</h4>
-        <p>A cada missão completada, você não só ganha XP - você ganha superpoderes reais:</p>
-        <ul>
-          <li>Velocidade: Produza em minutos o que antes levava horas</li>
-          <li>Criatividade: Desbloqueie ideias que seus concorrentes nem sonham</li>
-          <li>Eficiência: Automatize processos e foque no que realmente importa</li>
-          <li>Impacto: Crie conteúdo que engaja e converte como nunca antes</li>
-        </ul>
-
-        <h3>🎯 ESCOLHA SEU MODO DE JOGO</h3>
-        <h4>🏆 MODO MENTORIA (Disponível Agora)</h4>
-        <p>Para quem quer resultados extraordinários com acompanhamento VIP</p>
-        <p>Eu desenho sua jornada pessoalmente. Em 8 sessões semanais, construímos juntos suas missões customizadas para
-          seus objetivos específicos. É como ter um coach pessoal que conhece todos os segredos da IA.</p>
-        <p>Investimento diferenciado para uma experiência única</p>
-
-        <h4>📚 MODO HISTÓRIA (Em Desenvolvimento)</h4>
-        <p>Para aventureiros que preferem explorar no próprio ritmo</p>
-        <p>Curso estruturado com missões progressivas, aulas gravadas, conteúdos exclusivos e algumas sessões ao vivo.
-          Você avança quando quiser, como quiser.</p>
-        <p>Lançamento nas próximas semanas</p>
-
-        <h3>💡 POR QUE ESTE JOGO VAI MUDAR SUA VIDA?</h3>
-        <p>Porque pela primeira vez, aprender não é chato. É viciante. É recompensador. E cada "fase" completada se
-          torna uma habilidade que ninguém pode tirar de você.</p>
-        <p>Porque você não vai apenas usar IA - você vai DOMINAR IA. Não como mais um usuário, mas como alguém que cria
-          suas próprias ferramentas e soluções.</p>
-        <p>Porque o limite não é a tecnologia - é sua criatividade. E eu vou te ensinar a expandir essa criatividade
-          além do que você imaginava ser possível.</p>
-
-        <h3>🚨 ÚLTIMAS VAGAS ABERTAS</h3>
-        <p>O jogo está prestes a começar. Os primeiros jogadores terão acesso exclusivo às estratégias mais avançadas e
-          acompanhamento mais próximo.</p>
-        <p>Não perca a chance de ser protagonista da sua própria transformação.</p>
-        <p>👉 Inscreva-se agora no formulário abaixo e garante sua vaga antes que as portas se fechem.</p>
-
-        <p>P.S.: Este não é apenas mais um curso sobre IA. É uma experiência gamificada única que vai transformar
-          completamente como você trabalha, cria e vive. Você está pronto para jogar?</p>
+      <div class="hero__image">
+        <img src="./assets/img/agent_mentor.png" alt="Agente mentor" loading="lazy" />
       </div>
+    </header>
 
-      <div class="form-section">
-        <h2>Interessado?</h2>
-        <p>Inscreva-se para saber mais sobre os próximos conteúdos e modos de jogo!</p>
-        <form klicksend-form-id="eYuR0by" autocomplete="off" method="post"
-          action="//handler.send.hotmart.com/subscription/eYuR0by">
-          <label for="first_name">Primeiro Nome</label>
-          <input type="text" autocomplete="off" name="first_name" id="first_name" placeholder="Seu nome" value=""
-            required />
-          <label for="email">Email</label>
-          <input type="email" autocomplete="off" name="email" id="email" placeholder="Seu melhor email" value=""
-            required />
-          <label for="phone">Telefone (WhatsApp)</label>
-          <input type="text" autocomplete="off" name="phone" id="phone" placeholder="(xx) xxxxx-xxxx" value="" />
-          <div klicksend-gdpr-text style="font-size: 10px; color: #86919a; margin-bottom: 5px; text-align: left">
-            <p>
-              Esses dados serão utilizados para entrarmos em contato com você e disponibilizarmos mais conteúdos e
-              ofertas. Caso você não queira mais receber os nossos emails, cada email que você receber incluirá, ao
-              final, um link para remover seu email da nossa lista de distribuição.
-            </p>
-            <p>
-              Para mais informações, acesse:
-              <a href="https://hotmart.com/pt-br/legal/privacidade-de-dados/" target="_blank"
-                rel="noopener">https://hotmart.com/pt-br/legal/privacidade-de-dados/</a>
-            </p>
+    <main>
+      <section class="section section--grid">
+        <article>
+          <h2>Como funciona</h2>
+          <p>
+            Conectamos autenticidade, acompanhamento e gamificação. A cada missão você envia as
+            provas pelo app, recebe feedback instantâneo e desbloqueia novos poderes digitais.
+          </p>
+          <ul class="list">
+            <li>Autenticação com Firebase Authentication (email/senha e Google opcional).</li>
+            <li>Progresso salvo em tempo real no Firestore e provas no Storage.</li>
+            <li>Estatísticas de XP e moeda vinculadas ao PlayFab.</li>
+          </ul>
+        </article>
+        <article class="card card--highlight">
+          <h3>Missão de Onboarding</h3>
+          <p class="card__meta">Objetivo: 5 vendas validadas em 14 dias</p>
+          <p>
+            Complete as tarefas diárias, registre cada venda com prova e acumule XP para subir de
+            patente. Quando concluir, libere o Passe de Poderes e pacotes avançados.
+          </p>
+          <div class="card__actions">
+            <a class="button" href="./members.html">Ver meu progresso</a>
+            <a class="button button--ghost" href="{URL_PDF_ONBOARDING}" target="_blank" rel="noreferrer">
+              Baixar guia em PDF
+            </a>
           </div>
-          <div
-            style="width: 100%; display: flex; align-items: center; justify-content: flex-start; margin-bottom: 1rem">
-            <input type="checkbox" autocomplete="off" name="gdpr" id="gdpr" value="Concordo em receber os e-mails"
-              required style="width: auto; margin-right: 8px;" />
-            <label for="gdpr" style="font-size: 0.95rem">Concordo em receber os e-mails</label>
+          <p class="card__footnote">
+            Precisa de inspiração? Abra o prompt estratégico:
+            <a href="{URL_PROMPT_ONBOARDING}" target="_blank" rel="noreferrer">Prompt de missão</a>.
+          </p>
+        </article>
+      </section>
+
+      <section class="section">
+        <h2>Novos agentes digitais</h2>
+        <p>
+          Preencha o formulário rápido abaixo para receber os materiais e ofertas especiais no seu
+          e-mail. Em seguida, finalize o cadastro para começar imediatamente.
+        </p>
+        <form id="lead-form" class="form" action="{FORM_ACTION_URL}" method="post">
+          <div class="form__grid">
+            <label class="form__field">
+              <span>Nome</span>
+              <input type="text" name="firstName" id="lead-first-name" required autocomplete="given-name" />
+            </label>
+            <label class="form__field">
+              <span>E-mail</span>
+              <input type="email" name="email" id="lead-email" required autocomplete="email" />
+            </label>
+            <label class="form__field">
+              <span>WhatsApp</span>
+              <input type="tel" name="phone" id="lead-phone" autocomplete="tel" />
+            </label>
+            <label class="form__field">
+              <span>UTM / Campanha</span>
+              <input type="text" name="utm" id="lead-utm" placeholder="utm_source=instagram" />
+            </label>
           </div>
-          <div style="position: absolute; left: -5000px" aria-hidden="true">
-            <input type="text" autocomplete="new-password" name="b_eYuR0by" tabindex="-1" value="" />
-          </div>
-          <button type="submit" class="form-btn" klicksend-form-submit-id="eYuR0by">
-            SE INSCREVA
-          </button>
+          <button class="button" type="submit">Quero desbloquear meus poderes</button>
+          <p class="form__feedback" role="alert" aria-live="polite"></p>
         </form>
-        <script>
-          // Adiciona parâmetros da URL ao action do formulário Hotmart
-          var pageParams = new URLSearchParams(window.location.search);
-          var form = document.querySelector('form[klicksend-form-id="eYuR0by"]');
-          if (form) {
-            var formActionUrl = new URL(form.action, window.location.origin);
-            var formActionSearchParams = formActionUrl.searchParams.size > 0 ? formActionUrl.searchParams.toString() + "&" : "";
-            var combinedParams = formActionSearchParams + pageParams.toString();
-            form.action = formActionUrl.origin + formActionUrl.pathname + (combinedParams ? "?" + combinedParams : "");
-          }
-        </script>
-      </div>
-    </div>
-    <div class="footer">
-      © 2025 Me Chame de Bento. Todos os direitos reservados.
-    </div>
-  </div>
+      </section>
 
-  <audio id="treasureSound" src="sfx/0717.mp3"></audio>
+      <section class="section section--columns">
+        <article>
+          <h2>Recompensas e loja</h2>
+          <p>
+            Troque sua moeda digital por reforços exclusivos. Ative o Passe de Poderes para ter
+            acesso antecipado às expansões da jornada.
+          </p>
+          <div class="pricing">
+            <a class="pricing__card" href="{URL_CHECKOUT_PASSE}" target="_blank" rel="noreferrer">
+              <h3>Passe de Poderes</h3>
+              <p>Desbloqueie missões semanais e mentorias ao vivo.</p>
+              <span class="tag">Requer missão concluída</span>
+            </a>
+            <a class="pricing__card" href="{URL_CHECKOUT_PACK_1}" target="_blank" rel="noreferrer">
+              <h3>Pack Missões Turbo</h3>
+              <p>15 missões avançadas com foco em upsell.</p>
+            </a>
+            <a class="pricing__card" href="{URL_CHECKOUT_PACK_2}" target="_blank" rel="noreferrer">
+              <h3>Pack Parceiros</h3>
+              <p>Desafios colaborativos para expandir sua rede.</p>
+            </a>
+          </div>
+        </article>
+        <aside class="aside">
+          <h2>Lembretes automáticos</h2>
+          <p>
+            Conectado ao <code>ntfy.sh</code> e automações N8n para acompanhar seu progresso.
+            Receba lembretes diários e alertas na hora de enviar provas das vendas.
+          </p>
+          <ul class="list">
+            <li>Webhook de lembrete: <code>{N8N_REMINDERS_WEBHOOK}</code></li>
+            <li>Webhook de prova: <code>{N8N_PROOF_WEBHOOK}</code></li>
+          </ul>
+        </aside>
+      </section>
+    </main>
 
-  <script>
-    document.getElementById('searchButton').addEventListener('click', async () => {
-      const codeInput = document.getElementById('codeInput');
-      const searchButton = document.getElementById('searchButton');
-      const centralGameElements = document.querySelector('.central-game-elements');
-      const animationContainer = document.getElementById('animationContainer');
-      const jsonContentBlockDiv = document.getElementById('jsonContentBlock');
-      const jsonContentDiv = document.getElementById('jsonContent');
-      const treasureSound = document.getElementById('treasureSound');
+    <footer class="footer">
+      <p>
+        © <span id="current-year"></span> Jornada dos Poderes Digitais. Preparado para hospedar no
+        GitHub Pages.
+      </p>
+    </footer>
 
-      const code = codeInput.value.trim();
-
-      console.log('Search button clicked. Code input:', code);
-
-      if (!code) {
-        jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Por favor, digite um código.</p>';
-        jsonContentBlockDiv.style.display = 'block';
-        jsonContentBlockDiv.scrollIntoView({ behavior: 'smooth' });
-        return;
+    <script type="module" src="./scripts/firebase-init.js"></script>
+    <script type="module" src="./scripts/lead.js"></script>
+    <script type="module" src="./scripts/auth.js"></script>
+    <script type="module" src="./scripts/onboarding.js"></script>
+    <script type="module">
+      const yearElement = document.getElementById('current-year');
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear().toString();
       }
-
-      codeInput.style.display = 'none';
-      searchButton.style.display = 'none';
-      animationContainer.style.display = 'flex';
-      jsonContentBlockDiv.style.display = 'none';
-
-      if (treasureSound) {
-        treasureSound.currentTime = 0;
-        treasureSound.play().catch(error => console.error("Error playing sound:", error));
-      }
-
-      const animationDuration = 700; // Adjust this based on the GIF duration
-
-      setTimeout(async () => {
-        try {
-          const response = await fetch(`/codes/${code.toLowerCase()}.json`);
-          if (!response.ok) {
-            throw new Error('Código não encontrado.');
-          }
-          const data = await response.json();
-          const content = data[code]; // Corrected: Use original case for lookup
-          jsonContentDiv.innerHTML = '';
-
-          let contentHtml = '';
-          let hasContent = false;
-
-          if (content && typeof content === 'object') {
-            if (content.video) {
-              hasContent = true;
-              contentHtml += `
-                 <h3 style="color: var(--reward-title); margin-bottom: 0.5rem;">Vídeo:</h3>
-                 <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%;">
-                   <iframe src="https://www.youtube.com/embed/${content.video}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-                 </div>
-               `;
-            }
-
-            if (content.prompt) {
-              hasContent = true;
-              contentHtml += `
-                 <h3 style="color: var(--reward-title); margin-top: 1.5rem; margin-bottom: 0.5rem;">Prompt:</h3>
-                 <pre style="white-space: pre-wrap; word-wrap: break-word; background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 0.5rem; border: 1px dashed rgba(255, 102, 0, 0.5);">${content.prompt}</pre>
-               `;
-            }
-          }
-
-          animationContainer.style.display = 'none';
-          codeInput.style.display = 'block';
-          searchButton.style.display = 'block';
-
-          if (hasContent) {
-            jsonContentDiv.innerHTML = contentHtml;
-            jsonContentBlockDiv.style.display = 'block';
-            jsonContentBlockDiv.scrollIntoView({ behavior: 'smooth' });
-          } else {
-            jsonContentDiv.innerHTML = '<p style="color: #e74c3c;">Conteúdo não disponível para este código.</p>';
-            jsonContentBlockDiv.style.display = 'block';
-            jsonContentBlockDiv.scrollIntoView({ behavior: 'smooth' });
-          }
-        } catch (error) {
-          animationContainer.style.display = 'none';
-          codeInput.style.display = 'block';
-          searchButton.style.display = 'block';
-
-          jsonContentDiv.innerHTML = '';
-          jsonContentBlockDiv.style.display = 'block';
-          jsonContentDiv.innerHTML = `<p style="color: #e74c3c;">Erro ao buscar o código: ${error.message}</p>`;
-          jsonContentBlockDiv.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, animationDuration);
-    });
-  </script>
-
-
-</body>
-
+    </script>
+  </body>
 </html>

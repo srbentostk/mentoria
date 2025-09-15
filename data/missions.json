@@ -1,0 +1,96 @@
+[
+  {
+    "id": "onboarding",
+    "title": "Missão de Onboarding: 5 vendas em 14 dias",
+    "summary": "Conquiste 5 vendas validadas em 14 dias para liberar o Passe de Poderes.",
+    "category": "onboarding",
+    "goal": {
+      "value": 5,
+      "label": "Registrar 5 vendas com provas válidas"
+    },
+    "timebox": {
+      "days": 14,
+      "label": "14 dias corridos"
+    },
+    "deliverables": [
+      "Registrar cada venda com prova (imagem, vídeo curto ou PDF)",
+      "Adicionar notas com contexto da negociação",
+      "Atingir pelo menos 5 entregas aprovadas"
+    ],
+    "rewards": {
+      "xp": 500,
+      "currency": 250,
+      "badges": [
+        "onboardingStarted",
+        "onboardingCompleted"
+      ]
+    },
+    "checklist": [
+      {
+        "id": "setup",
+        "title": "Preparar fundamentos",
+        "items": [
+          "Assistir ao vídeo de boas-vindas",
+          "Criar plano de ofertas para 14 dias",
+          "Configurar lembretes automáticos"
+        ]
+      },
+      {
+        "id": "execution",
+        "title": "Executar campo de vendas",
+        "items": [
+          "Prospectar 10 leads por dia",
+          "Registrar provas no mesmo dia",
+          "Solicitar feedback do mentor"
+        ]
+      }
+    ],
+    "resources": {
+      "pdf": "{URL_PDF_ONBOARDING}",
+      "prompt": "{URL_PROMPT_ONBOARDING}",
+      "video": "{URL_VIDEO_HOTMART}"
+    }
+  },
+  {
+    "id": "aftercare",
+    "title": "Missão de Pós-Venda: Encantar clientes",
+    "summary": "Fortaleça relacionamentos com uma cadência de pós-venda de 7 dias.",
+    "category": "growth",
+    "goal": {
+      "value": 7,
+      "label": "Enviar 7 follow-ups com feedback registrado"
+    },
+    "timebox": {
+      "days": 7,
+      "label": "7 dias"
+    },
+    "deliverables": [
+      "Registrar follow-up diário",
+      "Compartilhar melhoria sugerida",
+      "Receber 3 depoimentos positivos"
+    ],
+    "rewards": {
+      "xp": 320,
+      "currency": 140,
+      "badges": [
+        "aftercareChampion"
+      ]
+    },
+    "checklist": [
+      {
+        "id": "aftercare-plan",
+        "title": "Plano de contato",
+        "items": [
+          "Mapear clientes prioritários",
+          "Definir roteiro de follow-up",
+          "Agendar callbacks"
+        ]
+      }
+    ],
+    "resources": {
+      "pdf": "{URL_PDF_ONBOARDING}",
+      "prompt": "{URL_PROMPT_ONBOARDING}",
+      "video": "{URL_VIDEO_HOTMART}"
+    }
+  }
+]

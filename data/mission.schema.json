@@ -1,0 +1,113 @@
+{
+  "": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mission",
+  "type": "object",
+  "required": ["id", "title", "summary", "goal", "timebox", "rewards"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 3
+    },
+    "summary": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "object",
+      "required": ["value", "label"],
+      "properties": {
+        "value": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "timebox": {
+      "type": "object",
+      "required": ["days", "label"],
+      "properties": {
+        "days": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "label": {
+          "type": "string"
+        }
+      }
+    },
+    "deliverables": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rewards": {
+      "type": "object",
+      "required": ["xp", "currency"],
+      "properties": {
+        "xp": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "badges": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "checklist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "items"],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "resources": {
+      "type": "object",
+      "properties": {
+        "pdf": {
+          "type": "string",
+          "format": "uri"
+        },
+        "prompt": {
+          "type": "string",
+          "format": "uri"
+        },
+        "video": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

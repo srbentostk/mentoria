@@ -1,11 +1,11 @@
 # data/
 
 ## Versão
-- v0.1.0 — 2025-09-15 — Identificação dos arquivos de dados e schemas.
+- v0.3.0 — 2025-09-15 — Catálogo alinhado ao novo schema de missões.
 
 ## Arquivos
-- missions.json: Catálogo público base das missões (inclui onboarding e pós-venda).
-- mission.schema.json: JSON Schema com estrutura de missão para validação.
+- missions.json: Catálogo público base das missões (estrutura completa conforme schema v0.3).
+- mission.schema.json: JSON Schema com estrutura de missão detalhada para validação.
 - mission-onboarding-example.json: Exemplo concreto de missão de onboarding seguindo o schema.
 
 ## Observações

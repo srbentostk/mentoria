@@ -1,7 +1,7 @@
 # scripts/
 
 ## Versão
-- v0.1.0 — 2025-09-15 — Documentação básica dos módulos JS.
+- v0.3.0 — 2025-09-15 — Admin lite e schema de missões atualizados.
 
 ## Arquivos
 - firebase-init.js: Inicialização do app Firebase, exportando auth, db, storage e provider Google.
@@ -9,9 +9,10 @@
 - playfab.js: Conectores para autenticação CustomID e operações de estatística/moeda no PlayFab.
 - missions.js: Carrega catálogo de missões (estático e Firestore) e renderiza lista pública.
 - members.js: Regras da área de membros (perfil, progresso, envio de provas, sync PlayFab).
-- onboarding.js: Utilitários da missão de onboarding e atualização de destaques na landing.
+- onboarding.js: Fluxos da missão onboarding-5v14d (contador, provas, lembretes e destaques).
+- rewards.js: Feedback sonoro/visual quando stats são atualizados e resgate de códigos secretos.
 - lead.js: Captura leads do formulário e registra dados no Firestore/N8n.
-- rewards.js: Feedback sonoro/visual quando stats são atualizados.
+- admin.js: Interface restrita para publicar missões via JSON no Firestore.
 
 ## Observações
 - Garantir que firebase-init.js seja importado antes dos módulos dependentes.

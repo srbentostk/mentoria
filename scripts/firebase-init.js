@@ -1,9 +1,10 @@
-// TODO: preencher credenciais e recursos opcionais do Firebase antes da publicação.
+// Inicializa os serviços básicos do Firebase utilizando módulos da CDN.
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
-import { getAuth, GoogleAuthProvider } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
+// TODO: substituir os placeholders pelas credenciais reais do projeto.
 const firebaseConfig = {
   apiKey: '{FIREBASE_API_KEY}',
   authDomain: '{FIREBASE_AUTH_DOMAIN}',
@@ -13,10 +14,9 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
 const db = getFirestore(app);
 const storage = getStorage(app);
 
 auth.useDeviceLanguage();
 
-export { app, auth, db, storage, googleProvider, firebaseConfig };
+export { app, auth, db, storage };

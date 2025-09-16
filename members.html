@@ -12,107 +12,128 @@
     />
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
-  <body>
-    <header class="dashboard__header">
-      <a class="brand" href="./index.html">← Voltar</a>
+  <body class="page page--dark">
+    <header class="dashboard__header" role="banner">
       <div class="dashboard__status">
         <div>
-          <h1>Área de Membros</h1>
-          <p>Gerencie sua conta, acompanhe a missão de onboarding e envie provas.</p>
+          <h1 id="member-greeting">Bem-vindo, agente</h1>
+          <p>Gerencie missões, envie provas e acompanhe seus poderes digitais.</p>
         </div>
         <div class="dashboard__actions">
-          <button id="refresh-profile" class="button button--ghost" type="button">Sincronizar agora</button>
+          <button id="refresh-profile" class="button button--ghost" type="button">Sincronizar</button>
           <button id="logout" class="button button--small" type="button">Sair</button>
         </div>
       </div>
+      <dl class="details details--inline" aria-label="Resumo do agente">
+        <div>
+          <dt>XP</dt>
+          <dd id="stats-xp">0</dd>
+        </div>
+        <div>
+          <dt>Moeda</dt>
+          <dd id="stats-currency">0</dd>
+        </div>
+        <div>
+          <dt>Emblemas</dt>
+          <dd id="stats-badges">0</dd>
+        </div>
+      </dl>
     </header>
 
-    <main class="dashboard">
-      <section class="card">
-        <h2>Minha conta</h2>
-        <dl class="details">
-          <div>
-            <dt>UID (Firebase)</dt>
-            <dd id="profile-uid">—</dd>
-          </div>
-          <div>
-            <dt>Display Name</dt>
-            <dd id="profile-display-name">—</dd>
-          </div>
-          <div>
-            <dt>E-mail</dt>
-            <dd id="profile-email">—</dd>
-          </div>
-          <div>
-            <dt>Status do e-mail</dt>
-            <dd id="profile-email-verified">—</dd>
-          </div>
-          <div>
-            <dt>PlayFab ID</dt>
-            <dd id="profile-playfab">—</dd>
-          </div>
-        </dl>
-        <div class="tags" id="profile-badges"></div>
-      </section>
-
-      <section class="card">
-        <h2>Missões disponíveis</h2>
-        <p>Confira o catálogo público e aceite a missão de onboarding.</p>
-        <ul id="missions-list" class="cards"></ul>
-      </section>
-
-      <section class="card">
-        <h2>Missão de Onboarding</h2>
+    <main class="dashboard" aria-live="polite">
+      <section class="card" aria-labelledby="mission-next-title">
+        <h2 id="mission-next-title">Sua próxima missão</h2>
         <p id="onboarding-status">Carregando missão...</p>
-        <button id="start-onboarding" class="button" type="button">Começar missão</button>
+        <div class="spotlight__actions">
+          <button id="start-onboarding" class="button button--primary" type="button">
+            Iniciar desafio
+          </button>
+          <button id="activate-reminders" class="button button--ghost" type="button">
+            Ativar lembretes
+          </button>
+          <a class="button button--ghost" href="{URL_PDF_ONBOARDING}" target="_blank" rel="noreferrer">
+            Ver materiais
+          </a>
+        </div>
         <div class="progress">
-          <div class="progress__label">Progresso</div>
+          <div class="progress__label">Progresso do onboarding</div>
           <div class="progress__bar"><span id="onboarding-progress" style="width: 0%"></span></div>
           <div class="progress__info">
-            <span id="onboarding-progress-count">0 de 5</span>
-            <span id="onboarding-due">Prazo não definido</span>
+            <span id="onboarding-progress-count">0 / 5 vendas</span>
+            <span>
+              <span id="onboarding-timer">14 dias</span>
+              <span aria-hidden="true">•</span>
+              <span id="onboarding-due">Prazo não definido</span>
+            </span>
           </div>
         </div>
         <form id="proof-form" class="form" enctype="multipart/form-data">
           <label class="form__field">
             <span>Envie sua prova (imagem, PDF ou vídeo curto)</span>
-            <input type="file" name="proof" accept="image/*,application/pdf,video/*" required />
+            <input type="file" name="proof" accept="image/*,video/*,application/pdf" required />
           </label>
           <label class="form__field">
-            <span>Notas / contexto</span>
-            <textarea name="notes" rows="3" placeholder="Detalhe a venda realizada"></textarea>
+            <span>Notas adicionais</span>
+            <textarea name="notes" rows="3" placeholder="Contextualize a venda (sem dados sensíveis)"></textarea>
           </label>
-          <button class="button" type="submit">Enviar prova para validação</button>
+          <button class="button button--primary" type="submit">Enviar prova</button>
           <p class="form__feedback" role="alert" aria-live="polite"></p>
         </form>
       </section>
 
-      <section class="card">
-        <h2>Estatísticas</h2>
-        <dl class="details details--inline">
-          <div>
-            <dt>XP</dt>
-            <dd id="stats-xp">0</dd>
+      <section class="card" aria-labelledby="missions-free-title">
+        <h2 id="missions-free-title">Missões gratuitas</h2>
+        <p>Escolha desafios complementares para continuar ganhando XP e moeda.</p>
+        <div class="cards-grid" id="featured-missions" role="list" aria-live="polite">
+          <article class="card card--ghost" role="listitem">Carregando missões...</article>
+        </div>
+        <ul id="missions-list" class="cards" aria-label="Catálogo completo"></ul>
+        <p class="notice">Mais missões podem ser acessadas na landing enquanto o catálogo interno não é liberado.</p>
+      </section>
+
+      <section class="card" aria-labelledby="profile-title">
+        <h2 id="profile-title">Perfil rápido</h2>
+        <div class="profile">
+          <div class="profile__summary">
+            <dl class="details">
+              <div>
+                <dt>UID Firebase</dt>
+                <dd id="profile-uid">—</dd>
+              </div>
+              <div>
+                <dt>Display Name</dt>
+                <dd id="profile-display-name">—</dd>
+              </div>
+              <div>
+                <dt>E-mail</dt>
+                <dd id="profile-email">—</dd>
+              </div>
+              <div>
+                <dt>Status do e-mail</dt>
+                <dd id="profile-email-verified">—</dd>
+              </div>
+              <div>
+                <dt>PlayFab ID</dt>
+                <dd id="profile-playfab">—</dd>
+              </div>
+            </dl>
+            <div class="tags" id="profile-badges" aria-label="Emblemas"></div>
           </div>
-          <div>
-            <dt>Moeda</dt>
-            <dd id="stats-currency">0</dd>
+          <div class="profile__actions">
+            <button class="button button--ghost button--small" type="button" disabled>Editar perfil</button>
+            <a class="button button--ghost button--small" href="./index.html">Explorar outras missões</a>
           </div>
-          <div>
-            <dt>Badges</dt>
-            <dd id="stats-badges">—</dd>
-          </div>
-        </dl>
-        <audio id="reward-audio" preload="auto">
-          <source src="./assets/sfx/reward.mp3" type="audio/mpeg" />
-        </audio>
+        </div>
       </section>
     </main>
+
+    <audio id="reward-audio" preload="auto">
+      <source src="./assets/sfx/reward.mp3" type="audio/mpeg" />
+    </audio>
 
     <script type="module" src="./scripts/firebase-init.js"></script>
     <script type="module" src="./scripts/playfab.js"></script>
     <script type="module" src="./scripts/missions.js"></script>
-    <script type="module" src="./scripts/onboarding.js"></script>
     <script type="module" src="./scripts/members.js"></script>
     <script type="module" src="./scripts/rewards.js"></script>
   </body>

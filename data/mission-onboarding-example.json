@@ -1,9 +1,9 @@
 {
   "": "./mission.schema.json",
-  "id": "onboarding",
+  "id": "onboarding-5v14d",
   "title": "Missão de Onboarding: 5 vendas em 14 dias",
   "summary": "Valide sua primeira meta com 5 vendas verificadas e libere novos poderes digitais.",
-  "category": "onboarding",
+  "category": "Onboarding",
   "goal": {
     "value": 5,
     "label": "Registrar cinco vendas aprovadas"

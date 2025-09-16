@@ -2,112 +2,117 @@
   "": "https://json-schema.org/draft/2020-12/schema",
   "title": "Mission",
   "type": "object",
-  "required": ["id", "title", "summary", "goal", "timebox", "rewards"],
+  "required": [
+    "id",
+    "title",
+    "tagline",
+    "theme",
+    "free",
+    "points",
+    "xp",
+    "currency",
+    "badges",
+    "durationDays",
+    "goal",
+    "deliverable",
+    "materials",
+    "requirements",
+    "tools",
+    "description_md",
+    "commentsEnabled",
+    "reviewPolicy",
+    "aiEvaluation"
+  ],
   "properties": {
-    "id": {
-      "type": "string",
-      "pattern": "^[a-z0-9-]+$"
-    },
-    "title": {
-      "type": "string",
-      "minLength": 3
-    },
-    "summary": {
-      "type": "string"
-    },
-    "category": {
-      "type": "string"
-    },
-    "goal": {
-      "type": "object",
-      "required": ["value", "label"],
-      "properties": {
-        "value": {
-          "type": "integer",
-          "minimum": 1
-        },
-        "label": {
-          "type": "string"
-        }
-      }
-    },
-    "timebox": {
-      "type": "object",
-      "required": ["days", "label"],
-      "properties": {
-        "days": {
-          "type": "integer",
-          "minimum": 1
-        },
-        "label": {
-          "type": "string"
-        }
-      }
-    },
-    "deliverables": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
-    "rewards": {
-      "type": "object",
-      "required": ["xp", "currency"],
-      "properties": {
-        "xp": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "currency": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "badges": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "checklist": {
+    "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "title": { "type": "string", "minLength": 3 },
+    "tagline": { "type": "string" },
+    "theme": { "type": "string" },
+    "free": { "type": "boolean" },
+    "points": { "type": "integer", "minimum": 0 },
+    "xp": { "type": "integer", "minimum": 0 },
+    "currency": { "type": "integer", "minimum": 0 },
+    "badges": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "title", "items"],
+        "required": ["id", "name", "icon"],
         "properties": {
-          "id": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        }
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "icon": { "type": "string" }
+        },
+        "additionalProperties": false
       }
     },
-    "resources": {
+    "durationDays": { "type": "integer", "minimum": 1 },
+    "goal": { "type": "integer", "minimum": 1 },
+    "deliverable": {
+      "type": "object",
+      "required": ["types", "instructions"],
+      "properties": {
+        "types": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "instructions": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "materials": {
       "type": "object",
       "properties": {
         "pdf": {
-          "type": "string",
-          "format": "uri"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["title", "url"],
+            "properties": {
+              "title": { "type": "string" },
+              "url": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
         },
-        "prompt": {
-          "type": "string",
-          "format": "uri"
+        "videos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["title", "url"],
+            "properties": {
+              "title": { "type": "string" },
+              "url": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
         },
-        "video": {
-          "type": "string",
-          "format": "uri"
+        "prompts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["title", "url"],
+            "properties": {
+              "title": { "type": "string" },
+              "url": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
         }
-      }
-    }
+      },
+      "additionalProperties": false
+    },
+    "requirements": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "tools": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "description_md": { "type": "string" },
+    "commentsEnabled": { "type": "boolean" },
+    "reviewPolicy": { "type": "string" },
+    "aiEvaluation": { "type": "boolean" }
   },
   "additionalProperties": false
 }

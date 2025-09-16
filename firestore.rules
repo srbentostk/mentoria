@@ -1,48 +1,42 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    function signedIn() {
-      return request.auth != null;
-    }
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(uid) { return isSignedIn() && request.auth.uid == uid; }
+    function isAdmin() { return isSignedIn() && request.auth.token.role == 'admin'; }
 
-    function isOwner(uid) {
-      return signedIn() && request.auth.uid == uid;
-    }
-
+    // Público: ler catálogo de missões
     match /missions/{missionId} {
       allow read: if true;
-      allow write: if false;
+      allow write: if isAdmin();
     }
 
+    // Leads: permitir criar lead (sem autenticar), mas só criar
+    match /leads/{docId} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+
+    // Usuário: só ele pode ler/editar seus dados
     match /users/{uid} {
-      allow read: if isOwner(uid);
-      allow create: if isOwner(uid);
-      allow update: if isOwner(uid);
+      allow read, update: if isOwner(uid);
+      allow create: if isSignedIn();
       allow delete: if false;
     }
 
+    // Progresso por missão
     match /userProgress/{uid}/missions/{missionId} {
       allow read, write: if isOwner(uid);
     }
 
+    // Provas enviadas (metadados)
     match /userProofs/{uid}/missions/{missionId}/{proofId} {
       allow read, write: if isOwner(uid);
     }
 
-    match /leads/{docId} {
-      allow create: if true;
-      allow read: if signedIn();
-      allow update: if false;
-      allow delete: if false;
-    }
-
+    // Entitlements: somente admin
     match /entitlements/{email} {
-      allow read: if signedIn() && request.auth.token.email == email;
-      allow write: if false;
-    }
-
-    match /{document=**} {
-      allow read, write: if false;
+      allow read, write: if isAdmin();
     }
   }
 }

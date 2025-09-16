@@ -1,46 +1,69 @@
-// TODO: preencher integração com CRM externo caso necessário.
+// Captura leads da landing: anexa parâmetros UTM, envia para Hotmart e salva no Firestore.
 import { collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { db } from './firebase-init.js';
 
 const leadForm = document.getElementById('lead-form');
+const utmContainer = document.getElementById('utm-hidden-fields');
 
-async function handleLeadSubmit(event) {
+function collectUtm() {
+  const params = new URLSearchParams(window.location.search);
+  const map = {};
+  params.forEach((value, key) => {
+    if (!key.toLowerCase().startsWith('utm_')) return;
+    map[key] = value;
+    if (utmContainer && leadForm && !leadForm.querySelector('[name="' + key + '"]')) {
+      const hidden = document.createElement('input');
+      hidden.type = 'hidden';
+      hidden.name = key;
+      hidden.value = value;
+      utmContainer.appendChild(hidden);
+    }
+  });
+  return map;
+}
+
+const utm = collectUtm();
+
+async function handleSubmit(event) {
   if (!leadForm) return;
   event.preventDefault();
+  const feedback = leadForm.querySelector('.form__feedback');
   const formData = new FormData(leadForm);
   const payload = {
     firstName: String(formData.get('firstName') || ''),
     email: String(formData.get('email') || ''),
     phone: String(formData.get('phone') || ''),
-    utm: String(formData.get('utm') || ''),
+    utm,
     createdAt: serverTimestamp(),
   };
   try {
     await addDoc(collection(db, 'leads'), payload);
-    const actionUrl = leadForm.getAttribute('action');
-    if (actionUrl && !actionUrl.includes('{')) {
-      await fetch(actionUrl, {
-        method: leadForm.getAttribute('method') || 'post',
-        body: new URLSearchParams(payload),
+    const action = leadForm.getAttribute('action');
+    if (action && !action.includes('{')) {
+      const method = (leadForm.getAttribute('method') || 'post').toUpperCase();
+      await fetch(action, {
+        method,
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      });
+        body: new URLSearchParams({
+          firstName: payload.firstName,
+          email: payload.email,
+          phone: payload.phone,
+          ...utm,
+        }),
+      }).catch((error) => console.warn('Erro no webhook externo', error));
     }
-    setFeedback('Cadastro realizado! Confira seu e-mail.', 'success');
+    if (feedback) {
+      feedback.textContent = 'Cadastro enviado! Confira seu e-mail.';
+      feedback.dataset.type = 'success';
+    }
     leadForm.reset();
   } catch (error) {
-    console.error('Erro ao registrar lead', error);
-    setFeedback('Não foi possível enviar seus dados.', 'error');
+    console.error('Erro ao salvar lead', error);
+    if (feedback) {
+      feedback.textContent = 'Não foi possível enviar seus dados.';
+      feedback.dataset.type = 'error';
+    }
   }
 }
 
-function setFeedback(message, type) {
-  const feedback = leadForm.querySelector('.form__feedback');
-  if (feedback) {
-    feedback.textContent = message;
-    feedback.dataset.type = type;
-  }
-}
-
-if (leadForm) {
-  leadForm.addEventListener('submit', handleLeadSubmit);
-}
+if (leadForm) leadForm.addEventListener('submit', handleSubmit);

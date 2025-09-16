@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Missões | Jornada dos Poderes Digitais</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body class="page page--dark">
+    <header class="page-header" role="banner">
+      <div class="page-header__brand">
+        <a class="skip-link" href="#admin-content">Ir direto para o editor</a>
+        <span class="logo">JPD Admin</span>
+        <p class="page-header__tag">Gestão de missões</p>
+      </div>
+      <div class="page-header__cta">
+        <a class="link" href="./members.html">Voltar</a>
+        <button id="logout" class="button button--ghost button--small" type="button">Sair</button>
+      </div>
+    </header>
+
+    <main id="admin-content" class="dashboard" aria-live="polite">
+      <section class="card" id="admin-guard" hidden>
+        <h1>Acesso restrito</h1>
+        <p id="admin-message">Validando permissões...</p>
+        <button id="go-auth" class="button button--primary" type="button" hidden>Ir para login</button>
+      </section>
+
+      <section class="card" id="admin-panel" hidden>
+        <h1>Publicar missões</h1>
+        <p class="notice">
+          Cole o JSON no formato do SCHEMA e publique para gravar em <code>missions/{id}</code>.
+        </p>
+        <textarea id="mission-json" rows="18" class="admin-textarea" spellcheck="false" placeholder="Cole aqui o JSON da missão"></textarea>
+        <div class="profile__actions">
+          <button id="publish-mission" class="button button--primary" type="button">Publicar</button>
+          <p id="publish-feedback" class="form__feedback" role="alert" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="card" id="missions-listing" hidden>
+        <h2>Missões atuais</h2>
+        <ul id="admin-missions" class="cards"></ul>
+      </section>
+    </main>
+
+    <script type="module" src="./scripts/firebase-init.js"></script>
+    <script type="module" src="./scripts/admin.js"></script>
+  </body>
+</html>

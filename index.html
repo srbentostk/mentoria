@@ -18,198 +18,253 @@
   </head>
   <body class="page page--dark">
     <header class="page-header" role="banner">
-      <div class="page-header__brand">
-        <a href="#conteudo" class="skip-link">Ir para o conteúdo</a>
-        <span class="logo">JPD</span>
-        <p class="page-header__tag">Missões secretas de agentes digitais</p>
-      </div>
-      <nav class="page-header__nav" aria-label="Navegação principal">
-        <a href="#sobre">O que é</a>
-        <a href="#como-funciona">Como funciona</a>
-        <a href="#missoes">Missões</a>
-        <a href="#onboarding">Onboarding</a>
-        <a href="#lead">Inscreva-se</a>
-      </nav>
-      <div class="page-header__cta">
-        <a class="link" href="./auth.html#login">Entrar</a>
-        <a class="button button--primary" href="./auth.html#signup">Criar conta</a>
+      <div class="container page-header__inner">
+        <div class="page-header__brand">
+          <a href="#conteudo" class="skip-link">Ir para o conteúdo</a>
+          <span class="logo">JPD</span>
+          <p class="page-header__tag">Missões secretas de agentes digitais</p>
+        </div>
+        <nav class="page-header__nav" aria-label="Navegação principal">
+          <a href="#sobre">O que é</a>
+          <a href="#como-funciona">Como funciona</a>
+          <a href="#missoes">Missões</a>
+          <a href="#onboarding">Onboarding</a>
+          <a href="#lead">Inscreva-se</a>
+        </nav>
+        <div class="page-header__cta">
+          <a class="link" href="./auth.html#login">Entrar</a>
+          <a class="button button--primary" href="./auth.html#signup">Criar conta</a>
+        </div>
       </div>
     </header>
 
     <main id="conteudo" class="page-content" tabindex="-1">
       <section class="hero hero--secret" aria-labelledby="hero-title">
-        <div class="hero__body">
-          <p class="badge badge--outline">Passe Ilimitado (pré-venda)</p>
-          <h1 id="hero-title" class="hero__title">Jornada dos Poderes Digitais</h1>
-          <p class="hero__subtitle">Missões secretas. Poderes reais.</p>
-          <div class="hero__actions">
-            <a class="button button--primary" href="./auth.html#signup">Criar conta</a>
-            <a class="button button--ghost" href="./auth.html#login">Entrar no jogo</a>
+        <div class="container hero__container">
+          <div class="hero__body">
+            <p class="badge badge--outline">Passe Ilimitado (pré-venda)</p>
+            <h1 id="hero-title" class="hero__title">Jornada dos Poderes Digitais</h1>
+            <p class="hero__subtitle">Missões secretas. Poderes reais.</p>
+            <div class="hero__actions">
+              <a class="button button--primary" href="./auth.html#signup">Criar conta</a>
+              <a class="button button--ghost" href="./auth.html#login">Entrar no jogo</a>
+            </div>
+            <div class="hero__cards" role="list" aria-label="Produtos disponíveis">
+              <span class="hero__card" role="listitem">Missões Gratuitas</span>
+              <span class="hero__card" role="listitem">Packs</span>
+              <span class="hero__card" role="listitem">Reconhecimento (emblemas)</span>
+            </div>
+            <ul class="hero__stats" role="list">
+              <li role="listitem"><strong>500+</strong><span>agentes certificados</span></li>
+              <li role="listitem"><strong>14 dias</strong><span>para validar 5 vendas</span></li>
+              <li role="listitem"><strong>XP + Recompensas</strong><span>sistema gamificado completo</span></li>
+            </ul>
           </div>
-          <div class="hero__cards" role="list" aria-label="Produtos disponíveis">
-            <span class="hero__card" role="listitem">Missões Gratuitas</span>
-            <span class="hero__card" role="listitem">Packs</span>
-            <span class="hero__card" role="listitem">Reconhecimento (emblemas)</span>
-          </div>
+          <figure class="hero__figure">
+            <div class="hero__frame">
+              <img src="./assets/img/agent_mentor.png" alt="Agente mentor com terno escuro" loading="lazy" />
+              <span class="hero__glow" aria-hidden="true"></span>
+            </div>
+          </figure>
         </div>
-        <figure class="hero__figure">
-          <img src="./assets/img/agent_mentor.png" alt="Agente mentor com terno escuro" loading="lazy" />
-        </figure>
       </section>
 
       <section id="sobre" class="section section--panel" aria-labelledby="about-title">
-        <div class="section__header">
-          <h2 id="about-title">O que é a Jornada?</h2>
-          <p>
-            Um curso operacional apresentado como um jogo de missões. Cada missão ativa uma habilidade
-            essencial para agentes que vendem no digital. Complete desafios para conquistar XP, moeda
-            interna e emblemas colecionáveis.
-          </p>
-        </div>
-        <div class="section__grid">
-          <article class="card card--glass">
-            <h3>Você vai aprender a:</h3>
-            <ul class="list list--check">
-              <li>Configurar automações N8n para lembretes inteligentes.</li>
-              <li>Desenhar prompts avançados para IAs estratégicas.</li>
-              <li>Realizar pesquisa profunda e insights acionáveis.</li>
-              <li>Produzir conteúdo de alta conversão em diferentes canais.</li>
-              <li>Medir vendas, feedbacks e recompensas em tempo real.</li>
-            </ul>
-          </article>
+        <div class="container">
+          <div class="section__header">
+            <p class="section__eyebrow">Missão</p>
+            <h2 id="about-title">O que é a Jornada?</h2>
+            <p>
+              Um curso operacional apresentado como um jogo de missões. Cada desafio ativa uma habilidade
+              essencial para agentes que vendem no digital — com acompanhamento, feedback e reconhecimento em tempo real.
+            </p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature-card">
+              <h3>Habilidades aplicadas</h3>
+              <p>Conteúdos curtos e objetivos, sempre acompanhados de provas práticas.</p>
+              <ul class="list list--check">
+                <li>Automações inteligentes com N8n</li>
+                <li>Prompts avançados para IA estratégica</li>
+                <li>Pesquisa profunda e insights acionáveis</li>
+                <li>Conteúdo multiplataforma de alta conversão</li>
+              </ul>
+            </article>
+            <article class="feature-card feature-card--muted">
+              <h3>Sistema de recompensa</h3>
+              <p>Ganhe XP, moeda digital e badges exclusivos conforme valida suas entregas.</p>
+              <ul class="list list--dots">
+                <li>PlayFab sincronizado para XP e currency</li>
+                <li>Badges colecionáveis e provas auditáveis</li>
+                <li>Passe Ilimitado para missões avançadas</li>
+              </ul>
+            </article>
+            <article class="feature-card feature-card--muted">
+              <h3>Experiência premium</h3>
+              <p>Design pensado para imersão: interface 2.5D, narrativa de agentes e automações conectadas.</p>
+              <ul class="list list--dots">
+                <li>Lembretes diários conectados ao ntfy.sh</li>
+                <li>Feedback humano + avaliação automática</li>
+                <li>Dashboard pessoal na área de membros</li>
+              </ul>
+            </article>
+          </div>
         </div>
       </section>
 
       <section id="como-funciona" class="section section--steps" aria-labelledby="steps-title">
-        <div class="section__header">
-          <h2 id="steps-title">Como funciona</h2>
-          <p>Quatro movimentos para desbloquear seus poderes digitais.</p>
+        <div class="container">
+          <div class="section__header">
+            <p class="section__eyebrow">Operação</p>
+            <h2 id="steps-title">Como funciona</h2>
+            <p>Quatro movimentos para desbloquear seus poderes digitais.</p>
+          </div>
+          <ol class="steps steps--timeline" role="list">
+            <li class="steps__item">
+              <span class="steps__number">1</span>
+              <div>
+                <h3>Crie sua conta</h3>
+                <p>Cadastre-se, gere um avatar com IA e receba o briefing inicial no e-mail.</p>
+              </div>
+            </li>
+            <li class="steps__item">
+              <span class="steps__number">2</span>
+              <div>
+                <h3>Aceite missões secretas</h3>
+                <p>Escolha missões com aulas enxutas, materiais táticos e checklists guiados.</p>
+              </div>
+            </li>
+            <li class="steps__item">
+              <span class="steps__number">3</span>
+              <div>
+                <h3>Entregue a prova</h3>
+                <p>Envie links, prints ou vídeos pelo painel. Receba análise automática + mentor.</p>
+              </div>
+            </li>
+            <li class="steps__item">
+              <span class="steps__number">4</span>
+              <div>
+                <h3>Ganhe reconhecimento</h3>
+                <p>Acumule emblemas, XP e moeda para liberar packs avançados e o Passe Ilimitado.</p>
+              </div>
+            </li>
+          </ol>
         </div>
-        <ol class="steps" role="list">
-          <li class="steps__item">
-            <span class="steps__number">1</span>
-            <h3>Crie sua conta</h3>
-            <p>Cadastre-se e gere um avatar com IA que representará seu agente.</p>
-          </li>
-          <li class="steps__item">
-            <span class="steps__number">2</span>
-            <h3>Aceite missões secretas</h3>
-            <p>Cada missão traz aulas compactas, materiais táticos e checklist.</p>
-          </li>
-          <li class="steps__item">
-            <span class="steps__number">3</span>
-            <h3>Entregue a prova</h3>
-            <p>Envie link, print ou vídeo. Receba feedback seguro direto no app.</p>
-          </li>
-          <li class="steps__item">
-            <span class="steps__number">4</span>
-            <h3>Ganhe reconhecimento</h3>
-            <p>Acumule emblemas, XP e moeda para subir de nível e liberar packs.</p>
-          </li>
-        </ol>
       </section>
 
       <section id="missoes" class="section section--panel" aria-labelledby="missions-title">
-        <div class="section__header">
-          <h2 id="missions-title">Missões em destaque</h2>
-          <p>Seleção de missões gratuitas para iniciar sua jornada agora.</p>
-        </div>
-        <div class="cards-grid" id="featured-missions" role="list" aria-live="polite">
-          <article class="card card--ghost" role="listitem">
-            <p>Carregando missões secretas...</p>
-          </article>
+        <div class="container">
+          <div class="section__header">
+            <p class="section__eyebrow">Catálogo</p>
+            <h2 id="missions-title">Missões em destaque</h2>
+            <p>Seleção de missões gratuitas para iniciar sua jornada agora.</p>
+          </div>
+          <div class="cards-grid cards-grid--accent" id="featured-missions" role="list" aria-live="polite">
+            <article class="card card--ghost" role="listitem">
+              <p>Carregando missões secretas...</p>
+            </article>
+          </div>
         </div>
       </section>
 
       <section id="onboarding" class="section section--spotlight" aria-labelledby="onboarding-title">
-        <div class="spotlight">
-          <figure class="spotlight__media">
-            <img src="./assets/img/agent_mentor.png" alt="Mentor apontando estratégia" loading="lazy" />
-          </figure>
-          <div class="spotlight__content">
-            <h2 id="onboarding-title">Missão Onboarding: 5 vendas em 14 dias</h2>
-            <p>
-              A primeira operação oficial da guilda. Inicie o desafio, envie provas das vendas e
-              desbloqueie o Passe Ilimitado com validação humana.
-            </p>
-            <div class="spotlight__actions">
-              <button id="start-onboarding" class="button button--primary" type="button">
-                Iniciar desafio
-              </button>
-              <button id="open-proof-modal" class="button button--ghost" type="button">
-                Enviar prova
-              </button>
-              <button id="activate-reminders" class="button button--ghost" type="button">
-                Ativar lembretes
-              </button>
+        <div class="container">
+          <div class="spotlight">
+            <figure class="spotlight__media">
+              <img src="./assets/img/agent_mentor.png" alt="Mentor apontando estratégia" loading="lazy" />
+            </figure>
+            <div class="spotlight__content">
+              <p class="section__eyebrow">Missão principal</p>
+              <h2 id="onboarding-title">Missão Onboarding: 5 vendas em 14 dias</h2>
+              <p>
+                A primeira operação oficial da guilda. Inicie o desafio, envie provas das vendas e
+                desbloqueie o Passe Ilimitado com validação humana.
+              </p>
+              <div class="spotlight__actions">
+                <button id="start-onboarding" class="button button--primary" type="button">
+                  Iniciar desafio
+                </button>
+                <button id="open-proof-modal" class="button button--ghost" type="button">
+                  Enviar prova
+                </button>
+                <button id="activate-reminders" class="button button--ghost" type="button">
+                  Ativar lembretes
+                </button>
+              </div>
+              <dl class="spotlight__status">
+                <div>
+                  <dt>Status</dt>
+                  <dd id="onboarding-status" aria-live="polite">Faça login para começar.</dd>
+                </div>
+                <div>
+                  <dt>Progresso</dt>
+                  <dd>
+                    <span id="onboarding-progress-count" aria-live="polite">0 / 5 vendas</span>
+                  </dd>
+                </div>
+                <div>
+                  <dt>Tempo restante</dt>
+                  <dd id="onboarding-timer" aria-live="polite">14 dias</dd>
+                </div>
+              </dl>
             </div>
-            <dl class="spotlight__status">
-              <div>
-                <dt>Status</dt>
-                <dd id="onboarding-status" aria-live="polite">Faça login para começar.</dd>
-              </div>
-              <div>
-                <dt>Progresso</dt>
-                <dd>
-                  <span id="onboarding-progress-count" aria-live="polite">0 / 5 vendas</span>
-                </dd>
-              </div>
-              <div>
-                <dt>Tempo restante</dt>
-                <dd id="onboarding-timer" aria-live="polite">14 dias</dd>
-              </div>
-            </dl>
           </div>
         </div>
       </section>
 
       <section id="recompensa" class="section section--panel" aria-labelledby="reward-title">
-        <div class="section__header">
-          <h2 id="reward-title">Coletar recompensa</h2>
-          <p>Resgate códigos especiais para desbloquear materiais e boosters exclusivos.</p>
+        <div class="container">
+          <div class="section__header">
+            <p class="section__eyebrow">Rewards</p>
+            <h2 id="reward-title">Coletar recompensa</h2>
+            <p>Resgate códigos especiais para desbloquear materiais e boosters exclusivos.</p>
+          </div>
+          <form id="reward-form" class="reward" autocomplete="off">
+            <label class="reward__field" for="codeInput">
+              <span class="reward__label">Código secreto</span>
+              <input id="codeInput" name="code" type="text" required maxlength="32" inputmode="text" />
+            </label>
+            <button id="searchButton" class="button button--primary" type="submit">Coletar</button>
+            <p id="reward-message" class="reward__message" role="status" aria-live="polite"></p>
+          </form>
+          <div id="reward-output" class="reward__output" aria-live="polite"></div>
+          <audio id="reward-audio" preload="auto">
+            <source src="./assets/sfx/reward.mp3" type="audio/mpeg" />
+          </audio>
         </div>
-        <form id="reward-form" class="reward" autocomplete="off">
-          <label class="reward__field" for="codeInput">
-            <span class="reward__label">Código secreto</span>
-            <input id="codeInput" name="code" type="text" required maxlength="32" inputmode="text" />
-          </label>
-          <button id="searchButton" class="button button--primary" type="submit">Coletar</button>
-          <p id="reward-message" class="reward__message" role="status" aria-live="polite"></p>
-        </form>
-        <div id="reward-output" class="reward__output" aria-live="polite"></div>
-        <audio id="reward-audio" preload="auto">
-          <source src="./assets/sfx/reward.mp3" type="audio/mpeg" />
-        </audio>
       </section>
 
       <section id="lead" class="section section--panel" aria-labelledby="lead-title">
-        <div class="section__header">
-          <h2 id="lead-title">Convocação de agentes</h2>
-          <p>Receba briefings, agendas de missões e pré-vendas do Passe Ilimitado.</p>
+        <div class="container">
+          <div class="section__header">
+            <p class="section__eyebrow">Convocação</p>
+            <h2 id="lead-title">Cadastre-se para as próximas operações</h2>
+            <p>Receba briefings, agendas e pré-vendas do Passe Ilimitado diretamente no seu e-mail.</p>
+          </div>
+          <form
+            id="lead-form"
+            class="form form--compact"
+            action="{FORM_ACTION_URL}"
+            method="post"
+            autocomplete="on"
+          >
+            <label class="form__field">
+              <span>Nome</span>
+              <input type="text" name="firstName" id="lead-first-name" required autocomplete="given-name" />
+            </label>
+            <label class="form__field">
+              <span>E-mail</span>
+              <input type="email" name="email" id="lead-email" required autocomplete="email" />
+            </label>
+            <label class="form__field">
+              <span>WhatsApp</span>
+              <input type="tel" name="phone" id="lead-phone" autocomplete="tel" />
+            </label>
+            <div id="utm-hidden-fields"></div>
+            <button class="button button--primary" type="submit">Receber briefings</button>
+            <p class="form__feedback" role="alert" aria-live="polite"></p>
+          </form>
         </div>
-        <form
-          id="lead-form"
-          class="form form--compact"
-          action="{FORM_ACTION_URL}"
-          method="post"
-          autocomplete="on"
-        >
-          <label class="form__field">
-            <span>Nome</span>
-            <input type="text" name="firstName" id="lead-first-name" required autocomplete="given-name" />
-          </label>
-          <label class="form__field">
-            <span>E-mail</span>
-            <input type="email" name="email" id="lead-email" required autocomplete="email" />
-          </label>
-          <label class="form__field">
-            <span>WhatsApp</span>
-            <input type="tel" name="phone" id="lead-phone" autocomplete="tel" />
-          </label>
-          <div id="utm-hidden-fields"></div>
-          <button class="button button--primary" type="submit">Receber briefings</button>
-          <p class="form__feedback" role="alert" aria-live="polite"></p>
-        </form>
       </section>
     </main>
 

@@ -3,7 +3,7 @@
 ## Feito
 - Repositório reinicializado com estrutura estática para "Jornada dos Poderes Digitais".
 - Páginas principais criadas (index.html, auth.html, members.html) com layout responsivo e chamadas para ação.
-- Landing page redesenhada em estilo premium dark, com novas seções (missões em destaque, onboarding, recompensas, lead capture AA).
+- Landing page refinada com layout responsivo premium (container central, hero com métricas, cards conceituais e timeline de onboarding).
 - Tela de autenticação reorganizada com abas (signup/login), LGPD, verificação e mensagens acessíveis.
 - Área de membros atualizada com visão de progresso, bloqueio para logados e atalhos das missões gratuitas.
 - Folha de estilos global styles/main.css atualizada para o tema clean minimalista.

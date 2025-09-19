@@ -5,6 +5,7 @@
 
 ## Arquivos
 - firebase-init.js: Inicialização do app Firebase, exportando auth, db, storage e provider Google.
+- config.js: Resolve variáveis de ambiente a partir de window.__ENV__ (Firebase, PlayFab, webhooks).
 - auth.js: Fluxos de login/cadastro, verificação de e-mail e criação de documentos de usuário.
 - playfab.js: Conectores para autenticação CustomID e operações de estatística/moeda no PlayFab.
 - missions.js: Carrega catálogo de missões (estático e Firestore) e renderiza lista pública.

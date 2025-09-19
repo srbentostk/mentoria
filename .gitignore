@@ -30,6 +30,9 @@ Thumbs.db
 .firebase/
 .playfab/
 
+# Config local de ambiente
+env.js
+
 # Cache de automações
 .cache/
 .tmp/

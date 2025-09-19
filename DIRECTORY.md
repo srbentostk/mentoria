@@ -10,6 +10,7 @@
 - admin.html: Painel leve para admins colarem JSON e publicar missões no Firestore.
 - styles/: Folha de estilos principal (ver documentação da pasta).
 - scripts/: Scripts modulares para Firebase, PlayFab e lógica de missão.
+- env.example.js: Exemplo de configuração (copie para env.js com valores reais).
 - data/: Catálogos de missões e schemas de apoio.
 - codes/: Conteúdos JSON opcionais para resgate de recompensas.
 - assets/: Imagens e áudios utilizados nas páginas.

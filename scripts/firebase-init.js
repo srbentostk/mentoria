@@ -3,14 +3,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/fireba
 import { getAuth } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { getStorage } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
-
-// TODO: substituir os placeholders pelas credenciais reais do projeto.
-const firebaseConfig = {
-  apiKey: '{FIREBASE_API_KEY}',
-  authDomain: '{FIREBASE_AUTH_DOMAIN}',
-  projectId: '{FIREBASE_PROJECT_ID}',
-  storageBucket: '{FIREBASE_STORAGE_BUCKET}',
-};
+import { firebaseConfig } from './config.js';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);

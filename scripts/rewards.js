@@ -1,10 +1,12 @@
 // Gerencia o resgate de códigos na landing: busca arquivo local ou webhook e reproduz som.
+import { webhookConfig } from './config.js';
+
 const form = document.getElementById('reward-form');
 const input = document.getElementById('codeInput');
 const message = document.getElementById('reward-message');
 const output = document.getElementById('reward-output');
 const audio = document.getElementById('reward-audio');
-const rewardWebhook = '{N8N_REWARD_WEBHOOK}';
+const rewardWebhook = webhookConfig.reward;
 
 function setMessage(text, type = 'info') {
   if (message) {

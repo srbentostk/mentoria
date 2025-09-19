@@ -1,9 +1,14 @@
 // Captura leads da landing: anexa parâmetros UTM, envia para Hotmart e salva no Firestore.
 import { collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { db } from './firebase-init.js';
+import { formConfig } from './config.js';
 
 const leadForm = document.getElementById('lead-form');
 const utmContainer = document.getElementById('utm-hidden-fields');
+
+if (leadForm && formConfig.leadFormAction && !formConfig.leadFormAction.includes('{')) {
+  leadForm.setAttribute('action', formConfig.leadFormAction);
+}
 
 function collectUtm() {
   const params = new URLSearchParams(window.location.search);
@@ -38,7 +43,12 @@ async function handleSubmit(event) {
   };
   try {
     await addDoc(collection(db, 'leads'), payload);
-    const action = leadForm.getAttribute('action');
+    const action = formConfig.leadFormAction && !formConfig.leadFormAction.includes('{')
+      ? formConfig.leadFormAction
+      : leadForm.getAttribute('action');
+    if (action && formConfig.leadFormAction && !formConfig.leadFormAction.includes('{')) {
+      leadForm.setAttribute('action', formConfig.leadFormAction);
+    }
     if (action && !action.includes('{')) {
       const method = (leadForm.getAttribute('method') || 'post').toUpperCase();
       await fetch(action, {

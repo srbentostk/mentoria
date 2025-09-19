@@ -1,5 +1,6 @@
 // Abstrai chamadas basicas ao PlayFab Client SDK (login, XP, moeda, display name).
-const PLAYFAB_TITLE_ID = '{PLAYFAB_TITLE_ID}';
+import { playfabConfig } from './config.js';
+const PLAYFAB_TITLE_ID = playfabConfig.titleId;
 let sdkPromise = null;
 let currentSessionTicket = null;
 

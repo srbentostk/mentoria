@@ -91,13 +91,15 @@
         </div>
         <button id="google-login" class="button button--ghost" type="button">Continuar com Google</button>
 
-        <section class="card auth__status" aria-live="polite">
+        <section class="card auth__status" aria-live="polite" hidden>
           <h3>Status da verificação</h3>
-          <p id="verification-status">Crie sua conta ou faça login para verificar o e-mail.</p>
+          <p id="verification-status"></p>
         </section>
       </section>
     </main>
 
+    <script src="./env.example.js"></script>
+    <script src="./env.js"></script>
     <script type="module" src="./scripts/firebase-init.js"></script>
     <script type="module" src="./scripts/playfab.js"></script>
     <script type="module" src="./scripts/auth.js"></script>

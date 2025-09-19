@@ -131,6 +131,14 @@ function switchTab(target) {
   signupForm.classList.toggle('is-hidden', showLogin);
 }
 
+function applyTabFromHash() {
+  const hash = String(window.location.hash || '').replace('#', '');
+  if (!hash) return;
+  if (hash === 'login' || hash === 'signup') {
+    switchTab(hash);
+  }
+}
+
 async function handleSignupSubmit(event) {
   event.preventDefault();
   if (!signupForm) return;
@@ -200,7 +208,15 @@ if (signupForm) signupForm.addEventListener('submit', handleSignupSubmit);
 if (loginForm) loginForm.addEventListener('submit', handleLoginSubmit);
 if (googleButton) googleButton.addEventListener('click', handleGoogleLogin);
 if (resendVerificationButton) resendVerificationButton.addEventListener('click', resendVerificationEmail);
-tabs.forEach((tab) => tab.addEventListener('click', () => switchTab(tab.dataset.tab || 'login')));
+tabs.forEach((tab) => {
+  tab.addEventListener('click', () => {
+    const target = tab.dataset.tab || 'login';
+    switchTab(target);
+  });
+});
+
+applyTabFromHash();
+window.addEventListener('hashchange', applyTabFromHash);
 
 onAuthStateChanged(auth, (user) => {
   if (!verificationStatus) return;

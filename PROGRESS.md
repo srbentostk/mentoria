@@ -8,6 +8,7 @@
 - Área de membros atualizada com visão de progresso, bloqueio para logados e atalhos das missões gratuitas.
 - Folha de estilos global styles/main.css atualizada para o tema clean minimalista.
 - Scripts modulares atualizados: onboarding (contador, envio N8n, lembretes), missões (cards dinâmicos), leads (UTM automático), recompensas (resgate de códigos), admin (publicação de missões).
+- Configuração sensível centralizada em `scripts/config.js`, lendo valores de `window.__ENV__` (ver `env.example.js`).
 - Admin lite criado para inserir missões via JSON no Firestore, com validação básica e proteção por claim.
 - Catálogo base de missões ampliado para quatro opções gratuitas e IDs atualizados em data/.
 - Regras mínimas de segurança do Firestore (firestore.rules) e Storage (storage.rules) definidas.

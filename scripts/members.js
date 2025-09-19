@@ -29,10 +29,16 @@ const proofForm = document.getElementById('proof-form');
 const remindersButton = document.getElementById('activate-reminders');
 
 let currentUser = null;
+let signingOut = false;
+let logoutRedirect = null;
 
 function requireAuth(user) {
   if (!user) {
-    window.location.href = './auth.html#login';
+    currentUser = null;
+    signingOut = false;
+    const target = logoutRedirect || './auth.html#login';
+    logoutRedirect = null;
+    window.location.href = target;
     return false;
   }
   return true;
@@ -119,9 +125,29 @@ async function handleReminders() {
   document.getElementById('onboarding-status')?.textContent = 'Lembretes ativados!';
 }
 
+async function handleLogout() {
+  if (!logoutButton || signingOut) return;
+  const originalLabel = logoutButton.textContent;
+  signingOut = true;
+  logoutRedirect = './index.html';
+  logoutButton.disabled = true;
+  logoutButton.setAttribute('aria-busy', 'true');
+  logoutButton.textContent = 'Saindo...';
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error('Erro ao sair do Firebase', error);
+    logoutButton.disabled = false;
+    logoutButton.removeAttribute('aria-busy');
+    logoutButton.textContent = originalLabel;
+    signingOut = false;
+    logoutRedirect = null;
+  }
+}
+
 if (startButton) startButton.addEventListener('click', handleStartOnboarding);
 if (refreshButton) refreshButton.addEventListener('click', loadState);
-if (logoutButton) logoutButton.addEventListener('click', () => signOut(auth));
+if (logoutButton) logoutButton.addEventListener('click', handleLogout);
 if (proofForm) proofForm.addEventListener('submit', handleProofSubmit);
 if (remindersButton) remindersButton.addEventListener('click', handleReminders);
 
@@ -130,5 +156,7 @@ renderMemberMissions();
 onAuthStateChanged(auth, async (user) => {
   if (!requireAuth(user)) return;
   currentUser = user;
+  signingOut = false;
+  logoutRedirect = null;
   await loadState();
 });

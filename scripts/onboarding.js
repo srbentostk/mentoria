@@ -13,11 +13,12 @@ import {
   getDownloadURL,
 } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 import { db, storage } from './firebase-init.js';
+import { webhookConfig } from './config.js';
 
 const MISSION_ID = 'onboarding-5v14d';
 const DAYS = 14;
-const PROOF_WEBHOOK = '{N8N_PROOF_WEBHOOK}';
-const REMINDERS_WEBHOOK = '{N8N_REMINDERS_WEBHOOK}';
+const PROOF_WEBHOOK = webhookConfig.proof;
+const REMINDERS_WEBHOOK = webhookConfig.reminders;
 
 let timerInterval = null;
 

@@ -50,6 +50,18 @@ function setFeedback(container, message, type = 'info') {
   }
 }
 
+function setVerificationStatus(message) {
+  if (!verificationStatus) return;
+  const container = verificationStatus.closest('.auth__status');
+  if (!message) {
+    verificationStatus.textContent = '';
+    container?.setAttribute('hidden', '');
+    return;
+  }
+  verificationStatus.textContent = message;
+  container?.removeAttribute('hidden');
+}
+
 async function ensureUserDocument(user, displayName) {
   const ref = doc(db, 'users', user.uid);
   const snap = await getDoc(ref);
@@ -154,7 +166,7 @@ async function handleSignupSubmit(event) {
   try {
     const user = await signup(email, password, displayName);
     setFeedback(signupForm, 'Conta criada! Verifique seu e-mail para continuar.', 'success');
-    verificationStatus.textContent = 'Verifique seu e-mail para liberar as missões.';
+    setVerificationStatus('Verifique seu e-mail para liberar as missões.');
     console.info('Usuário criado', user.uid);
   } catch (error) {
     console.error('Erro no cadastro', error);
@@ -197,10 +209,10 @@ async function resendVerificationEmail() {
   if (!auth.currentUser) return;
   try {
     await sendEmailVerification(auth.currentUser);
-    verificationStatus.textContent = 'Verificação reenviada! Confira seu e-mail.';
+    setVerificationStatus('Verificação reenviada! Confira seu e-mail.');
   } catch (error) {
     console.error('Erro ao reenviar verificação', error);
-    verificationStatus.textContent = 'Não foi possível reenviar agora.';
+    setVerificationStatus('Não foi possível reenviar agora.');
   }
 }
 
@@ -219,14 +231,7 @@ applyTabFromHash();
 window.addEventListener('hashchange', applyTabFromHash);
 
 onAuthStateChanged(auth, (user) => {
-  if (!verificationStatus) return;
   if (!user) {
-    verificationStatus.textContent = 'Faça login ou crie conta para continuar.';
-    return;
-  }
-  if (user.emailVerified) {
-    verificationStatus.textContent = 'E-mail verificado. Missões liberadas!';
-  } else {
-    verificationStatus.textContent = 'Verifique seu e-mail para ganhar o emblema.';
+    setVerificationStatus('');
   }
 });

@@ -136,7 +136,11 @@
     <script type="module" src="./scripts/firebase-init.js"></script>
     <script type="module" src="./scripts/playfab.js"></script>
     <script type="module" src="./scripts/missions.js"></script>
-    <script type="module" src="./scripts/members.js"></script>
+    <script type="module">
+      import('./scripts/members.js')
+        .then(() => console.log('[members.html] members.js carregado com sucesso'))
+        .catch((error) => console.error('[members.html] Falha ao carregar members.js', error));
+    </script>
     <script type="module" src="./scripts/rewards.js"></script>
   </body>
 </html>

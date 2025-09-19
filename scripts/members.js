@@ -17,6 +17,8 @@ import {
 } from './onboarding.js';
 import { renderMemberMissions } from './missions.js';
 
+console.log('[members] Script carregado');
+
 const greeting = document.getElementById('member-greeting');
 const statsXp = document.getElementById('stats-xp');
 const statsCurrency = document.getElementById('stats-currency');
@@ -28,9 +30,20 @@ const logoutButton = document.getElementById('logout');
 const proofForm = document.getElementById('proof-form');
 const remindersButton = document.getElementById('activate-reminders');
 
+console.log('[members] Elementos iniciais', {
+  hasGreeting: Boolean(greeting),
+  hasLogoutButton: Boolean(logoutButton),
+  hasProofForm: Boolean(proofForm),
+});
+
 let currentUser = null;
 let signingOut = false;
 let logoutRedirect = null;
+
+function setTextById(id, value) {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value;
+}
 
 function requireAuth(user) {
   if (!user) {
@@ -38,9 +51,11 @@ function requireAuth(user) {
     signingOut = false;
     const target = logoutRedirect || './auth.html#login';
     logoutRedirect = null;
+    console.log('[members] Usuário não autenticado, redirecionando para', target);
     window.location.href = target;
     return false;
   }
+  console.log('[members] Usuário autenticado detectado', user.uid);
   return true;
 }
 
@@ -49,11 +64,16 @@ function renderProfile(user, userDoc) {
     const name = userDoc.displayName || user.displayName || user.email || 'Agente';
     greeting.textContent = 'Bem-vindo, ' + name;
   }
-  document.getElementById('profile-uid')?.textContent = user.uid;
-  document.getElementById('profile-display-name')?.textContent = userDoc.displayName || user.displayName || '—';
-  document.getElementById('profile-email')?.textContent = user.email || '—';
-  document.getElementById('profile-email-verified')?.textContent = user.emailVerified ? 'Verificado' : 'Pendente';
-  document.getElementById('profile-playfab')?.textContent = userDoc.playFabId || '—';
+  const profileUid = document.getElementById('profile-uid');
+  if (profileUid) profileUid.textContent = user.uid;
+  const profileDisplayName = document.getElementById('profile-display-name');
+  if (profileDisplayName) profileDisplayName.textContent = userDoc.displayName || user.displayName || '—';
+  const profileEmail = document.getElementById('profile-email');
+  if (profileEmail) profileEmail.textContent = user.email || '—';
+  const profileEmailVerified = document.getElementById('profile-email-verified');
+  if (profileEmailVerified) profileEmailVerified.textContent = user.emailVerified ? 'Verificado' : 'Pendente';
+  const profilePlayfab = document.getElementById('profile-playfab');
+  if (profilePlayfab) profilePlayfab.textContent = userDoc.playFabId || '—';
   statsXp.textContent = String(userDoc.stats?.xp ?? 0);
   statsCurrency.textContent = String(userDoc.stats?.currency ?? 0);
   const badges = userDoc.badges || {};
@@ -80,11 +100,11 @@ async function loadState() {
   const progressSnap = await getDoc(progressRef);
   if (progressSnap.exists()) {
     const data = progressSnap.data();
-    document.getElementById('onboarding-status')?.textContent = 'Status: ' + (data.status || 'active');
+    setTextById('onboarding-status', 'Status: ' + (data.status || 'active'));
     updateProgressUI(data);
     if (data.dueAt) startTimer(typeof data.dueAt === 'number' ? data.dueAt : Date.parse(data.dueAt));
   } else {
-    document.getElementById('onboarding-status')?.textContent = 'Aceite o desafio para iniciar.';
+    setTextById('onboarding-status', 'Aceite o desafio para iniciar.');
   }
 }
 
@@ -122,7 +142,7 @@ async function handleReminders() {
   const dueText = document.getElementById('onboarding-due')?.textContent || '';
   const dueAt = Date.parse(dueText) || Date.now() + 14 * 24 * 60 * 60 * 1000;
   await activateReminders({ uid: currentUser.uid, email: currentUser.email, dueAt });
-  document.getElementById('onboarding-status')?.textContent = 'Lembretes ativados!';
+  setTextById('onboarding-status', 'Lembretes ativados!');
 }
 
 async function handleLogout() {
@@ -130,11 +150,14 @@ async function handleLogout() {
   const originalLabel = logoutButton.textContent;
   signingOut = true;
   logoutRedirect = './index.html';
+  console.log('[members] Logout iniciado');
   logoutButton.disabled = true;
   logoutButton.setAttribute('aria-busy', 'true');
   logoutButton.textContent = 'Saindo...';
   try {
+    console.log('[members] Chamando signOut');
     await signOut(auth);
+    console.log('[members] signOut concluído, aguardando onAuthStateChanged');
   } catch (error) {
     console.error('Erro ao sair do Firebase', error);
     logoutButton.disabled = false;
@@ -142,18 +165,38 @@ async function handleLogout() {
     logoutButton.textContent = originalLabel;
     signingOut = false;
     logoutRedirect = null;
+  } finally {
+    console.log('[members] Estado de logout', { signingOut, logoutRedirect });
+    const target = logoutRedirect || './auth.html#login';
+    window.setTimeout(() => {
+      console.log('[members] Redirecionando manualmente para', target);
+      window.location.href = target;
+    }, 150);
   }
 }
 
 if (startButton) startButton.addEventListener('click', handleStartOnboarding);
 if (refreshButton) refreshButton.addEventListener('click', loadState);
-if (logoutButton) logoutButton.addEventListener('click', handleLogout);
+if (logoutButton) {
+  console.log('[members] Listener de logout registrado');
+  logoutButton.addEventListener('click', handleLogout);
+} else {
+  console.warn('[members] Botão de logout não encontrado');
+}
+
+window.__membersDebug = {
+  handleLogout,
+  get state() {
+    return { currentUser, signingOut, logoutRedirect };
+  },
+};
 if (proofForm) proofForm.addEventListener('submit', handleProofSubmit);
 if (remindersButton) remindersButton.addEventListener('click', handleReminders);
 
 renderMemberMissions();
 
 onAuthStateChanged(auth, async (user) => {
+  console.log('[members] onAuthStateChanged disparado', user ? user.uid : 'sem usuário');
   if (!requireAuth(user)) return;
   currentUser = user;
   signingOut = false;

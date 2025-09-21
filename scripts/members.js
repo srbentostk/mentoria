@@ -16,6 +16,7 @@ import {
   updateProgressUI,
 } from './onboarding.js';
 import { renderMemberMissions } from './missions.js';
+import { setAvatarUser, updateAvatarUI } from './avatar.js';
 
 console.log('[members] Script carregado');
 
@@ -52,6 +53,7 @@ function requireAuth(user) {
     const target = logoutRedirect || './auth.html#login';
     logoutRedirect = null;
     console.log('[members] Usuário não autenticado, redirecionando para', target);
+    setAvatarUser(null);
     window.location.href = target;
     return false;
   }
@@ -87,6 +89,7 @@ function renderProfile(user, userDoc) {
       badgesContainer.appendChild(span);
     });
   }
+  updateAvatarUI(userDoc);
 }
 
 async function loadState() {
@@ -201,5 +204,6 @@ onAuthStateChanged(auth, async (user) => {
   currentUser = user;
   signingOut = false;
   logoutRedirect = null;
+  setAvatarUser(user);
   await loadState();
 });

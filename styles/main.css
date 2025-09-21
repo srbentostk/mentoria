@@ -966,6 +966,24 @@ img {
   flex: 1 1 260px;
 }
 
+.profile__portrait {
+  width: clamp(180px, 22vw, 220px);
+  aspect-ratio: 1;
+  border-radius: 24px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: grid;
+  place-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.profile__portrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .profile__actions {
   display: flex;
   flex-direction: column;
@@ -1006,6 +1024,47 @@ img {
   justify-content: space-between;
   color: var(--text-muted);
   font-size: 0.9rem;
+}
+
+.avatar__preview {
+  position: relative;
+  display: grid;
+  place-items: center;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.avatar__preview img {
+  max-width: min(100%, 320px);
+  border-radius: 24px;
+  object-fit: cover;
+  background: rgba(5, 5, 10, 0.5);
+}
+
+.avatar__loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 5, 10, 0.72);
+  border-radius: 24px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.form--compact {
+  display: grid;
+  gap: 1rem;
+}
+
+.form__row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .audio--hidden {

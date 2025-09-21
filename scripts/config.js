@@ -37,4 +37,10 @@ const formConfig = {
   leadFormAction: warnIfPlaceholder(resolveEnv('FORM_ACTION_URL', '{FORM_ACTION_URL}'), 'FORM_ACTION_URL'),
 };
 
-export { firebaseConfig, playfabConfig, webhookConfig, formConfig };
+const openaiConfig = {
+  apiKey: resolveEnv('OPENAI_API_KEY', ''),
+  baseUrl: resolveEnv('OPENAI_BASE_URL', 'https://api.openai.com/v1'),
+  imageModel: resolveEnv('OPENAI_IMAGE_MODEL', 'gpt-image-1'),
+};
+
+export { firebaseConfig, playfabConfig, webhookConfig, formConfig, openaiConfig };

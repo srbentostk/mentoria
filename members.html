@@ -95,6 +95,16 @@
         <h2 id="profile-title">Perfil rápido</h2>
         <div class="profile">
           <div class="profile__summary">
+            <div class="profile__portrait">
+              <img
+                id="profile-avatar"
+                src="./assets/img/agent_mentor.png"
+                alt="Avatar do agente"
+                width="220"
+                height="220"
+                loading="lazy"
+              />
+            </div>
             <dl class="details">
               <div>
                 <dt>UID Firebase</dt>
@@ -125,6 +135,60 @@
           </div>
         </div>
       </section>
+
+      <section class="card" aria-labelledby="avatar-title" id="avatar-card">
+        <h2 id="avatar-title">Avatar do agente</h2>
+        <p id="avatar-hint">Descreva seu visual para gerar um avatar exclusivo no estilo da jornada.</p>
+        <div class="avatar__preview">
+          <img
+            id="avatar-preview"
+            src="./assets/img/agent_mentor.png"
+            alt="Prévia do avatar"
+            width="320"
+            height="320"
+            loading="lazy"
+          />
+          <div id="avatar-loading" class="avatar__loading" hidden aria-live="polite">Gerando avatar...</div>
+        </div>
+        <form id="avatar-form" class="form form--compact">
+          <div class="form__row">
+            <label class="form__field">
+              <span>Cabelo</span>
+              <input type="text" name="hair" placeholder="Ex.: ondulado preto, penteado para trás" />
+            </label>
+            <label class="form__field">
+              <span>Roupa</span>
+              <input type="text" name="clothing" placeholder="Ex.: terno azul marinho, camisa branca" />
+            </label>
+          </div>
+          <div class="form__row">
+            <label class="form__field">
+              <span>Tipo de corpo</span>
+              <input type="text" name="body" placeholder="Ex.: atlético, postura confiante" />
+            </label>
+            <label class="form__field">
+              <span>Tom de pele</span>
+              <input type="text" name="skin" placeholder="Ex.: pele morena" />
+            </label>
+          </div>
+          <div class="form__row">
+            <label class="form__field">
+              <span>Olhos</span>
+              <input type="text" name="eyes" placeholder="Ex.: olhos castanhos, olhar determinado" />
+            </label>
+            <label class="form__field">
+              <span>Acessórios</span>
+              <input type="text" name="accessories" placeholder="Ex.: comunicador de ouvido, relógio smart" />
+            </label>
+          </div>
+          <label class="form__field">
+            <span>Detalhes extras</span>
+            <textarea name="extra" rows="2" placeholder="Adicione qualquer outro detalhe importante."></textarea>
+          </label>
+          <button class="button button--primary" type="submit" id="avatar-generate">Gerar avatar com IA</button>
+          <p class="form__feedback" id="avatar-feedback" role="alert" aria-live="polite"></p>
+        </form>
+      </section>
     </main>
 
     <audio id="reward-audio" preload="auto">
@@ -136,11 +200,7 @@
     <script type="module" src="./scripts/firebase-init.js"></script>
     <script type="module" src="./scripts/playfab.js"></script>
     <script type="module" src="./scripts/missions.js"></script>
-    <script type="module">
-      import('./scripts/members.js')
-        .then(() => console.log('[members.html] members.js carregado com sucesso'))
-        .catch((error) => console.error('[members.html] Falha ao carregar members.js', error));
-    </script>
+    <script type="module" src="./scripts/members.js"></script>
     <script type="module" src="./scripts/rewards.js"></script>
   </body>
 </html>

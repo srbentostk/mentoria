@@ -1,0 +1,154 @@
+[
+  {
+    "vendor": "OpenAI",
+    "name": "gpt-4o",
+    "function": "multimodal",
+    "usd": {
+      "input_per_million": 5.0,
+      "output_per_million": 15.0
+    },
+    "link": "https://openai.com/api/pricing/",
+    "hover": "Multimodal veloz para texto, imagem e áudio. Ótimo para prototipar experiências ricas sem construir pipelines complexos.",
+    "whenToUse": {
+      "n8n_make": "Fluxos Make/n8n que precisam ler imagens simples, roteirizar e responder em menos de uma página de Word. Use para orçamentos rápidos com anexos.",
+      "python": "Scripts que alternam texto e mídia (por exemplo, classificação de imagens com relatório de ~1 página). Latência média de segundos.",
+      "agent": "Agentes que trocam fala, imagem e texto em tempo quase real, mantendo respostas até ~2 páginas sem travar o orçamento."
+    },
+    "limits": "Custo cresce rápido em lotes grandes. Não substitui modelos especializados de raciocínio profundo."
+  },
+  {
+    "vendor": "OpenAI",
+    "name": "gpt-4o-mini",
+    "function": "cheap-fast",
+    "usd": {
+      "input_per_million": 0.15,
+      "output_per_million": 0.6
+    },
+    "link": "https://openai.com/api/pricing/",
+    "hover": "Versão econômica para respostas rápidas. Ideal para automações que precisam de boa qualidade sem explodir o custo.",
+    "whenToUse": {
+      "n8n_make": "Rotinas de classificação, e-mails curtos ou resumos de até meia página. Latência na casa de 1-2 segundos.",
+      "python": "Bots e scripts que processam filas longas. Pense em milhares de entradas com respostas de meia página.",
+      "agent": "Assistentes internos que respondem FAQs ou triagens, com custo baixo por interação."
+    },
+    "limits": "Perde nuances em tarefas muito ambíguas. Contexto menor que a versão completa."
+  },
+  {
+    "vendor": "OpenAI",
+    "name": "gpt-4o-mini-tts",
+    "function": "image-audio",
+    "usd": {
+      "audio_per_minute": 0.006
+    },
+    "link": "https://openai.com/api/pricing/",
+    "hover": "Texto-para-voz veloz com vozes naturais. Bom para gerar áudios curtos sob demanda.",
+    "whenToUse": {
+      "n8n_make": "Mensagens de voz automáticas de até 2 minutos integradas a fluxos de suporte.",
+      "python": "Scripts que transformam resumos (1 página) em áudio para podcasts curtos ou notificações.",
+      "agent": "Agentes que respondem com voz em tempo real, mantendo a latência abaixo de 5 segundos por minuto de fala."
+    },
+    "limits": "Não suporta personalização profunda de voz. Ideal para clipes rápidos, não para áudio longo profissional."
+  },
+  {
+    "vendor": "Anthropic",
+    "name": "claude-3.5-sonnet",
+    "function": "reasoning",
+    "usd": {
+      "input_per_million": 3.0,
+      "output_per_million": 15.0
+    },
+    "link": "https://www.anthropic.com/api",
+    "hover": "Modelo equilibrado de raciocínio. Mantém coerência em análises de múltiplas páginas com custo moderado.",
+    "whenToUse": {
+      "n8n_make": "Revisões de propostas e análises de leads com respostas de 1-2 páginas em até 10 segundos.",
+      "python": "Aplicações que precisam comparar documentos e gerar pareceres curtos sem supervisionar a cada passo.",
+      "agent": "Agentes que avaliam hipóteses e retornam planos acionáveis em uma ou duas páginas."
+    },
+    "limits": "Pode alucinar dados específicos. Combine com validações ou bases confiáveis."
+  },
+  {
+    "vendor": "Anthropic",
+    "name": "claude-3-opus",
+    "function": "reasoning",
+    "usd": {
+      "input_per_million": 15.0,
+      "output_per_million": 75.0
+    },
+    "link": "https://www.anthropic.com/api",
+    "hover": "Opção premium para raciocínio profundo. Excelente em relatórios longos e tomada de decisão assistida.",
+    "whenToUse": {
+      "n8n_make": "Playbooks raros onde a prova precisa de revisão impecável (2-3 páginas) e custo não é o foco.",
+      "python": "Ferramentas que cruzam várias fontes e explicam decisões em detalhes (~3 páginas) com latência acima de 10s.",
+      "agent": "Mentores virtuais que fazem análise estratégica extensa, aceitando custo alto por uso."
+    },
+    "limits": "Custo elevado. Use quando o valor do insight compensa o investimento."
+  },
+  {
+    "vendor": "Google",
+    "name": "gemini-1.5-pro",
+    "function": "long-context",
+    "usd": {
+      "input_per_million": 3.5,
+      "output_per_million": 10.5
+    },
+    "link": "https://ai.google.dev/pricing",
+    "hover": "Modelo voltado para contextos grandes. Aceita documentos extensos mantendo referências cruzadas.",
+    "whenToUse": {
+      "n8n_make": "Validação de dossiês longos (até dezenas de páginas) para gerar sumários de 1-2 páginas.",
+      "python": "Pipelines que precisam ler PDFs extensos e responder perguntas específicas com referências.",
+      "agent": "Analistas virtuais que consultam bases grandes antes de responder, mesmo com latência maior."
+    },
+    "limits": "Latência maior que modelos rápidos. Prepare cache ou divisão por blocos."
+  },
+  {
+    "vendor": "Google",
+    "name": "gemini-1.5-flash",
+    "function": "multimodal",
+    "usd": {
+      "input_per_million": 0.35,
+      "output_per_million": 1.05
+    },
+    "link": "https://ai.google.dev/pricing",
+    "hover": "Versão acessível do Gemini com suporte multimodal básico. Ideal para protótipos e respostas rápidas.",
+    "whenToUse": {
+      "n8n_make": "Triagens multimídia leves (imagem+texto) que cabem em meia página e precisam resposta em segundos.",
+      "python": "Aplicações web que pedem resumo de prints ou textos curtos, mantendo baixo custo.",
+      "agent": "Assistentes que alternam texto e imagem para suporte ao cliente, com orçamento reduzido."
+    },
+    "limits": "Precisão menor em análises complexas. Prefira quando volume e velocidade importam mais."
+  },
+  {
+    "vendor": "Mistral",
+    "name": "mistral-large",
+    "function": "reasoning",
+    "usd": {
+      "input_per_million": 8.0,
+      "output_per_million": 24.0
+    },
+    "link": "https://mistral.ai/technology/#pricing",
+    "hover": "Modelo europeu com foco em raciocínio estruturado e contexto robusto.",
+    "whenToUse": {
+      "n8n_make": "Fluxos que exigem análises estratégicas de 2 páginas com menor latência que modelos premium.",
+      "python": "Ferramentas que precisam de argumentação consistente em múltiplos idiomas.",
+      "agent": "Agentes consultivos que recomendam ações com base em guidelines complexos."
+    },
+    "limits": "Menor ecossistema que OpenAI/Anthropic. Verifique compatibilidade de ferramentas."
+  },
+  {
+    "vendor": "Mistral",
+    "name": "mistral-small",
+    "function": "cheap-fast",
+    "usd": {
+      "input_per_million": 2.0,
+      "output_per_million": 6.0
+    },
+    "link": "https://mistral.ai/technology/#pricing",
+    "hover": "Pequeno e rápido. Bom para automações de alto volume com respostas de até meia página.",
+    "whenToUse": {
+      "n8n_make": "Classificações, detecção de idioma e respostas curtas em massa com custo competitivo.",
+      "python": "Serviços que operam filas com milhares de itens/dia, mantendo respostas concisas.",
+      "agent": "Bots de suporte interno que precisam operar em vários idiomas com custo por mensagem baixo."
+    },
+    "limits": "Limitações em criatividade e raciocínio longo. Complementar com validações."
+  }
+]

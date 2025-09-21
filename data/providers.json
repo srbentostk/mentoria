@@ -1,0 +1,6 @@
+{
+  "fx": "frankfurter",
+  "fx_base_url": "https://api.frankfurter.dev",
+  "crypto": "coingecko",
+  "crypto_base_url": "https://api.coingecko.com/api/v3"
+}

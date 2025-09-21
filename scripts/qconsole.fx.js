@@ -33,7 +33,7 @@ function getBaseUrl(name, explicit) {
 async function loadProviders() {
   if (providers) return providers;
   try {
-    const data = await fetchJson('./data/providers.json', undefined, { timeout: 6000 });
+    const data = await fetchJson('./data/providers.json');
     providers = { ...DEFAULT_CONFIG, ...data };
   } catch (error) {
     console.warn('[qconsole.fx] Não foi possível carregar providers.json, usando padrão.', error);
@@ -50,7 +50,7 @@ async function requestRates(providerName, baseUrl, base, symbols) {
     params.set('to', symbols.join(','));
     params.set('amount', '1');
     const url = `${urlBase}/latest?${params.toString()}`;
-    const response = await fetchJson(url, undefined, { timeout: 6000, retries: 1 });
+    const response = await fetchJson(url);
     if (!response?.rates) throw new Error('Resposta sem rates do provedor frankfurter');
     return {
       provider: providerName,
@@ -64,7 +64,7 @@ async function requestRates(providerName, baseUrl, base, symbols) {
     params.set('base', base);
     params.set('symbols', symbols.join(','));
     const url = `${urlBase}/latest?${params.toString()}`;
-    const response = await fetchJson(url, undefined, { timeout: 6000, retries: 1 });
+    const response = await fetchJson(url);
     if (!response?.rates) throw new Error('Resposta sem rates do provedor exchangerate.host');
     return {
       provider: providerName,
@@ -214,10 +214,10 @@ export async function initFX(options = {}) {
     } catch (error) {
       console.error('[qconsole.fx] Falha ao atualizar câmbio', error);
       if (ratesContainer) {
-        ratesContainer.innerHTML = '<article class="fx-card"><p>Não foi possível carregar o câmbio agora.</p></article>';
+        ratesContainer.innerHTML = '<article class="fx-card"><p>Não foi possível atualizar agora.</p></article>';
       }
       if (resultsElement) {
-        resultsElement.textContent = 'Câmbio indisponível no momento.';
+        resultsElement.textContent = 'Não foi possível atualizar agora.';
       }
     }
   }

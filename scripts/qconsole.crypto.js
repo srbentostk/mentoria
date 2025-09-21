@@ -1,4 +1,4 @@
-import { fetchJson } from './lib/fetcher.js';
+﻿import { fetchJson } from './lib/fetcher.js';
 import { formatMoney } from './lib/currency.js';
 
 const REFRESH_INTERVAL = 60_000;
@@ -23,7 +23,7 @@ export function initCrypto({ gridElement, updatedElement, refreshButton, provide
     const url = `${baseUrl}/simple/price?ids=${SUPPORTED_COINS.map((coin) => coin.id).join(',')}&vs_currencies=${
       TARGET_CURRENCIES.join(',')
     }`;
-    return fetchJson(url, undefined, { timeout: 7000, retries: 1 });
+    return fetchJson(url);
   }
 
   function render(data) {
@@ -52,7 +52,7 @@ export function initCrypto({ gridElement, updatedElement, refreshButton, provide
         card.appendChild(list);
       } else {
         const paragraph = document.createElement('p');
-        paragraph.textContent = 'Indisponível no momento.';
+        paragraph.textContent = 'IndisponÃ­vel no momento.';
         card.appendChild(paragraph);
       }
       gridElement.appendChild(card);
@@ -69,9 +69,9 @@ export function initCrypto({ gridElement, updatedElement, refreshButton, provide
         updatedElement.dateTime = lastUpdated.toISOString();
       }
     } catch (error) {
-      console.error('[qconsole.crypto] Falha ao obter preços de cripto', error);
+      console.error('[qconsole.crypto] Falha ao obter preÃ§os de cripto', error);
       if (!silent && gridElement) {
-        gridElement.innerHTML = '<article class="crypto-card"><p>Não foi possível obter preços agora.</p></article>';
+        gridElement.innerHTML = '<article class="crypto-card"><p>Não foi possível atualizar agora.</p></article>';
       }
     }
   }
@@ -98,3 +98,6 @@ export function initCrypto({ gridElement, updatedElement, refreshButton, provide
     },
   };
 }
+
+
+

@@ -1,4 +1,4 @@
-import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+﻿import { onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
 import { doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
 import { auth, db } from '../firebase-init.js';
 
@@ -6,7 +6,6 @@ const STORAGE_KEY = 'qbranch.advancedMode';
 const STATUS_MESSAGES = {
   enabled: 'Modo avançado ativo. Arsenal liberado e tema especial aplicado.',
   disabled: 'Modo padrão ativo.',
-  error: 'Não foi possível salvar a preferência agora. Permanecemos no modo anterior.',
 };
 
 function readLocalPreference() {
@@ -36,10 +35,9 @@ function applyTheme(enabled) {
   }
 }
 
-function updateStatus(statusElement, arsenalGrid, enabled, state = 'normal') {
+function updateStatus(statusElement, arsenalGrid, enabled) {
   if (statusElement) {
-    const key = state === 'error' ? 'error' : enabled ? 'enabled' : 'disabled';
-    statusElement.textContent = STATUS_MESSAGES[key];
+    statusElement.textContent = STATUS_MESSAGES[enabled ? 'enabled' : 'disabled'];
   }
   if (arsenalGrid) {
     arsenalGrid.dataset.active = enabled ? 'true' : 'false';
@@ -56,12 +54,22 @@ export async function initAdvancedThemeControls({ toggle, statusElement, arsenal
   let currentUser = null;
   let currentValue = false;
 
-  function reflect(enabled, state = 'normal') {
+  function reflect(enabled) {
     applyTheme(enabled);
-    updateStatus(statusElement, arsenalGrid, enabled, state);
+    updateStatus(statusElement, arsenalGrid, enabled);
     if (toggle) {
       toggle.checked = enabled;
       toggle.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+    }
+  }
+
+  async function persistPreference(enabled) {
+    writeLocalPreference(enabled);
+    if (!currentUser?.uid) return;
+    try {
+      await persistRemotePreference(currentUser.uid, enabled);
+    } catch (error) {
+      console.warn('[theme] Falha ao persistir preferência no Firestore', error);
     }
   }
 
@@ -73,21 +81,9 @@ export async function initAdvancedThemeControls({ toggle, statusElement, arsenal
 
   async function changeMode(enabled) {
     if (enabled === currentValue) return;
-    const previous = currentValue;
     currentValue = enabled;
     reflect(enabled);
-    writeLocalPreference(enabled);
-    try {
-      if (currentUser?.uid) {
-        await persistRemotePreference(currentUser.uid, enabled);
-      }
-    } catch (error) {
-      console.error('[theme] Falha ao persistir preferência no Firestore', error);
-      currentValue = previous;
-      reflect(previous, 'error');
-      writeLocalPreference(previous);
-      throw error;
-    }
+    await persistPreference(enabled);
   }
 
   if (toggle) {
@@ -107,8 +103,9 @@ export async function initAdvancedThemeControls({ toggle, statusElement, arsenal
       try {
         await changeMode(desired);
       } catch (error) {
-        toggle.checked = currentValue;
+        console.error('[theme] Erro inesperado ao alterar o modo avançado', error);
       } finally {
+        toggle.checked = currentValue;
         toggle.disabled = false;
         toggle.removeAttribute('aria-busy');
         toggle.setAttribute('aria-pressed', currentValue ? 'true' : 'false');
@@ -137,11 +134,11 @@ export async function initAdvancedThemeControls({ toggle, statusElement, arsenal
         const localPref = readLocalPreference();
         if (typeof localPref === 'boolean') {
           currentValue = localPref;
-          await persistRemotePreference(user.uid, localPref);
+          await persistPreference(localPref);
         }
       }
     } catch (error) {
-      console.error('[theme] Não foi possível sincronizar preferência avançada', error);
+      console.warn('[theme] Não foi possível sincronizar preferência avançada', error);
     }
 
     reflect(currentValue);

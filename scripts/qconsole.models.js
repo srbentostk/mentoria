@@ -1,17 +1,17 @@
-import { fetchJson } from './lib/fetcher.js';
+﻿import { fetchJson } from './lib/fetcher.js';
 import { qs, delegate } from './lib/dom.js';
-import { sanitizeToFragment } from './lib/sanitize.js';
+import { sanitize, sanitizeToFragment } from './lib/sanitize.js';
 import { formatMoney } from './lib/currency.js';
 
 const GROUP_ORDER = ['reasoning', 'multimodal', 'cheap-fast', 'long-context', 'image-audio'];
 const GROUP_LABELS = {
-  reasoning: 'Raciocínio/Agentes',
+  reasoning: 'RaciocÃ­nio/Agentes',
   multimodal: 'Multimodal',
-  'cheap-fast': 'Texto rápido/custo baixo',
+  'cheap-fast': 'Texto rÃ¡pido/custo baixo',
   'long-context': 'Contexto grande',
-  'image-audio': 'Imagem/Áudio',
+  'image-audio': 'Imagem/Ãudio',
 };
-const TOKENS_PER_PAGE = 750; // Aproximação: página de Word com ~500 palavras.
+const TOKENS_PER_PAGE = 750; // AproximaÃ§Ã£o: pÃ¡gina de Word com ~500 palavras.
 
 function formatPerPage(value, fx) {
   if (typeof value !== 'number' || Number.isNaN(value)) return null;
@@ -25,7 +25,7 @@ function formatPerPage(value, fx) {
       ars,
     };
   } catch (error) {
-    console.warn('[qconsole.models] Falha ao converter custo por página', error);
+    console.warn('[qconsole.models] Falha ao converter custo por pÃ¡gina', error);
     return {
       usd,
       brl: null,
@@ -60,7 +60,7 @@ function createTooltip(button, tooltipId, content) {
   tooltip.id = tooltipId;
   tooltip.setAttribute('role', 'tooltip');
   tooltip.dataset.visible = 'false';
-  tooltip.appendChild(sanitizeToFragment(content));
+  tooltip.innerHTML = sanitize(content);
   button.setAttribute('aria-describedby', tooltipId);
   button.addEventListener('mouseenter', () => {
     tooltip.dataset.visible = 'true';
@@ -88,7 +88,7 @@ function createPricingBlock(model, fx) {
     const line = document.createElement('p');
     const parts = [];
     if (typeof usdInput === 'number') parts.push(`Entrada: ${formatMoney(usdInput, 'USD')} / 1M tokens`);
-    if (typeof usdOutput === 'number') parts.push(`Saída: ${formatMoney(usdOutput, 'USD')} / 1M tokens`);
+    if (typeof usdOutput === 'number') parts.push(`SaÃ­da: ${formatMoney(usdOutput, 'USD')} / 1M tokens`);
     line.textContent = parts.join(' | ');
     wrapper.appendChild(line);
   }
@@ -98,11 +98,11 @@ function createPricingBlock(model, fx) {
     if (perPage) {
       const item = document.createElement('p');
       const values = [
-        `Entrada (~página): ${formatMoney(perPage.usd, 'USD')}`,
+        `Entrada (~pÃ¡gina): ${formatMoney(perPage.usd, 'USD')}`,
         perPage.brl != null ? formatMoney(perPage.brl, 'BRL') : null,
         perPage.ars != null ? formatMoney(perPage.ars, 'ARS') : null,
       ].filter(Boolean);
-      item.textContent = values.join(' • ');
+      item.textContent = values.join(' â€¢ ');
       wrapper.appendChild(item);
     }
   }
@@ -112,11 +112,11 @@ function createPricingBlock(model, fx) {
     if (perPage) {
       const item = document.createElement('p');
       const values = [
-        `Saída (~página): ${formatMoney(perPage.usd, 'USD')}`,
+        `SaÃ­da (~pÃ¡gina): ${formatMoney(perPage.usd, 'USD')}`,
         perPage.brl != null ? formatMoney(perPage.brl, 'BRL') : null,
         perPage.ars != null ? formatMoney(perPage.ars, 'ARS') : null,
       ].filter(Boolean);
-      item.textContent = values.join(' • ');
+      item.textContent = values.join(' â€¢ ');
       wrapper.appendChild(item);
     }
   }
@@ -126,18 +126,18 @@ function createPricingBlock(model, fx) {
     if (audioCost) {
       const item = document.createElement('p');
       const values = [
-        `Áudio/min: ${formatMoney(audioCost.usd, 'USD')}`,
+        `Ãudio/min: ${formatMoney(audioCost.usd, 'USD')}`,
         audioCost.brl != null ? formatMoney(audioCost.brl, 'BRL') : null,
         audioCost.ars != null ? formatMoney(audioCost.ars, 'ARS') : null,
       ].filter(Boolean);
-      item.textContent = values.join(' • ');
+      item.textContent = values.join(' â€¢ ');
       wrapper.appendChild(item);
     }
   }
 
   if (!wrapper.childElementCount) {
     const empty = document.createElement('p');
-    empty.textContent = 'Custos não informados.';
+    empty.textContent = 'Custos nÃ£o informados.';
     wrapper.appendChild(empty);
   }
 
@@ -155,7 +155,7 @@ function createModelCard(model, index, fx, drawerRegistry) {
   const titleWrapper = document.createElement('div');
   const vendorLabel = document.createElement('p');
   vendorLabel.className = 'models__vendor';
-  vendorLabel.textContent = model.vendor || '—';
+  vendorLabel.textContent = model.vendor || 'â€”';
   const name = document.createElement('h3');
   name.className = 'model-card__name';
   name.textContent = model.name;
@@ -168,7 +168,7 @@ function createModelCard(model, index, fx, drawerRegistry) {
     link.href = model.link;
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
-    link.innerHTML = 'Ver preço oficial <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z"/><path d="M5 5h5V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-5h-2v5H5z"/></svg>';
+    link.innerHTML = 'Ver preÃ§o oficial <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z"/><path d="M5 5h5V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-5h-2v5H5z"/></svg>';
     header.appendChild(link);
   }
 
@@ -178,7 +178,7 @@ function createModelCard(model, index, fx, drawerRegistry) {
   tooltipButton.textContent = 'Ver briefing';
   const tooltipId = `model-tooltip-${index}`;
   tooltipButton.setAttribute('aria-label', `Resumo do modelo ${model.name}`);
-  const tooltipContent = model.hover || 'Resumo não informado.';
+  const tooltipContent = model.hover || 'Resumo nÃ£o informado.';
   const tooltip = createTooltip(tooltipButton, tooltipId, tooltipContent);
   header.appendChild(tooltipButton);
   card.appendChild(header);
@@ -186,7 +186,7 @@ function createModelCard(model, index, fx, drawerRegistry) {
 
   const limits = document.createElement('p');
   limits.className = 'model-card__limits';
-  const limitsFragment = sanitizeToFragment(`<strong>Limites:</strong> ${model.limits || 'Sem anotações.'}`);
+  const limitsFragment = sanitizeToFragment(`<strong>Limites:</strong> ${model.limits || 'Sem anotaÃ§Ãµes.'}`);
   limits.appendChild(limitsFragment);
   card.appendChild(limits);
 
@@ -200,7 +200,7 @@ function createModelCard(model, index, fx, drawerRegistry) {
   card.appendChild(drawerButton);
 
   drawerRegistry.set(String(index), {
-    vendor: model.vendor || '—',
+    vendor: model.vendor || 'â€”',
     name: model.name,
     whenToUse: model.whenToUse || {},
   });
@@ -317,7 +317,7 @@ export async function initModelDirectory({ container, drawer, fx } = {}) {
       if (!panelEl) return;
       panelEl.innerHTML = '';
       const content = state.whenToUse?.[key];
-      const safeContent = sanitizeToFragment(content || 'Conteúdo não informado.');
+      const safeContent = sanitizeToFragment(content || 'ConteÃºdo nÃ£o informado.');
       panelEl.appendChild(safeContent);
     });
 
@@ -359,18 +359,22 @@ export async function initModelDirectory({ container, drawer, fx } = {}) {
   });
 
   try {
-    const models = await fetchJson('./data/models.json', undefined, { timeout: 8000 });
+    const models = await fetchJson('./data/models.json');
     if (!Array.isArray(models) || !models.length) {
       container.innerHTML = '<p>Nenhum modelo cadastrado ainda.</p>';
       return;
     }
     renderGroups(container, models, fx, drawerRegistry);
   } catch (error) {
-    console.error('[qconsole.models] Falha ao carregar catálogo de modelos', error);
-    container.innerHTML = '<p>Não foi possível carregar o catálogo agora.</p>';
+    console.error('[qconsole.models] Falha ao carregar catÃ¡logo de modelos', error);
+    container.innerHTML = '<p>Não foi possível atualizar agora.</p>';
   }
 
   return {
     closeDrawer,
   };
 }
+
+
+
+

@@ -3,6 +3,7 @@
 
 const DEFAULT_DOMPURIFY_SRC = 'https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js';
 let loadPromise = null;
+let hooksInstalled = false;
 
 function getPurifierOrThrow() {
   const purifier = window.DOMPurify;
@@ -43,14 +44,37 @@ const DEFAULT_CONFIG = {
   FORCE_BODY: true,
 };
 
-export function sanitizeHtml(input, config = {}) {
+function ensureHooks(purifier) {
+  if (hooksInstalled) return;
+  purifier.addHook('afterSanitizeAttributes', (node) => {
+    if (!node || typeof node.nodeName !== 'string') return;
+    if (node.nodeName.toLowerCase() !== 'a') return;
+    const target = node.getAttribute('target');
+    if (!target) return;
+    if (target.toLowerCase() === '_blank') {
+      const rel = node.getAttribute('rel');
+      const relTokens = rel ? rel.split(/\s+/).filter(Boolean) : [];
+      if (!relTokens.includes('noopener')) relTokens.push('noopener');
+      if (!relTokens.includes('noreferrer')) relTokens.push('noreferrer');
+      node.setAttribute('rel', relTokens.join(' '));
+    }
+  });
+  hooksInstalled = true;
+}
+
+export function sanitize(input, config = {}) {
   const purifier = getPurifierOrThrow();
+  ensureHooks(purifier);
   const value = input == null ? '' : String(input);
   return purifier.sanitize(value, { ...DEFAULT_CONFIG, ...config });
 }
 
+export function sanitizeHtml(input, config = {}) {
+  return sanitize(input, config);
+}
+
 export function sanitizeToFragment(input, config) {
-  const clean = sanitizeHtml(input, config);
+  const clean = sanitize(input, config);
   const template = document.createElement('template');
   template.innerHTML = clean;
   return template.content.cloneNode(true);

@@ -1,8 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+      Draft CSP (documentação):
+      <meta http-equiv="Content-Security-Policy"
+        content="
+          connect-src 'self' https://api.frankfurter.dev https://api.coingecko.com;
+          script-src 'self' https://cdn.jsdelivr.net;
+          img-src 'self' data: https:;
+          style-src 'self' 'unsafe-inline';
+        ">
+      connect-src: mantém chamadas para frankfurter.dev e api.coingecko.com.
+      script-src: libera scripts locais e CDN do DOMPurify.
+      img-src: permite assets locais, data URIs e HTTPS externos.
+      style-src: mantém folhas locais e estilo inline existente.
+    -->
     <title>Q-Branch // AEGIS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -21,17 +35,17 @@
           <p class="qconsole-header__eyebrow">Q-Branch</p>
           <h1 class="qconsole-header__title">Q-Branch // AEGIS</h1>
           <p class="qconsole-header__subtitle">
-            Inteligência tática para missões e agentes. Câmbio, modelos e arsenal avançado em um só lugar.
+            InteligÃªncia tÃ¡tica para missÃµes e agentes. CÃ¢mbio, modelos e arsenal avanÃ§ado em um sÃ³ lugar.
           </p>
         </div>
         <div class="qconsole-header__actions">
-          <a class="button button--ghost" href="./members.html">Voltar à central</a>
+          <a class="button button--ghost" href="./members.html">Voltar Ã  central</a>
         </div>
       </div>
     </header>
 
     <main id="console" class="qconsole" tabindex="-1">
-      <div class="qconsole__tabs" role="tablist" aria-label="Sessões do console">
+      <div class="qconsole__tabs" role="tablist" aria-label="SessÃµes do console">
         <button type="button" role="tab" id="tab-mercado" aria-controls="panel-mercado" aria-selected="true">
           Mercado
         </button>
@@ -39,15 +53,15 @@
           Modelos de IA
         </button>
         <button type="button" role="tab" id="tab-avancado" aria-controls="panel-avancado" aria-selected="false">
-          Avançado
+          AvanÃ§ado
         </button>
       </div>
 
       <section id="panel-mercado" class="qconsole__panel" role="tabpanel" aria-labelledby="tab-mercado">
         <header class="panel-header">
           <div>
-            <h2>Câmbio atual</h2>
-            <p>Taxas em USD, BRL e ARS com atualização em tempo quase real.</p>
+            <h2>CÃ¢mbio atual</h2>
+            <p>Taxas em USD, BRL e ARS com atualizaÃ§Ã£o em tempo quase real.</p>
           </div>
           <div class="panel-header__meta">
             <button id="fx-refresh" class="button button--ghost button--small" type="button">Atualizar</button>
@@ -57,9 +71,9 @@
                 <dd id="fx-provider">Carregando...</dd>
               </div>
               <div>
-                <dt>Última atualização</dt>
+                <dt>Ãšltima atualizaÃ§Ã£o</dt>
                 <dd>
-                  <time id="fx-updated" datetime="">—</time>
+                  <time id="fx-updated" datetime="">â€”</time>
                 </dd>
               </div>
             </dl>
@@ -68,14 +82,14 @@
 
         <div class="fx-grid" id="fx-rates" aria-live="polite">
           <article class="fx-card">
-            <p>Coletando câmbio...</p>
+            <p>Coletando cÃ¢mbio...</p>
           </article>
         </div>
 
         <section class="fx-converter" aria-labelledby="fx-converter-title">
           <div>
-            <h3 id="fx-converter-title">Conversor rápido</h3>
-            <p>Informe um valor para ver equivalências instantâneas.</p>
+            <h3 id="fx-converter-title">Conversor rÃ¡pido</h3>
+            <p>Informe um valor para ver equivalÃªncias instantÃ¢neas.</p>
           </div>
           <form id="fx-converter" class="fx-converter__form">
             <label>
@@ -93,7 +107,7 @@
             <button class="button button--primary" type="submit">Converter</button>
           </form>
           <div class="fx-converter__results" id="fx-results" aria-live="polite">
-            Digite um valor e selecione a moeda de origem para ver as conversões em USD, BRL e ARS.
+            Digite um valor e selecione a moeda de origem para ver as conversÃµes em USD, BRL e ARS.
           </div>
         </section>
 
@@ -101,7 +115,7 @@
           <header class="crypto__header">
             <div>
               <h2 id="crypto-title">Cripto</h2>
-              <p>Preços de BTC e ETH em USD, BRL e ARS (CoinGecko).</p>
+              <p>PreÃ§os de BTC e ETH em USD, BRL e ARS (CoinGecko).</p>
             </div>
             <div class="crypto__actions">
               <button id="crypto-refresh" class="button button--ghost button--small" type="button">
@@ -109,9 +123,9 @@
               </button>
               <dl>
                 <div>
-                  <dt>Última atualização</dt>
+                  <dt>Ãšltima atualizaÃ§Ã£o</dt>
                   <dd>
-                    <time id="crypto-updated" datetime="">—</time>
+                    <time id="crypto-updated" datetime="">â€”</time>
                   </dd>
                 </div>
               </dl>
@@ -123,12 +137,12 @@
             </article>
           </div>
           <p class="panel-note">
-            Taxas e preços são aproximados. Consulte fontes oficiais antes de aprovar orçamentos. Atualização automática a cada 60 segundos.
+            Taxas e preÃ§os sÃ£o aproximados. Consulte fontes oficiais antes de aprovar orÃ§amentos. AtualizaÃ§Ã£o automÃ¡tica a cada 60 segundos.
           </p>
         </section>
 
         <p class="panel-note">
-          Para trocar os provedores de câmbio ou cripto, edite o arquivo <code>data/providers.json</code> e informe a base de API apropriada.
+          Para trocar os provedores de cÃ¢mbio ou cripto, edite o arquivo <code>data/providers.json</code> e informe a base de API apropriada.
         </p>
       </section>
 
@@ -136,13 +150,13 @@
         <header class="panel-header">
           <div>
             <h2>Modelos de IA</h2>
-            <p>Catálogo curado com custos convertidos automaticamente para BRL e ARS.</p>
+            <p>CatÃ¡logo curado com custos convertidos automaticamente para BRL e ARS.</p>
           </div>
-          <p class="panel-note">Passe o cursor ou use Tab para detalhes rápidos e abra o drawer para casos de uso.</p>
+          <p class="panel-note">Passe o cursor ou use Tab para detalhes rÃ¡pidos e abra o drawer para casos de uso.</p>
         </header>
         <div class="models" id="model-groups" aria-live="polite">
           <article class="model-card">
-            <p>Carregando modelos e câmbio...</p>
+            <p>Carregando modelos e cÃ¢mbio...</p>
           </article>
         </div>
       </section>
@@ -150,15 +164,15 @@
       <section id="panel-avancado" class="qconsole__panel" role="tabpanel" aria-labelledby="tab-avancado" hidden>
         <header class="panel-header">
           <div>
-            <h2>Modo avançado</h2>
-            <p>Ative para habilitar o tema especial e registrar a preferência para futuras missões.</p>
+            <h2>Modo avanÃ§ado</h2>
+            <p>Ative para habilitar o tema especial e registrar a preferÃªncia para futuras missÃµes.</p>
           </div>
         </header>
         <section class="advanced" aria-labelledby="advanced-toggle-title">
           <div class="advanced__toggle">
             <div>
-              <h3 id="advanced-toggle-title">Ativar Modo Avançado</h3>
-              <p id="advanced-status">Modo padrão ativo.</p>
+              <h3 id="advanced-toggle-title">Ativar Modo AvanÃ§ado</h3>
+              <p id="advanced-status">Modo padrÃ£o ativo.</p>
             </div>
             <label class="switch">
               <input id="advanced-toggle" type="checkbox" />
@@ -167,19 +181,19 @@
             </label>
           </div>
           <p class="panel-note">
-            Ao confirmar, o tema Avançado será aplicado (<code>data-theme="advanced"</code>) e a preferência ficará salva no Firestore (users/{uid}.prefs.advancedMode) ou localmente.
+            Ao confirmar, o tema AvanÃ§ado serÃ¡ aplicado (<code>data-theme="advanced"</code>) e a preferÃªncia ficarÃ¡ salva no Firestore (users/{uid}.prefs.advancedMode) ou localmente.
           </p>
         </section>
 
         <section class="arsenal" aria-labelledby="arsenal-title">
           <header class="arsenal__header">
             <div>
-              <h2 id="arsenal-title">Sessão Arsenal Avançado</h2>
-              <p>Selecione uma ferramenta para explorar a constelação de assistentes táticos.</p>
+              <h2 id="arsenal-title">SessÃ£o Arsenal AvanÃ§ado</h2>
+              <p>Selecione uma ferramenta para explorar a constelaÃ§Ã£o de assistentes tÃ¡ticos.</p>
             </div>
           </header>
           <div class="arsenal__grid" id="arsenal-grid">
-            <!-- Conteúdo renderizado por scripts/qconsole.js -->
+            <!-- ConteÃºdo renderizado por scripts/qconsole.js -->
           </div>
         </section>
       </section>
@@ -190,10 +204,10 @@
       <div class="drawer__panel" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
         <header class="drawer__header">
           <div>
-            <p class="drawer__eyebrow" id="drawer-vendor">—</p>
+            <p class="drawer__eyebrow" id="drawer-vendor">â€”</p>
             <h2 class="drawer__title" id="drawer-title">Quando eu uso esse modelo?</h2>
           </div>
-          <button class="drawer__close" type="button" data-drawer-dismiss aria-label="Fechar">×</button>
+          <button class="drawer__close" type="button" data-drawer-dismiss aria-label="Fechar">Ã—</button>
         </header>
         <div class="drawer__tabs" role="tablist" aria-label="Contextos de uso">
           <button type="button" role="tab" id="drawer-tab-n8n" aria-controls="drawer-panel-n8n" aria-selected="true">
@@ -212,7 +226,7 @@
           role="tabpanel"
           aria-labelledby="drawer-tab-n8n"
         >
-          <p>Selecione um modelo para visualizar orientações práticas.</p>
+          <p>Selecione um modelo para visualizar orientaÃ§Ãµes prÃ¡ticas.</p>
         </section>
         <section
           id="drawer-panel-python"
@@ -221,7 +235,7 @@
           aria-labelledby="drawer-tab-python"
           hidden
         >
-          <p>Conteúdo indisponível.</p>
+          <p>ConteÃºdo indisponÃ­vel.</p>
         </section>
         <section
           id="drawer-panel-agent"
@@ -230,7 +244,7 @@
           aria-labelledby="drawer-tab-agent"
           hidden
         >
-          <p>Conteúdo indisponível.</p>
+          <p>ConteÃºdo indisponÃ­vel.</p>
         </section>
       </div>
     </aside>
@@ -238,3 +252,6 @@
     <script type="module" src="./scripts/qconsole.js"></script>
   </body>
 </html>
+
+
+

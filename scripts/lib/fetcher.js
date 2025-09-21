@@ -2,8 +2,8 @@
 // [codex-edit] Novo helper para requisoes seguras com parse JSON com guardas.
 
 const DEFAULT_TIMEOUT = 8000;
-const DEFAULT_RETRIES = 2;
-const DEFAULT_BACKOFF_BASE = 2;
+const DEFAULT_RETRIES = 3;
+const DEFAULT_BACKOFF_STEP = 300;
 const DEFAULT_RETRY_STATUS = new Set([408, 425, 429, 500, 502, 503, 504]);
 const DEFAULT_RETRY_METHODS = new Set(['GET', 'HEAD', 'OPTIONS']);
 
@@ -11,24 +11,52 @@ function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function createTimeoutController(timeout, externalSignal) {
+function createTimeoutError() {
+  if (typeof DOMException === 'function') {
+    return new DOMException('safeFetch timeout', 'TimeoutError');
+  }
+  const error = new Error('safeFetch timeout');
+  error.name = 'TimeoutError';
+  return error;
+}
+
+function createAbortError() {
+  if (typeof DOMException === 'function') {
+    return new DOMException('Aborted', 'AbortError');
+  }
+  const error = new Error('Aborted');
+  error.name = 'AbortError';
+  return error;
+}
+
+function createTimeoutController(timeout, externalSignals = []) {
   const controller = new AbortController();
   let timeoutId = null;
+
+  const abort = (reason) => {
+    if (!controller.signal.aborted) {
+      controller.abort(reason);
+    }
+  };
+
   if (typeof timeout === 'number' && timeout > 0) {
     timeoutId = setTimeout(() => {
-      controller.abort(new DOMException('safeFetch timeout', 'TimeoutError'));
+      abort(createTimeoutError());
     }, timeout);
   }
 
-  if (externalSignal) {
+  externalSignals.forEach((externalSignal) => {
+    if (!externalSignal) return;
     if (externalSignal.aborted) {
-      controller.abort(externalSignal.reason);
+      abort(externalSignal.reason || createAbortError());
     } else {
-      externalSignal.addEventListener('abort', () => {
-        controller.abort(externalSignal.reason);
-      }, { once: true });
+      externalSignal.addEventListener(
+        'abort',
+        () => abort(externalSignal.reason || createAbortError()),
+        { once: true },
+      );
     }
-  }
+  });
 
   return {
     signal: controller.signal,
@@ -39,23 +67,30 @@ function createTimeoutController(timeout, externalSignal) {
 }
 
 function shouldRetry(response, method, retryStatus) {
-  return response && retryStatus.has(response.status) && DEFAULT_RETRY_METHODS.has(method.toUpperCase());
+  if (!response) return false;
+  if (!retryStatus.has(response.status)) return false;
+  return DEFAULT_RETRY_METHODS.has(method);
+}
+
+function hasExternalAbort(signals) {
+  return signals.some((signal) => signal?.aborted);
 }
 
 export async function safeFetch(input, init = {}, config = {}) {
   const {
     timeout = DEFAULT_TIMEOUT,
     retries = DEFAULT_RETRIES,
-    backoffBase = DEFAULT_BACKOFF_BASE,
+    backoffStep = DEFAULT_BACKOFF_STEP,
     retryStatus = DEFAULT_RETRY_STATUS,
+    signal: overrideSignal,
   } = config;
 
   const method = (init.method || 'GET').toUpperCase();
-  let attempt = 0;
+  const externalSignals = [init.signal, overrideSignal].filter(Boolean);
   let lastError = null;
 
-  while (attempt <= retries) {
-    const { signal, dispose } = createTimeoutController(timeout, init.signal);
+  for (let attempt = 0; attempt <= retries; attempt += 1) {
+    const { signal, dispose } = createTimeoutController(timeout, externalSignals);
     try {
       const response = await fetch(input, { ...init, signal });
       if (!shouldRetry(response, method, retryStatus)) {
@@ -65,24 +100,27 @@ export async function safeFetch(input, init = {}, config = {}) {
       lastError = new Error(`safeFetch retryable status ${response.status}`);
     } catch (error) {
       lastError = error;
-      if (error?.name === 'AbortError' && init.signal?.aborted) {
+      const abortedExternally = error?.name === 'AbortError' && hasExternalAbort(externalSignals);
+      if (abortedExternally) {
         dispose();
         throw error;
       }
+    } finally {
+      dispose();
     }
-
-    dispose();
 
     if (attempt === retries) {
-      throw lastError ?? new Error('safeFetch failed');
+      break;
     }
 
-    const delay = Math.max(100, Math.floor(timeout * Math.pow(backoffBase, attempt)));
-    await wait(delay);
-    attempt += 1;
+    const delayBase = Math.max(0, Number(backoffStep) || 0);
+    const delay = delayBase * (attempt + 1);
+    if (delay > 0) {
+      await wait(delay);
+    }
   }
 
-  throw lastError ?? new Error('safeFetch exhausted without explicit error');
+  throw lastError ?? new Error('safeFetch failed');
 }
 
 export async function safeJson(response) {

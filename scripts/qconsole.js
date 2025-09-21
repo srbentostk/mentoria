@@ -1,3 +1,9 @@
+﻿// Manual QA q-console:
+// a) Abrir a página -> ver FX e BTC/ETH com valores
+// b) Trocar amount -> ver conversões -> ver timestamp
+// c) Abrir Modelos -> ver grupos, tooltips e drawer 'Quando eu uso?'
+// d) Ativar Modo Avançado -> UI muda para tom vinho, persiste após reload
+// e) Trocar provedor em data/providers.json -> recarregar -> verificar
 import { qs, qsa, on } from './lib/dom.js';
 import { loadDOMPurify } from './lib/sanitize.js';
 import { initFX } from './qconsole.fx.js';
@@ -54,19 +60,19 @@ function renderArsenal(grid) {
   const arsenal = [
     {
       tool: 'n8n',
-      description: 'Playbooks automatizados para fluxos encadeados e checkpoints de segurança.',
+      description: 'Playbooks automatizados para fluxos encadeados e checkpoints de seguranÃ§a.',
       assistants: [
         {
           name: 'Blueprint Architect',
-          blurb: 'Mapeia fluxos multi-guilda, garante versionamento e checkpoints acionáveis.',
+          blurb: 'Mapeia fluxos multi-guilda, garante versionamento e checkpoints acionÃ¡veis.',
         },
         {
           name: 'Protocol Officer',
-          blurb: 'Valida integrações sensíveis e cuida de logs para auditorias futuras.',
+          blurb: 'Valida integraÃ§Ãµes sensÃ­veis e cuida de logs para auditorias futuras.',
         },
         {
           name: 'Signal Weaver',
-          blurb: 'Coordena webhooks, filas e triggers externos mantendo a missão estável.',
+          blurb: 'Coordena webhooks, filas e triggers externos mantendo a missÃ£o estÃ¡vel.',
         },
       ],
     },
@@ -76,39 +82,39 @@ function renderArsenal(grid) {
       assistants: [
         {
           name: 'Scenario Sentinel',
-          blurb: 'Cuida dos cenários críticos, com alertas instantâneos para cada falha.',
+          blurb: 'Cuida dos cenÃ¡rios crÃ­ticos, com alertas instantÃ¢neos para cada falha.',
         },
         {
           name: 'Red Team Scout',
-          blurb: 'Simula ataques e gargalos para deixar o fluxo blindado antes da produção.',
+          blurb: 'Simula ataques e gargalos para deixar o fluxo blindado antes da produÃ§Ã£o.',
         },
         {
           name: 'Pulse Keeper',
-          blurb: 'Mantém métricas de throughput, sugerindo upgrades e otimizações.',
+          blurb: 'MantÃ©m mÃ©tricas de throughput, sugerindo upgrades e otimizaÃ§Ãµes.',
         },
       ],
     },
     {
       tool: 'ChatGPT',
-      description: 'Operações de atendimento e prototipagem guiada com inteligência contextual.',
+      description: 'OperaÃ§Ãµes de atendimento e prototipagem guiada com inteligÃªncia contextual.',
       assistants: [
         {
           name: 'Briefing Whisperer',
-          blurb: 'Consolida requisitos e transforma em roteiros prontos para interação.',
+          blurb: 'Consolida requisitos e transforma em roteiros prontos para interaÃ§Ã£o.',
         },
         {
           name: 'UX Liaison',
-          blurb: 'Garante tom e experiência consistente com a operação do agente.',
+          blurb: 'Garante tom e experiÃªncia consistente com a operaÃ§Ã£o do agente.',
         },
         {
           name: 'Continuity Keeper',
-          blurb: 'Monitora histórico, identifica lacunas e cria follow-ups acionáveis.',
+          blurb: 'Monitora histÃ³rico, identifica lacunas e cria follow-ups acionÃ¡veis.',
         },
       ],
     },
     {
-      tool: 'n8n — Q&A',
-      description: 'Constelação focada em triagens rápidas e respostas auditáveis nos fluxos n8n.',
+      tool: 'n8n â€” Q&A',
+      description: 'ConstelaÃ§Ã£o focada em triagens rÃ¡pidas e respostas auditÃ¡veis nos fluxos n8n.',
       assistants: [
         {
           name: 'Knowledge Cipher',
@@ -120,17 +126,17 @@ function renderArsenal(grid) {
         },
         {
           name: 'Echo Auditor',
-          blurb: 'Registra cada resposta com trilha de auditoria e tags de confiança.',
+          blurb: 'Registra cada resposta com trilha de auditoria e tags de confianÃ§a.',
         },
       ],
     },
     {
-      tool: 'Make — Q&A',
+      tool: 'Make â€” Q&A',
       description: 'Respostas velozes com checkpoints visuais para squads em Make.',
       assistants: [
         {
           name: 'Signal Cartographer',
-          blurb: 'Desenha mapas de roteamento para dúvidas recorrentes.',
+          blurb: 'Desenha mapas de roteamento para dÃºvidas recorrentes.',
         },
         {
           name: 'Trust Inspector',
@@ -138,25 +144,25 @@ function renderArsenal(grid) {
         },
         {
           name: 'Tempo Herald',
-          blurb: 'Calcula SLA previsto e alerta o time quando algo foge do padrão.',
+          blurb: 'Calcula SLA previsto e alerta o time quando algo foge do padrÃ£o.',
         },
       ],
     },
     {
-      tool: 'ChatGPT — Q&A',
-      description: 'Equipe de prontidão para bases dinâmicas e scripts de atendimento.',
+      tool: 'ChatGPT â€” Q&A',
+      description: 'Equipe de prontidÃ£o para bases dinÃ¢micas e scripts de atendimento.',
       assistants: [
         {
           name: 'Signal Archivist',
-          blurb: 'Organiza snippets e garante consistência nas respostas.',
+          blurb: 'Organiza snippets e garante consistÃªncia nas respostas.',
         },
         {
           name: 'Delta Watch',
-          blurb: 'Detecta mudanças críticas e avisa sobre necessidade de revisão.',
+          blurb: 'Detecta mudanÃ§as crÃ­ticas e avisa sobre necessidade de revisÃ£o.',
         },
         {
           name: 'Pulse Strategist',
-          blurb: 'Orienta reuso de respostas e otimiza tempo médio por interação.',
+          blurb: 'Orienta reuso de respostas e otimiza tempo mÃ©dio por interaÃ§Ã£o.',
         },
       ],
     },
@@ -230,3 +236,4 @@ async function bootstrap() {
 bootstrap().catch((error) => {
   console.error('[qconsole] Falha ao iniciar Q-Branch // AEGIS', error);
 });
+

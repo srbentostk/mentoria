@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA: Perigos e Avanços para Desenvolvedores</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
@@ -16,6 +20,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             overflow: hidden;
             height: 100vh;
+            font-family: 'Roboto', sans-serif;
         }
 
         .presentation {
@@ -34,14 +39,12 @@
             height: 85vh;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            padding: 60px 80px;
+            padding: 48px 64px;
             display: none;
             flex-direction: column;
             position: relative;
             overflow: hidden;
-            transform-origin: top center;
-            --scale-factor: 1;
-            transform: scale(var(--scale-factor));
+            justify-content: flex-start;
         }
 
         .slide.active {
@@ -59,28 +62,28 @@
 
         .slide h1 {
             color: #667eea;
-            font-size: 3em;
-            margin-bottom: 30px;
+            font-size: 2.8em;
+            margin-bottom: 24px;
             text-align: center;
         }
 
         .slide h2 {
             color: #764ba2;
-            font-size: 2.2em;
-            margin-bottom: 25px;
+            font-size: 2em;
+            margin-bottom: 20px;
             border-bottom: 3px solid #667eea;
-            padding-bottom: 15px;
+            padding-bottom: 12px;
         }
 
         .slide h3 {
             color: #555;
-            font-size: 1.5em;
-            margin: 25px 0 15px 0;
+            font-size: 1.4em;
+            margin: 20px 0 12px 0;
         }
 
         .slide p {
-            font-size: 1.2em;
-            line-height: 1.6;
+            font-size: 1.15em;
+            line-height: 1.55;
             color: #333;
             margin-bottom: 15px;
         }
@@ -135,11 +138,12 @@
             padding: 20px;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
+            font-size: 1.1em;
             margin: 20px 0;
-            overflow-x: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+           
+            word-break: break-word;
+            line-height: 1.4;
+            text-align: center;
         }
 
         .navigation {
@@ -190,35 +194,37 @@
 
         .content-scroll {
             flex: 1;
-            padding-right: 20px;
+            padding-right: 12px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
 
         .card-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
+            gap: 20px;
         }
 
         .layout-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 24px;
-            align-items: start;
+            align-items: stretch;
         }
 
         .layout-grid > h3,
         .layout-grid > p {
-            grid-column: 1 / -1;
+            grid-column: 1 / -1; /* Span across all columns */
         }
 
         .grid-two {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 24px;
+            gap: 20px;
             align-items: start;
+            align-items: stretch;
         }
 
         .list-columns {
@@ -240,13 +246,13 @@
         .two-column {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin: 20px 0;
+            gap: 24px;
+            margin: 16px 0;
         }
 
         .column {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 18px;
             border-radius: 10px;
         }
 
@@ -309,15 +315,15 @@
 
         .duration-badge {
             position: absolute;
-            top: 30px;
-            right: 30px;
-            background: rgba(255, 255, 255, 0.7);
-            color: #667eea;
-            padding: 6px 16px;
-            border-radius: 20px;
+            top: 24px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.55);
+            color: #4453aa;
+            padding: 4px 12px;
+            border-radius: 16px;
             font-weight: 600;
-            font-size: 0.95em;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-size: 0.85em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
         }
     </style>
 </head>
@@ -481,7 +487,7 @@ back</p>
 
                     <div class="warning" style="margin-top: 0;">
                         <h3>O Ciclo de Exposição</h3>
-                        <ol style="font-size: 1.2em; line-height: 2;">
+                        <ol style="font-size: 1.2em; line-height: 2; margin-left: 20px;">
                             <li>Você envia dados → IA</li>
                             <li>IA usa para treinamento</li>
                             <li>Outros usuários fazem perguntas</li>
@@ -511,7 +517,7 @@ back</p>
 
                     <div class="warning">
                         <h3>⚠️ O Ataque Silencioso:</h3>
-                        <ol style="line-height: 2;">
+                        <ol style="line-height: 2; margin-left: 20px;">
                             <li>Desenvolvedores maliciosos criam bibliotecas infectadas</li>
                             <li>Geram código massivo importando essas bibliotecas</li>
                             <li>Alimentam a IA com esse código</li>
@@ -553,7 +559,7 @@ back</p>
 
                 <div class="warning">
                     <h3>Resultado:</h3>
-                    <ul>
+                    <ul style="margin-bottom: 0;">
                         <li>❌ Não há notificação</li>
                         <li>❌ Não há alerta</li>
                         <li>❌ Backdoor silencioso instalado</li>
@@ -1011,7 +1017,7 @@ dados = mcp.obter([<br>
             <div class="content-scroll">
                 <h3>A Nova Realidade</h3>
                 
-                <div class="code-block" style="font-size: 1.2em; text-align: center; padding: 40px;">
+                <div class="code-block" style="font-size: 1.2em; padding: 40px; margin: 20px auto; max-width: 80%;">
                     <strong>Agente IA</strong><br>
                     +<br>
                     <strong>MCP</strong> (acesso inteligente a APIs/dados)<br>
@@ -1210,7 +1216,7 @@ dados = mcp.obter([<br>
                 <h3>Resumo - Como Se Proteger</h3>
                 
                 <div class="success">
-                    <ol style="font-size: 1.3em; line-height: 2;">
+                    <ol style="font-size: 1.3em; line-height: 2; margin-left: 20px;">
                         <li><strong>Configure sua IA</strong> - Desative compartilhamento</li>
                         <li><strong>Regra do Instagram</strong> - Se não publicaria, não envie</li>
                         <li><strong>Variáveis de Ambiente</strong> - Sempre, sem exceção</li>
@@ -1230,7 +1236,7 @@ dados = mcp.obter([<br>
                 <h3>Como Aproveitar o Máximo</h3>
                 
                 <div class="success">
-                    <ol style="font-size: 1.3em; line-height: 2;">
+                    <ol style="font-size: 1.3em; line-height: 2; margin-left: 20px;">
                         <li><strong>Invista em Aprendizado</strong> - IA não substitui conhecimento</li>
                         <li><strong>Instruções Claras</strong> - Quanto mais específico, melhor</li>
                         <li><strong>Use Exemplos</strong> - Mostre o que espera</li>
@@ -1280,7 +1286,6 @@ dados = mcp.obter([<br>
 
         function showSlide(n) {
             slides[currentSlide].classList.remove('active');
-            slides[currentSlide].style.setProperty('--scale-factor', 1);
 
             currentSlide = n;
             if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
@@ -1288,26 +1293,13 @@ dados = mcp.obter([<br>
 
             const activeSlide = slides[currentSlide];
             activeSlide.classList.add('active');
-            activeSlide.style.setProperty('--scale-factor', 1);
             document.getElementById('current-slide').textContent = currentSlide + 1;
-
-            requestAnimationFrame(() => fitSlide(activeSlide));
 
             document.getElementById('prev-btn').disabled = currentSlide === 0;
             document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
         }
 
-        function fitSlide(slide) {
-            if (!slide) return;
-            slide.style.setProperty('--scale-factor', 1);
-
-            const availableHeight = slide.clientHeight;
-            const contentHeight = slide.scrollHeight;
-
-            if (contentHeight > availableHeight) {
-                const scale = availableHeight / contentHeight;
-                slide.style.setProperty('--scale-factor', scale);
-            }
+        function adjustSlide(slide) {
         }
 
         function nextSlide() {
@@ -1329,12 +1321,17 @@ dados = mcp.obter([<br>
             }
         });
 
+        function initializeDeck() {
+            showSlide(0);
+        }
+
         window.addEventListener('resize', () => {
-            fitSlide(slides[currentSlide]);
         });
 
-        // Initialize
-        showSlide(0);
+        window.addEventListener('load', initializeDeck);
+
+        // Initialize for no-load fallback
+        initializeDeck();
     </script>
 </body>
 </html>

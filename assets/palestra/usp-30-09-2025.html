@@ -37,7 +37,11 @@
             padding: 60px 80px;
             display: none;
             flex-direction: column;
-            animation: slideIn 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+            transform-origin: top center;
+            --scale-factor: 1;
+            transform: scale(var(--scale-factor));
         }
 
         .slide.active {
@@ -47,11 +51,9 @@
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateX(50px);
             }
             to {
                 opacity: 1;
-                transform: translateX(0);
             }
         }
 
@@ -101,6 +103,9 @@
             border-left: 5px solid #ffc107;
             margin: 20px 0;
             border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .warning {
@@ -109,6 +114,9 @@
             border-left: 5px solid #dc3545;
             margin: 20px 0;
             border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .success {
@@ -117,6 +125,9 @@
             border-left: 5px solid #28a745;
             margin: 20px 0;
             border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .code-block {
@@ -126,6 +137,9 @@
             font-family: 'Courier New', monospace;
             margin: 20px 0;
             overflow-x: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .navigation {
@@ -175,23 +189,45 @@
         }
 
         .content-scroll {
-            overflow-y: auto;
             flex: 1;
             padding-right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .content-scroll::-webkit-scrollbar {
-            width: 10px;
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
         }
 
-        .content-scroll::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+        .layout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            align-items: start;
         }
 
-        .content-scroll::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 10px;
+        .layout-grid > h3,
+        .layout-grid > p {
+            grid-column: 1 / -1;
+        }
+
+        .grid-two {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            align-items: start;
+        }
+
+        .list-columns {
+            columns: 2;
+            column-gap: 40px;
+        }
+
+        .list-columns li {
+            break-inside: avoid;
         }
 
         .subtitle {
@@ -224,6 +260,9 @@
             padding: 20px;
             margin: 15px 0;
             border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .case-study h4 {
@@ -267,16 +306,29 @@
             font-size: 1.8em;
             color: #666;
         }
+
+        .duration-badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: rgba(255, 255, 255, 0.7);
+            color: #667eea;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95em;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
     <div class="presentation">
         <!-- Slide 1: Título -->
         <div class="slide active intro-slide">
+            <div class="duration-badge">90</div>
             <h1>IA: Entre Perigos Invisíveis e Avanços Revolucionários</h1>
             <p class="subtitle">A dupla face da revolução tecnológica</p>
             <p class="subtitle">O que mudou nos últimos anos</p>
-            <p style="margin-top: 60px; font-size: 1.3em; color: #888;">Palestra USP - 90 minutos</p>
         </div>
 
         <!-- Slide 2: Divisor - Parte 1 -->
@@ -318,32 +370,33 @@
             <h2>Os Novos Vetores de Ataque</h2>
             <div class="content-scroll">
                 <h3>Como Você Está Sendo Alvo SEM SABER</h3>
-                
-                <div class="highlight">
-                    <h3>1. LinkedIn - A Porta de Entrada Profissional</h3>
-                    <ul>
-                        <li>Proposta de emprego atraente</li>
-                        <li>Perfil falso extremamente convincente</li>
-                        <li>Processo seletivo que parece real</li>
-                    </ul>
-                </div>
+                <div class="grid-two">
+                    <div class="highlight">
+                        <h3>1. LinkedIn - A Porta de Entrada Profissional</h3>
+                        <ul>
+                            <li>Proposta de emprego atraente</li>
+                            <li>Perfil falso extremamente convincente</li>
+                            <li>Processo seletivo que parece real</li>
+                        </ul>
+                    </div>
 
-                <div class="highlight">
-                    <h3>2. Instagram/Redes Sociais</h3>
-                    <ul>
-                        <li>Direct com link malicioso</li>
-                        <li>Phishing disfarçado de oportunidade</li>
-                        <li>Infecção silenciosa</li>
-                    </ul>
-                </div>
+                    <div class="highlight">
+                        <h3>2. Instagram/Redes Sociais</h3>
+                        <ul>
+                            <li>Direct com link malicioso</li>
+                            <li>Phishing disfarçado de oportunidade</li>
+                            <li>Infecção silenciosa</li>
+                        </ul>
+                    </div>
 
-                <div class="warning">
-                    <h3>3. A Invisibilidade do Golpe</h3>
-                    <ul>
-                        <li>Você clica, pega vírus, e segue sua vida</li>
-                        <li>Não há momento "eureka" de descoberta</li>
-                        <li>O dano é feito nos bastidores</li>
-                    </ul>
+                    <div class="warning">
+                        <h3>3. A Invisibilidade do Golpe</h3>
+                        <ul>
+                            <li>Você clica, pega vírus, e segue sua vida</li>
+                            <li>Não há momento "eureka" de descoberta</li>
+                            <li>O dano é feito nos bastidores</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -352,28 +405,32 @@
         <div class="slide">
             <h2>Casos Reais de Golpes com IA</h2>
             <div class="content-scroll">
-                <div class="case-study">
-                    <h4>1. Hong Kong - US$ 25 milhões (2024)</h4>
-                    <p>Funcionário de multinacional transferiu US$ 25 milhões após videoconferência falsa onde golpistas usaram deepfake do diretor financeiro e outros colegas da empresa</p>
-                    <a href="https://www.cnnbrasil.com.br/economia/negocios/golpistas-usam-deepfake-de-diretor-financeiro-e-roubam-us-25-milhoes/" class="link" target="_blank">Ver notícia completa</a>
-                </div>
+                <div class="card-grid">
+                    <div class="case-study">
+                        <h4>1. Hong Kong - US$ 25 milhões (2024)</h4>
+                        <p>Funcionário de multinacional transferiu US$ 25 milhões após videoconferência falsa onde golpistas usaram
+deepfake do diretor financeiro e outros colegas da empresa</p>
+                        <a href="https://www.cnnbrasil.com.br/economia/negocios/golpistas-usam-deepfake-de-diretor-financeiro-e-roubam-us-25-milhoes/" class="link" target="_blank">Ver notícia completa</a>
+                    </div>
 
-                <div class="case-study">
-                    <h4>2. Brasil - Marcos Mion (2025)</h4>
-                    <p>Quadrilha presa por usar deepfakes do apresentador Marcos Mion para promover falsas promoções da rede Outback</p>
-                    <a href="https://www.welivesecurity.com/pt/seguranca-digital/casos-reais-de-golpes-envolvendo-deepfakes/" class="link" target="_blank">Ver notícia completa</a>
-                </div>
+                    <div class="case-study">
+                        <h4>2. Brasil - Marcos Mion (2025)</h4>
+                        <p>Quadrilha presa por usar deepfakes do apresentador Marcos Mion para promover falsas promoções da rede Out
+back</p>
+                        <a href="https://www.welivesecurity.com/pt/seguranca-digital/casos-reais-de-golpes-envolvendo-deepfakes/" class="link" target="_blank">Ver notícia completa</a>
+                    </div>
 
-                <div class="case-study">
-                    <h4>3. EUA - Golpe do Sequestro com Voz Clonada (2023)</h4>
-                    <p>Mãe caiu em golpe de falso sequestro após criminosos clonarem a voz de sua filha adolescente usando IA</p>
-                    <a href="https://www.otempo.com.br/mundo/criminosos-usam-ia-para-clonar-voz-de-adolescente-em-golpe-do-sequestro-1.2862455" class="link" target="_blank">Ver notícia completa</a>
-                </div>
+                    <div class="case-study">
+                        <h4>3. EUA - Golpe do Sequestro com Voz Clonada (2023)</h4>
+                        <p>Mãe caiu em golpe de falso sequestro após criminosos clonarem a voz de sua filha adolescente usando IA</p>
+                        <a href="https://www.otempo.com.br/mundo/criminosos-usam-ia-para-clonar-voz-de-adolescente-em-golpe-do-sequestro-1.2862455" class="link" target="_blank">Ver notícia completa</a>
+                    </div>
 
-                <div class="case-study">
-                    <h4>4. Brasil - Perdas Financeiras (2024)</h4>
-                    <p>Estudo global mostra que 36% das vítimas de clonagem de voz perderam entre US$500 e US$3.000, e 7% perderam entre US$5.000 e US$15.000</p>
-                    <a href="https://www.nvseguros.com.br/clonagem-de-voz" class="link" target="_blank">Ver estudo completo</a>
+                    <div class="case-study">
+                        <h4>4. Brasil - Perdas Financeiras (2024)</h4>
+                        <p>Estudo global mostra que 36% das vítimas de clonagem de voz perderam entre US$500 e US$3.000, e 7% perderam entre US$5.000 e US$15.000</p>
+                        <a href="https://www.nvseguros.com.br/clonagem-de-voz" class="link" target="_blank">Ver estudo completo</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -382,26 +439,28 @@
         <div class="slide">
             <h2>O Perigo Invisível - Exposição de Dados</h2>
             <div class="content-scroll">
-                <div class="warning">
-                    <h3>⚠️ AVISO CRÍTICO: Seus Dados São Públicos Por Padrão</h3>
-                    <p><strong>A menos que você DESATIVE manualmente:</strong></p>
-                    <ul>
-                        <li>ChatGPT compartilha suas conversas</li>
-                        <li>Gemini usa seus dados para treinamento</li>
-                        <li>Deepseek armazena tudo</li>
-                        <li>Grok, Meta AI, e outros fazem o mesmo</li>
-                    </ul>
-                </div>
+                <div class="grid-two">
+                    <div class="warning">
+                        <h3>⚠️ AVISO CRÍTICO: Seus Dados São Públicos Por Padrão</h3>
+                        <p><strong>A menos que você DESATIVE manualmente:</strong></p>
+                        <ul>
+                            <li>ChatGPT compartilha suas conversas</li>
+                            <li>Gemini usa seus dados para treinamento</li>
+                            <li>Deepseek armazena tudo</li>
+                            <li>Grok, Meta AI, e outros fazem o mesmo</li>
+                        </ul>
+                    </div>
 
-                <div class="highlight">
-                    <h3>🤔 O Teste do Instagram</h3>
-                    <p style="font-size: 1.3em; font-style: italic;">"Tem alguma informação ou arquivo que você JAMAIS colocaria em um post público no Instagram?"</p>
-                    <p style="margin-top: 20px;"><strong>Se SIM:</strong></p>
-                    <ul>
-                        <li>Esta informação NÃO deve ir para IA</li>
-                        <li>Se já foi, agora é PÚBLICA</li>
-                        <li>Não há como "desfazer"</li>
-                    </ul>
+                    <div class="highlight">
+                        <h3>🤔 O Teste do Instagram</h3>
+                        <p style="font-size: 1.3em; font-style: italic;">"Tem alguma informação ou arquivo que você JAMAIS colocaria em um post público no Instagram?"</p>
+                        <p style="margin-top: 20px;"><strong>Se SIM:</strong></p>
+                        <ul>
+                            <li>Esta informação NÃO deve ir para IA</li>
+                            <li>Se já foi, agora é PÚBLICA</li>
+                            <li>Não há como "desfazer"</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -410,24 +469,26 @@
         <div class="slide">
             <h2>Exemplos de Informações Comprometidas</h2>
             <div class="content-scroll">
-                <ul style="font-size: 1.3em;">
-                    <li>📄 Documentos pessoais (RG, CPF, comprovantes)</li>
-                    <li>🔑 Códigos e senhas</li>
-                    <li>🏥 Informações médicas</li>
-                    <li>💬 Conversas privadas</li>
-                    <li>💰 Dados financeiros</li>
-                    <li>🏢 Segredos empresariais</li>
-                </ul>
+                <div class="grid-two">
+                    <ul class="list-columns" style="font-size: 1.3em;">
+                        <li>📄 Documentos pessoais (RG, CPF, comprovantes)</li>
+                        <li>🔑 Códigos e senhas</li>
+                        <li>🏥 Informações médicas</li>
+                        <li>💬 Conversas privadas</li>
+                        <li>💰 Dados financeiros</li>
+                        <li>🏢 Segredos empresariais</li>
+                    </ul>
 
-                <div class="warning" style="margin-top: 40px;">
-                    <h3>O Ciclo de Exposição</h3>
-                    <ol style="font-size: 1.2em; line-height: 2;">
-                        <li>Você envia dados → IA</li>
-                        <li>IA usa para treinamento</li>
-                        <li>Outros usuários fazem perguntas</li>
-                        <li>IA "vaza" suas informações em respostas</li>
-                        <li>Dados ficam acessíveis eternamente</li>
-                    </ol>
+                    <div class="warning" style="margin-top: 0;">
+                        <h3>O Ciclo de Exposição</h3>
+                        <ol style="font-size: 1.2em; line-height: 2;">
+                            <li>Você envia dados → IA</li>
+                            <li>IA usa para treinamento</li>
+                            <li>Outros usuários fazem perguntas</li>
+                            <li>IA "vaza" suas informações em respostas</li>
+                            <li>Dados ficam acessíveis eternamente</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
@@ -437,26 +498,28 @@
             <h2>O Problema dos Vibe Coders</h2>
             <div class="content-scroll">
                 <h3>Como a IA Gera Código... e Perigos</h3>
-                
-                <div class="highlight">
-                    <h3>Funcionamento Básico:</h3>
-                    <ul>
-                        <li>IA gera texto aleatório baseado em probabilidades</li>
-                        <li>Usa dados de treinamento + contexto</li>
-                        <li>Conversas dos usuários → novos dados de treinamento</li>
-                    </ul>
-                </div>
 
-                <div class="warning">
-                    <h3>⚠️ O Ataque Silencioso:</h3>
-                    <ol style="line-height: 2;">
-                        <li>Desenvolvedores maliciosos criam bibliotecas infectadas</li>
-                        <li>Geram código massivo importando essas bibliotecas</li>
-                        <li>Alimentam a IA com esse código</li>
-                        <li>IA aprende o padrão</li>
-                        <li>IA sugere a biblioteca infectada para você</li>
-                        <li><strong style="color: red; font-size: 1.2em;">VOCÊ ESTÁ COMPROMETIDO</strong></li>
-                    </ol>
+                <div class="grid-two">
+                    <div class="highlight">
+                        <h3>Funcionamento Básico:</h3>
+                        <ul>
+                            <li>IA gera texto aleatório baseado em probabilidades</li>
+                            <li>Usa dados de treinamento + contexto</li>
+                            <li>Conversas dos usuários → novos dados de treinamento</li>
+                        </ul>
+                    </div>
+
+                    <div class="warning">
+                        <h3>⚠️ O Ataque Silencioso:</h3>
+                        <ol style="line-height: 2;">
+                            <li>Desenvolvedores maliciosos criam bibliotecas infectadas</li>
+                            <li>Geram código massivo importando essas bibliotecas</li>
+                            <li>Alimentam a IA com esse código</li>
+                            <li>IA aprende o padrão</li>
+                            <li>IA sugere a biblioteca infectada para você</li>
+                            <li><strong style="color: red; font-size: 1.2em;">VOCÊ ESTÁ COMPROMETIDO</strong></li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1212,27 +1275,39 @@ dados = mcp.obter([<br>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const totalSlides = slides.length;
-        
+
         document.getElementById('total-slides').textContent = totalSlides;
 
         function showSlide(n) {
             slides[currentSlide].classList.remove('active');
+            slides[currentSlide].style.setProperty('--scale-factor', 1);
+
             currentSlide = n;
             if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
             if (currentSlide < 0) currentSlide = 0;
-            
-            slides[currentSlide].classList.add('active');
+
+            const activeSlide = slides[currentSlide];
+            activeSlide.classList.add('active');
+            activeSlide.style.setProperty('--scale-factor', 1);
             document.getElementById('current-slide').textContent = currentSlide + 1;
-            
-            // Scroll to top when changing slides
-            const contentScroll = slides[currentSlide].querySelector('.content-scroll');
-            if (contentScroll) {
-                contentScroll.scrollTop = 0;
-            }
-            
-            // Update button states
+
+            requestAnimationFrame(() => fitSlide(activeSlide));
+
             document.getElementById('prev-btn').disabled = currentSlide === 0;
             document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function fitSlide(slide) {
+            if (!slide) return;
+            slide.style.setProperty('--scale-factor', 1);
+
+            const availableHeight = slide.clientHeight;
+            const contentHeight = slide.scrollHeight;
+
+            if (contentHeight > availableHeight) {
+                const scale = availableHeight / contentHeight;
+                slide.style.setProperty('--scale-factor', scale);
+            }
         }
 
         function nextSlide() {
@@ -1252,6 +1327,10 @@ dados = mcp.obter([<br>
                 e.preventDefault();
                 previousSlide();
             }
+        });
+
+        window.addEventListener('resize', () => {
+            fitSlide(slides[currentSlide]);
         });
 
         // Initialize

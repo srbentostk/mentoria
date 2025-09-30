@@ -1,154 +1,1016 @@
 [
+
   {
+
     "vendor": "OpenAI",
-    "name": "gpt-4o",
-    "function": "multimodal",
-    "usd": {
-      "input_per_million": 5.0,
-      "output_per_million": 15.0
-    },
-    "link": "https://openai.com/api/pricing/",
-    "hover": "Multimodal veloz para texto, imagem e áudio. Ótimo para prototipar experiências ricas sem construir pipelines complexos.",
-    "whenToUse": {
-      "n8n_make": "Fluxos Make/n8n que precisam ler imagens simples, roteirizar e responder em menos de uma página de Word. Use para orçamentos rápidos com anexos.",
-      "python": "Scripts que alternam texto e mídia (por exemplo, classificação de imagens com relatório de ~1 página). Latência média de segundos.",
-      "agent": "Agentes que trocam fala, imagem e texto em tempo quase real, mantendo respostas até ~2 páginas sem travar o orçamento."
-    },
-    "limits": "Custo cresce rápido em lotes grandes. Não substitui modelos especializados de raciocínio profundo."
-  },
-  {
-    "vendor": "OpenAI",
-    "name": "gpt-4o-mini",
-    "function": "cheap-fast",
-    "usd": {
-      "input_per_million": 0.15,
-      "output_per_million": 0.6
-    },
-    "link": "https://openai.com/api/pricing/",
-    "hover": "Versão econômica para respostas rápidas. Ideal para automações que precisam de boa qualidade sem explodir o custo.",
-    "whenToUse": {
-      "n8n_make": "Rotinas de classificação, e-mails curtos ou resumos de até meia página. Latência na casa de 1-2 segundos.",
-      "python": "Bots e scripts que processam filas longas. Pense em milhares de entradas com respostas de meia página.",
-      "agent": "Assistentes internos que respondem FAQs ou triagens, com custo baixo por interação."
-    },
-    "limits": "Perde nuances em tarefas muito ambíguas. Contexto menor que a versão completa."
-  },
-  {
-    "vendor": "OpenAI",
-    "name": "gpt-4o-mini-tts",
-    "function": "image-audio",
-    "usd": {
-      "audio_per_minute": 0.006
-    },
-    "link": "https://openai.com/api/pricing/",
-    "hover": "Texto-para-voz veloz com vozes naturais. Bom para gerar áudios curtos sob demanda.",
-    "whenToUse": {
-      "n8n_make": "Mensagens de voz automáticas de até 2 minutos integradas a fluxos de suporte.",
-      "python": "Scripts que transformam resumos (1 página) em áudio para podcasts curtos ou notificações.",
-      "agent": "Agentes que respondem com voz em tempo real, mantendo a latência abaixo de 5 segundos por minuto de fala."
-    },
-    "limits": "Não suporta personalização profunda de voz. Ideal para clipes rápidos, não para áudio longo profissional."
-  },
-  {
-    "vendor": "Anthropic",
-    "name": "claude-3.5-sonnet",
+
+    "name": "o1-preview",
+
     "function": "reasoning",
+
     "usd": {
-      "input_per_million": 3.0,
-      "output_per_million": 15.0
-    },
-    "link": "https://www.anthropic.com/api",
-    "hover": "Modelo equilibrado de raciocínio. Mantém coerência em análises de múltiplas páginas com custo moderado.",
-    "whenToUse": {
-      "n8n_make": "Revisões de propostas e análises de leads com respostas de 1-2 páginas em até 10 segundos.",
-      "python": "Aplicações que precisam comparar documentos e gerar pareceres curtos sem supervisionar a cada passo.",
-      "agent": "Agentes que avaliam hipóteses e retornam planos acionáveis em uma ou duas páginas."
-    },
-    "limits": "Pode alucinar dados específicos. Combine com validações ou bases confiáveis."
-  },
-  {
-    "vendor": "Anthropic",
-    "name": "claude-3-opus",
-    "function": "reasoning",
-    "usd": {
+
       "input_per_million": 15.0,
+
       "output_per_million": 75.0
+
     },
-    "link": "https://www.anthropic.com/api",
-    "hover": "Opção premium para raciocínio profundo. Excelente em relatórios longos e tomada de decisão assistida.",
+
+    "context": "200k tokens",
+
+    "link": "https://openai.com/api/pricing/",
+
+    "hover": "Raciocínio deliberativo completo com cadeia de pensamento explícita. Ideal quando a resposta precisa vir com justificativa audível.",
+
     "whenToUse": {
-      "n8n_make": "Playbooks raros onde a prova precisa de revisão impecável (2-3 páginas) e custo não é o foco.",
-      "python": "Ferramentas que cruzam várias fontes e explicam decisões em detalhes (~3 páginas) com latência acima de 10s.",
-      "agent": "Mentores virtuais que fazem análise estratégica extensa, aceitando custo alto por uso."
+
+      "n8n_make": "Workflows que consolidam vários documentos ou planilhas antes de emitir um parecer final homologado.",
+
+      "python": "Análises forenses, compliance e revisóes contratuais que precisam justificar cada etapa do cálculo.",
+
+      "agent": "Assistentes estratégicos que coordenam múltiplas ferramentas antes de responder ao decisor humano."
+
     },
-    "limits": "Custo elevado. Use quando o valor do insight compensa o investimento."
+
+    "limits": "Laténcia de vários segundos e custo alto por chamada. Use com filas pequenas e monitoramento de tempo."
+
   },
+
   {
-    "vendor": "Google",
-    "name": "gemini-1.5-pro",
-    "function": "long-context",
-    "usd": {
-      "input_per_million": 3.5,
-      "output_per_million": 10.5
-    },
-    "link": "https://ai.google.dev/pricing",
-    "hover": "Modelo voltado para contextos grandes. Aceita documentos extensos mantendo referências cruzadas.",
-    "whenToUse": {
-      "n8n_make": "Validação de dossiês longos (até dezenas de páginas) para gerar sumários de 1-2 páginas.",
-      "python": "Pipelines que precisam ler PDFs extensos e responder perguntas específicas com referências.",
-      "agent": "Analistas virtuais que consultam bases grandes antes de responder, mesmo com latência maior."
-    },
-    "limits": "Latência maior que modelos rápidos. Prepare cache ou divisão por blocos."
-  },
-  {
-    "vendor": "Google",
-    "name": "gemini-1.5-flash",
-    "function": "multimodal",
-    "usd": {
-      "input_per_million": 0.35,
-      "output_per_million": 1.05
-    },
-    "link": "https://ai.google.dev/pricing",
-    "hover": "Versão acessível do Gemini com suporte multimodal básico. Ideal para protótipos e respostas rápidas.",
-    "whenToUse": {
-      "n8n_make": "Triagens multimídia leves (imagem+texto) que cabem em meia página e precisam resposta em segundos.",
-      "python": "Aplicações web que pedem resumo de prints ou textos curtos, mantendo baixo custo.",
-      "agent": "Assistentes que alternam texto e imagem para suporte ao cliente, com orçamento reduzido."
-    },
-    "limits": "Precisão menor em análises complexas. Prefira quando volume e velocidade importam mais."
-  },
-  {
-    "vendor": "Mistral",
-    "name": "mistral-large",
+
+    "vendor": "OpenAI",
+
+    "name": "o1-mini",
+
     "function": "reasoning",
+
     "usd": {
-      "input_per_million": 8.0,
-      "output_per_million": 24.0
+
+      "input_per_million": 3.0,
+
+      "output_per_million": 15.0
+
     },
-    "link": "https://mistral.ai/technology/#pricing",
-    "hover": "Modelo europeu com foco em raciocínio estruturado e contexto robusto.",
+
+    "context": "128k tokens",
+
+    "link": "https://openai.com/api/pricing/",
+
+    "hover": "Raciocínio estruturado com custo reduzido. Mantém explicaçoes passo a passo sem explodir orçamento.",
+
     "whenToUse": {
-      "n8n_make": "Fluxos que exigem análises estratégicas de 2 páginas com menor latência que modelos premium.",
-      "python": "Ferramentas que precisam de argumentação consistente em múltiplos idiomas.",
-      "agent": "Agentes consultivos que recomendam ações com base em guidelines complexos."
+
+      "n8n_make": "Automatizar validaçao de propostas e gerar minutas com checklist explícito em fluxos Make/n8n.",
+
+      "python": "Pipelines que exigem análise cuidadosa, mas precisam rodar dezenas de vezes por hora.",
+
+      "agent": "Agentes especialistas que precisam argumentar antes de aprovar ou negar solicitaçoes internas."
+
     },
-    "limits": "Menor ecossistema que OpenAI/Anthropic. Verifique compatibilidade de ferramentas."
+
+    "limits": "Ainda mais lento que modelos baseados em gpt-4o-mini. Náo indicado para atendimento em tempo real."
+
   },
+
   {
-    "vendor": "Mistral",
-    "name": "mistral-small",
-    "function": "cheap-fast",
+
+    "vendor": "xAI",
+
+    "name": "Grok-2",
+
+    "function": "reasoning",
+
     "usd": {
-      "input_per_million": 2.0,
-      "output_per_million": 6.0
+
+      "input_per_million": 5.0,
+
+      "output_per_million": 15.0
+
     },
-    "link": "https://mistral.ai/technology/#pricing",
-    "hover": "Pequeno e rápido. Bom para automações de alto volume com respostas de até meia página.",
+
+    "context": "128k tokens",
+
+    "link": "https://docs.x.ai/docs/pricing",
+
+    "hover": "Raciocínio com foco em atualizaçoes recentes via X/Twitter. Ótimo para relatórios situacionais e insights vivos.",
+
     "whenToUse": {
-      "n8n_make": "Classificações, detecção de idioma e respostas curtas em massa com custo competitivo.",
-      "python": "Serviços que operam filas com milhares de itens/dia, mantendo respostas concisas.",
-      "agent": "Bots de suporte interno que precisam operar em vários idiomas com custo por mensagem baixo."
+
+      "n8n_make": "Alertas que precisam cruzar redes sociais em tempo real com dados internos antes de abrir incidentes.",
+
+      "python": "Scripts que produzem relatórios diários sobre tendéncias de mercado, marketing ou reputaçao.",
+
+      "agent": "Assistentes que respondem perguntas estratégicas sobre notícias e monitoramento competitivo."
+
     },
-    "limits": "Limitações em criatividade e raciocínio longo. Complementar com validações."
+
+    "limits": "Necessita chave da plataforma xAI e pode variar em laténcia conforme volume global."
+
+  },
+
+  {
+
+    "vendor": "DeepSeek",
+
+    "name": "DeepSeek-R1",
+
+    "function": "reasoning",
+
+    "usd": {
+
+      "input_per_million": 0.55,
+
+      "output_per_million": 2.19
+
+    },
+
+    "context": "64k tokens",
+
+    "link": "https://platform.deepseek.com/pricing",
+
+    "hover": "Modelo open-source alinhado para raciocínio passo a passo com excelente custo-benefício.",
+
+    "whenToUse": {
+
+      "n8n_make": "Validaçao lógica de propostas, avaliaçao de riscos e QA de processos com budget apertado.",
+
+      "python": "Pipelines offline que precisam explicar decisóes (auditorias, due diligence, relatórios densos).",
+
+      "agent": "Agentes analíticos que devem argumentar e citar fontes internas antes da resposta final."
+
+    },
+
+    "limits": "Requer hospedar ou usar provedores como Fireworks/OpenRouter. Consumo de memória elevado em self-host."
+
+  },
+
+  {
+
+    "vendor": "Reka AI",
+
+    "name": "Reka Core (2024)",
+
+    "function": "reasoning",
+
+    "usd": {
+
+      "input_per_million": 2.0,
+
+      "output_per_million": 8.0
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://docs.reka.ai/",
+
+    "hover": "Modelo de raciocínio bilíngue com foco em instruçoes longas e respostas controladas.",
+
+    "whenToUse": {
+
+      "n8n_make": "Cadéncias que precisam controlar temperatura e formato da resposta para revisáo humana posterior.",
+
+      "python": "Aplicacoes que mesclam código, tabelas e linguagem natural e exigem coeréncia.",
+
+      "agent": "Agentes que atuam como analistas de suporte ou governança e precisam seguir playbooks rígidos."
+
+    },
+
+    "limits": "Disponível por provedores parceiros (Fireworks, OctoAI). Documentaçao menos madura que OpenAI/Anthropic."
+
+  },
+
+  {
+
+    "vendor": "Meta (Fireworks)",
+
+    "name": "Llama 3.1 405B Instruct",
+
+    "function": "reasoning",
+
+    "usd": {
+
+      "input_per_million": 2.0,
+
+      "output_per_million": 4.0
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://fireworks.ai/pricing",
+
+    "hover": "Modelo aberto mais robusto da família Llama 3.1, com forte raciocínio e respostas longas.",
+
+    "whenToUse": {
+
+      "n8n_make": "Processos de governança que exigem seçoes longas com checklist estruturado.",
+
+      "python": "Projetos que querem manter dados on-premise usando provedores compatíveis com VPC.",
+
+      "agent": "Agentes consultivos internos com necessidade de respostas argumentativas e tom ajustável."
+
+    },
+
+    "limits": "Laténcia maior e custo de hospedagem elevado se auto-hospedado."
+
+  },
+
+  {
+
+    "vendor": "OpenAI",
+
+    "name": "gpt-4o",
+
+    "function": "multimodal",
+
+    "usd": {
+
+      "input_per_million": 5.0,
+
+      "output_per_million": 15.0
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://openai.com/api/pricing/",
+
+    "hover": "Equilíbrio ideal entre velocidade, custo e qualidade multimodal (texto, imagem, áudio).",
+
+    "whenToUse": {
+
+      "n8n_make": "Orçamentos com anexos, leitura de imagens simples e geraçao de scripts curtos.",
+
+      "python": "Dashboards que transformam prints e PDFs em relatórios comentados.",
+
+      "agent": "Assistentes que combinam texto + visáo para triagem operacional em tempo quase real."
+
+    },
+
+    "limits": "Limites de leitura de imagem avançada (ex: tabelas densas) ainda inferiores a modelos especializados."
+
+  },
+
+  {
+
+    "vendor": "OpenAI",
+
+    "name": "gpt-4o-realtime-preview",
+
+    "function": "multimodal",
+
+    "usd": {
+
+      "input_per_million": 5.0,
+
+      "output_per_million": 15.0,
+
+      "audio_per_minute": 0.12
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://openai.com/api/pricing/",
+
+    "hover": "Streaming full-duplex de voz, texto e visáo. Ideal para agentes que atuam como copilotos ao vivo.",
+
+    "whenToUse": {
+
+      "n8n_make": "Salas de guerra e atendimentos premium onde o agente conversa e registra açoes no fluxo.",
+
+      "python": "Interfaces customizadas para reunióes assistidas que geram resumos e tarefas em tempo real.",
+
+      "agent": "Operacoes que precisam de voz natural com laténcia baixa e visáo integrada."
+
+    },
+
+    "limits": "Requer WebRTC e integraçao específica do endpoint realtime. Billing por minuto + tokens."
+
+  },
+
+  {
+
+    "vendor": "OpenAI",
+
+    "name": "gpt-4o-mini-tts",
+
+    "function": "multimodal",
+
+    "usd": {
+
+      "input_per_million": 0.6,
+
+      "output_per_million": 2.4,
+
+      "audio_per_minute": 0.006
+
+    },
+
+    "context": "64k tokens",
+
+    "link": "https://openai.com/api/pricing/",
+
+    "hover": "Texto para fala neural bilíngue com excelente custo. Também aceita entrada de áudio para transcriçao.",
+
+    "whenToUse": {
+
+      "n8n_make": "Bots de WhatsApp/voz que precisam sintetizar falas personalizadas.",
+
+      "python": "Geraçao de áudios dinámicos em plataformas de ensino e briefing automatizado.",
+
+      "agent": "Assistentes que respondem por voz enquanto consultam dados internos (contact centers, concierge)."
+
+    },
+
+    "limits": "Necessário tratar armazenamento de áudio (S3/Firestore) e headers corretos para streaming."
+
+  },
+
+  {
+
+    "vendor": "Google",
+
+    "name": "Gemini 2.0 Flash",
+
+    "function": "multimodal",
+
+    "usd": {
+
+      "input_per_million": 0.8,
+
+      "output_per_million": 3.2
+
+    },
+
+    "context": "1M tokens",
+
+    "link": "https://ai.google.dev/pricing",
+
+    "hover": "Modelo multimodal rápido com visáo, áudio e ferramental integrado ao ecossistema Google.",
+
+    "whenToUse": {
+
+      "n8n_make": "Rotinas que precisam consumir Google Drive, Apresentaçoes e gerar respostas curtas.",
+
+      "python": "Pipelines Vertex AI que combinam vídeo curto, legendas e insights comerciais.",
+
+      "agent": "Assistentes conectados a Workspace (Meet, Docs, Sheets) com contexto compartilhado."
+
+    },
+
+    "limits": "Disponível via Vertex ou AI Studio; billing em dólares com arredondamento mínimo de 1k tokens."
+
+  },
+
+  {
+
+    "vendor": "Google",
+
+    "name": "Imagen 3 (Vertex)",
+
+    "function": "multimodal",
+
+    "usd": {
+
+      "input_per_million": 15.0,
+
+      "output_per_million": 45.0
+
+    },
+
+    "context": "Prompt até 4k tokens",
+
+    "link": "https://cloud.google.com/vertex-ai/pricing",
+
+    "hover": "Geraçao de imagens fotorrealistas com controles de estilo e segurança embutidos.",
+
+    "whenToUse": {
+
+      "n8n_make": "Criaçao de peças rápidas para social ads direto do fluxo de campanha.",
+
+      "python": "Ferramentas de design interno e catálogos dinámicos.",
+
+      "agent": "Agentes criativos que produzem mockups aprováveis sem sair do ecossistema Google."
+
+    },
+
+    "limits": "Disponível apenas via Vertex AI com quotas específicas por projeto."
+
+  },
+
+  {
+
+    "vendor": "Meta (Groq)",
+
+    "name": "Llama 3.2 Vision 11B",
+
+    "function": "multimodal",
+
+    "usd": {
+
+      "input_per_million": 0.27,
+
+      "output_per_million": 0.27
+
+    },
+
+    "context": "32k tokens",
+
+    "link": "https://console.groq.com/docs/pricing",
+
+    "hover": "Modelo visáo + texto low-latency rodando nos aceleradores da Groq.",
+
+    "whenToUse": {
+
+      "n8n_make": "Análise rápida de imagens (produtos, QR, faturas) com respostas curtas.",
+
+      "python": "APIs próprias que precisam de laténcia abaixo de 200 ms para visáo básica.",
+
+      "agent": "Assistentes que validam evidéncias visuais durante checklists de campo."
+
+    },
+
+    "limits": "Contexto menor que modelos premium e sem áudio nativo."
+
+  },
+
+  {
+
+    "vendor": "Stability AI",
+
+    "name": "Stable Diffusion 3.5 Turbo",
+
+    "function": "multimodal",
+
+    "usd": {
+
+      "input_per_million": 2.0,
+
+      "output_per_million": 6.0
+
+    },
+
+    "context": "Prompt até 4k tokens",
+
+    "link": "https://platform.stability.ai/pricing",
+
+    "hover": "Difusáo rápida com suporte a estilos consistentes e fine-tuning por LoRA.",
+
+    "whenToUse": {
+
+      "n8n_make": "Geraçao de variaçoes visuais para campanhas, thumbnails e storyboards.",
+
+      "python": "Ferramentas in-house de criaçao de brand assets e rascunhos.",
+
+      "agent": "Assistentes criativos que oferecem opçoes visuais sob demanda."
+
+    },
+
+    "limits": "Necessita gerenciar créditos/assinatura da Stability. Moderaçao manual recomendada."
+
+  },
+
+  {
+
+    "vendor": "OpenAI",
+
+    "name": "gpt-4.1-mini",
+
+    "function": "cheap-fast",
+
+    "usd": {
+
+      "input_per_million": 3.0,
+
+      "output_per_million": 12.0
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://openai.com/api/pricing/",
+
+    "hover": "Sucessor do gpt-3.5 turbo com salto de qualidade em ferramentas e JSON estruturado.",
+
+    "whenToUse": {
+
+      "n8n_make": "Rotinas com precisáo maior (documentos jurídicos, financeiro light) mantendo custo moderado.",
+
+      "python": "APIs que exigem JSON impecável e checagem de consisténcia.",
+
+      "agent": "Suportes internos que precisam de resposta mais elaborada sem pagar gpt-4o."
+
+    },
+
+    "limits": "Custo ainda maior que gpt-4o-mini; avalie volume."
+
+  },
+
+  {
+
+    "vendor": "OpenAI",
+
+    "name": "gpt-4o-mini",
+
+    "function": "cheap-fast",
+
+    "usd": {
+
+      "input_per_million": 0.15,
+
+      "output_per_million": 0.6
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://openai.com/api/pricing/",
+
+    "hover": "Workhorse para chatbots, classificaçoes e automatízacoes rápidas com inglés e portugués excelentes.",
+
+    "whenToUse": {
+
+      "n8n_make": "Respostas automáticas, resumos curtos, priorizaçao de tickets.",
+
+      "python": "Serviços que precisam escalar para milhares de chamadas/dia com custo controlado.",
+
+      "agent": "Assistentes que cuidam de FAQs e triagens internas com agility."
+
+    },
+
+    "limits": "Contexto grande consome tokens rapidamente; acompanhe logs."
+
+  },
+
+  {
+
+    "vendor": "Anthropic",
+
+    "name": "Claude 3.5 Haiku",
+
+    "function": "cheap-fast",
+
+    "usd": {
+
+      "input_per_million": 1.0,
+
+      "output_per_million": 5.0
+
+    },
+
+    "context": "200k tokens",
+
+    "link": "https://www.anthropic.com/pricing",
+
+    "hover": "Modelo veloz da família Claude 3.5 com portugués forte e JSON consistente.",
+
+    "whenToUse": {
+
+      "n8n_make": "Classificaçao de tickets, sumarizaçao de reunióes curtas e análise de formulários.",
+
+      "python": "Ferramentas internas que precisam entender contexto grande com custo estável.",
+
+      "agent": "Chatbots de suporte nível 1 que exigem tom polido e contextualizaçao."
+
+    },
+
+    "limits": "Sem visáo nativa. Consulte política de uso para conteúdos sensíveis."
+
+  },
+
+  {
+
+    "vendor": "Google",
+
+    "name": "Gemini 1.5 Flash",
+
+    "function": "cheap-fast",
+
+    "usd": {
+
+      "input_per_million": 0.35,
+
+      "output_per_million": 1.05
+
+    },
+
+    "context": "1M tokens",
+
+    "link": "https://ai.google.dev/pricing",
+
+    "hover": "Ótimo custo para respostas curtas, com integraçao nativa a Google Workspace.",
+
+    "whenToUse": {
+
+      "n8n_make": "Resumos de calls do Meet, organizaçao de tarefas e triagem de leads.",
+
+      "python": "Serviços que rodam dentro do GCP com necessidade de escalabilidade.",
+
+      "agent": "Assistentes de produtividade plugados em Sheets/Docs."
+
+    },
+
+    "limits": "Necessário projeto GCP com faturamento. Atençao ao custo mínimo por chamada."
+
+  },
+
+  {
+
+    "vendor": "Google",
+
+    "name": "Gemini 1.5 Flash Lite",
+
+    "function": "cheap-fast",
+
+    "usd": {
+
+      "input_per_million": 0.075,
+
+      "output_per_million": 0.3
+
+    },
+
+    "context": "256k tokens",
+
+    "link": "https://ai.google.dev/pricing",
+
+    "hover": "Versáo lite para uso massivo em classificaçoes, rascunhos e personalizaçao leve.",
+
+    "whenToUse": {
+
+      "n8n_make": "Scores rápidos de leads, filtros e pré-processamento de bases.",
+
+      "python": "Pré-rotulagem de dados e enriquecimento básico em larga escala.",
+
+      "agent": "Assistentes que funcionam como copilotos em background, sugerindo açoes sem bloquear o usuário."
+
+    },
+
+    "limits": "Menos contexto e criatividade. Combine com validaçao humana."
+
+  },
+
+  {
+
+    "vendor": "Mistral",
+
+    "name": "Mistral Small 3",
+
+    "function": "cheap-fast",
+
+    "usd": {
+
+      "input_per_million": 2.0,
+
+      "output_per_million": 6.0
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://docs.mistral.ai/api/#pricing",
+
+    "hover": "Modelo enxuto otimizado para velocidade, disponível em provedores como Lepton e Azure.",
+
+    "whenToUse": {
+
+      "n8n_make": "Automatizaçao de relatórios curtos, traduçoes operacionais e validadores de formulário.",
+
+      "python": "Serviços em contéiner próprio com necessidade de baixo footprint.",
+
+      "agent": "Agentes que demandam respostas de 1-2 parágrafos com laténcia baixa."
+
+    },
+
+    "limits": "Náo possui visáo nativa. Ajuste temperatura para evitar respostas genéricas."
+
+  },
+
+  {
+
+    "vendor": "DeepSeek",
+
+    "name": "DeepSeek-V3",
+
+    "function": "cheap-fast",
+
+    "usd": {
+
+      "input_per_million": 0.14,
+
+      "output_per_million": 0.28
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://platform.deepseek.com/pricing",
+
+    "hover": "Modelo generalista veloz com boa compreensáo em portugués e código.",
+
+    "whenToUse": {
+
+      "n8n_make": "Automatizacoes que fazem extraçao de campos e enviam resumos curtos.",
+
+      "python": "Serviços que precisam de custo ínfimo para lotes massivos (milhares/dia).",
+
+      "agent": "Assistentes de suporte interno que atendem perguntas recorrentes sem scripts complexos."
+
+    },
+
+    "limits": "Resultado pode variar em prompts longos; combine com validaçao."
+
+  },
+
+  {
+
+    "vendor": "Cohere",
+
+    "name": "Command R",
+
+    "function": "cheap-fast",
+
+    "usd": {
+
+      "input_per_million": 0.5,
+
+      "output_per_million": 1.5
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://docs.cohere.com/docs/pricing",
+
+    "hover": "Focado em tarefas operacionais e consultas estruturadas. Integraçao simples com RAG.",
+
+    "whenToUse": {
+
+      "n8n_make": "Fluxos que consultam bases vetoriais e retornam resumo curto.",
+
+      "python": "APIs que precisam de JSON consistente e laténcia estável.",
+
+      "agent": "Bots internos que respondem SOPs e buscas em bases corporativas."
+
+    },
+
+    "limits": "Sem visáo/áudio. Requer conta Cohere com billing ativo."
+
+  },
+
+  {
+
+    "vendor": "Meta (Groq)",
+
+    "name": "Llama 3.1 70B Instruct",
+
+    "function": "cheap-fast",
+
+    "usd": {
+
+      "input_per_million": 0.59,
+
+      "output_per_million": 0.59
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://console.groq.com/docs/pricing",
+
+    "hover": "Modelo open-source otimizado pela Groq com laténcia ultrabaixa para texto longo.",
+
+    "whenToUse": {
+
+      "n8n_make": "Transcriçao e resumo de reunióes extensas com resposta instantánea.",
+
+      "python": "Serviços que rodam em tempo real e precisam de <150 ms por resposta.",
+
+      "agent": "Copilotos que atuam durante ligaçoes, sugerindo respostas sem atrasos percebidos."
+
+    },
+
+    "limits": "Sem visáo nativa; mantenha prompts concisos para melhor performance."
+
+  },
+
+  {
+
+    "vendor": "OpenAI",
+
+    "name": "gpt-4.1",
+
+    "function": "long-context",
+
+    "usd": {
+
+      "input_per_million": 15.0,
+
+      "output_per_million": 60.0
+
+    },
+
+    "context": "200k tokens",
+
+    "link": "https://openai.com/api/pricing/",
+
+    "hover": "Sucesso do gpt-4 com contexto ampliado e ferramentas estruturadas.",
+
+    "whenToUse": {
+
+      "n8n_make": "Consolidaçao de dezenas de documentos em um único parecer aprovado.",
+
+      "python": "Agregaçao massiva de dados para gerar relatórios narrativos completos.",
+
+      "agent": "Assistentes que cuidam de processos longos (onboarding, auditorias, customer success)."
+
+    },
+
+    "limits": "Custo elevado; valide chunking e caching para reduzir tokens."
+
+  },
+
+  {
+
+    "vendor": "Anthropic",
+
+    "name": "Claude 3.5 Sonnet",
+
+    "function": "long-context",
+
+    "usd": {
+
+      "input_per_million": 3.0,
+
+      "output_per_million": 15.0
+
+    },
+
+    "context": "200k tokens",
+
+    "link": "https://www.anthropic.com/pricing",
+
+    "hover": "Excelente equilíbrio de custo, contexto gigante e tom profissional.",
+
+    "whenToUse": {
+
+      "n8n_make": "Sumários executivos longos, revisáo de contratos e planejamento de sprints.",
+
+      "python": "Ferramentas jurídicas ou financeiras que pedem precisáo e linguagem formal.",
+
+      "agent": "Assistentes que precisam manter threads longas com memória consistente."
+
+    },
+
+    "limits": "Sem visáo nativa; combine com Claude Vision ou outra ferramenta se precisar."
+
+  },
+
+  {
+
+    "vendor": "Anthropic",
+
+    "name": "Claude 3 Opus",
+
+    "function": "long-context",
+
+    "usd": {
+
+      "input_per_million": 15.0,
+
+      "output_per_million": 75.0
+
+    },
+
+    "context": "200k tokens",
+
+    "link": "https://www.anthropic.com/pricing",
+
+    "hover": "Ainda relevante para decisóes críticas quando é necessário tom mais conservador.",
+
+    "whenToUse": {
+
+      "n8n_make": "Fluxos que precisam de respostas extremamente detalhadas ou cartas formais.",
+
+      "python": "Soluçoes que demandam linguagem jurídica com mínimo risco de erro.",
+
+      "agent": "Consultores virtuais premium que interagem com diretoria e precisam de profundidade máxima."
+
+    },
+
+    "limits": "Custo muito alto; prefira Sonnet sempre que possível."
+
+  },
+
+  {
+
+    "vendor": "Google",
+
+    "name": "Gemini 1.5 Pro",
+
+    "function": "long-context",
+
+    "usd": {
+
+      "input_per_million": 7.0,
+
+      "output_per_million": 21.0
+
+    },
+
+    "context": "1 milháo de tokens",
+
+    "link": "https://ai.google.dev/pricing",
+
+    "hover": "Contexto absurdo (até 1M tokens) com integraçao nativa ao ecossistema Google.",
+
+    "whenToUse": {
+
+      "n8n_make": "Processos que compilam livros, transcriçoes longas e planilhas gigantes.",
+
+      "python": "Projetos que precisam unificar dados de BigQuery, Docs e Slides em uma resposta só.",
+
+      "agent": "Assistentes corporativos que carregam dossiés inteiros antes de responder executivos."
+
+    },
+
+    "limits": "Necessário orçamento de GCP e controle de quotas. Laténcia cresce com contexto gigante."
+
+  },
+
+  {
+
+    "vendor": "Mistral",
+
+    "name": "Mistral Large 2",
+
+    "function": "long-context",
+
+    "usd": {
+
+      "input_per_million": 8.0,
+
+      "output_per_million": 24.0
+
+    },
+
+    "context": "256k tokens",
+
+    "link": "https://docs.mistral.ai/api/#pricing",
+
+    "hover": "Modelo europeu com foco em grandes contextos e governança de dados.",
+
+    "whenToUse": {
+
+      "n8n_make": "Processos regulatórios (LGPD/GPDR) com necessidade de revisáo integral de documentos.",
+
+      "python": "Pipelines que precisam rodar em nuvem europeia com SLA empresarial.",
+
+      "agent": "Analistas virtuais que cruzam planilhas, anexos e e-mails de um ciclo inteiro."
+
+    },
+
+    "limits": "Sem visáo nativa. Disponível via Azure e provedores parceiros com quotas específicas."
+
+  },
+
+  {
+
+    "vendor": "Cohere",
+
+    "name": "Command R+",
+
+    "function": "long-context",
+
+    "usd": {
+
+      "input_per_million": 3.0,
+
+      "output_per_million": 15.0
+
+    },
+
+    "context": "128k tokens",
+
+    "link": "https://docs.cohere.com/docs/pricing",
+
+    "hover": "Focado em RAG empresarial com controle fino de citaçao de fontes.",
+
+    "whenToUse": {
+
+      "n8n_make": "Dashboards de knowledge base com respostas referenciadas.",
+
+      "python": "Soluçoes que precisam citar parágrafos exatos (compliance, auditoria).",
+
+      "agent": "Assistentes que respondem perguntas sobre KB interno e fornecem referéncias."
+
+    },
+
+    "limits": "Necessita infraestrutura de vetor (Pinecone, Weaviate) para melhores resultados."
+
   }
+
 ]
+

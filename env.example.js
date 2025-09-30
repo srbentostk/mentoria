@@ -9,4 +9,7 @@ window.__ENV__ = {
   N8N_PROOF_WEBHOOK: 'https://n8n.example/hooks/proof',
   N8N_REWARD_WEBHOOK: 'https://n8n.example/hooks/reward',
   FORM_ACTION_URL: 'https://hotmart.example/form',
+  OPENAI_API_KEY: 'sua-openai-key',
+  OPENAI_BASE_URL: 'https://api.openai.com/v1',
+  OPENAI_IMAGE_MODEL: 'gpt-image-1',
 };

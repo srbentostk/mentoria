@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA: Perigos e Avanços para Desenvolvedores</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .slide {
+            background: white;
+            width: 90%;
+            max-width: 1200px;
+            height: 85vh;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px 80px;
+            display: none;
+            flex-direction: column;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .slide h2 {
+            color: #764ba2;
+            font-size: 2.2em;
+            margin-bottom: 25px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .slide h3 {
+            color: #555;
+            font-size: 1.5em;
+            margin: 25px 0 15px 0;
+        }
+
+        .slide p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .slide ul {
+            margin-left: 40px;
+            margin-bottom: 20px;
+        }
+
+        .slide li {
+            font-size: 1.15em;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 12px;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 20px;
+            border-left: 5px solid #ffc107;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning {
+            background: #f8d7da;
+            padding: 20px;
+            border-left: 5px solid #dc3545;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: #d4edda;
+            padding: 20px;
+            border-left: 5px solid #28a745;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .code-block {
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .nav-btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px 25px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            color: #667eea;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .content-scroll {
+            overflow-y: auto;
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .content-scroll::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .content-scroll::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .content-scroll::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 1.3em;
+            margin-top: 20px;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 20px 0;
+        }
+
+        .column {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        strong {
+            color: #667eea;
+        }
+
+        .case-study {
+            background: #fff;
+            border: 2px solid #667eea;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 10px;
+        }
+
+        .case-study h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        .link {
+            color: #667eea;
+            text-decoration: none;
+            word-break: break-all;
+            font-size: 0.9em;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .intro-slide {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .intro-slide h1 {
+            font-size: 4em;
+            margin-bottom: 40px;
+        }
+
+        .section-divider {
+            text-align: center;
+            padding: 100px 0;
+            justify-content: center;
+        }
+
+        .section-divider h1 {
+            font-size: 4.5em;
+            margin-bottom: 30px;
+        }
+
+        .section-divider p {
+            font-size: 1.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <!-- Slide 1: Título -->
+        <div class="slide active intro-slide">
+            <h1>IA: Entre Perigos Invisíveis e Avanços Revolucionários</h1>
+            <p class="subtitle">A dupla face da revolução tecnológica</p>
+            <p class="subtitle">O que mudou nos últimos anos</p>
+            <p style="margin-top: 60px; font-size: 1.3em; color: #888;">Palestra USP - 90 minutos</p>
+        </div>
+
+        <!-- Slide 2: Divisor - Parte 1 -->
+        <div class="slide section-divider">
+            <h1>🚨 PARTE 1</h1>
+            <p>Os Novos Perigos</p>
+        </div>
+
+        <!-- Slide 3: A Evolução dos Golpes -->
+        <div class="slide">
+            <h2>A Evolução dos Golpes Digitais</h2>
+            <div class="content-scroll">
+                <h3>De SMS do Luciano Huck para IA Sofisticada</h3>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3>ANTES:</h3>
+                        <ul>
+                            <li>SMS: "Parabéns! Você ganhou um prêmio"</li>
+                            <li>Ligação: "Seu filho foi sequestrado!"</li>
+                            <li>E-mail: Príncipe nigeriano</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>HOJE:</h3>
+                        <ul>
+                            <li>Telefonemas bancários com secretária virtual inteligente</li>
+                            <li>Transferência entre departamentos realista</li>
+                            <li>Atendente com acesso aos seus dados reais</li>
+                            <li>Conversação natural e convincente</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Os Novos Vetores de Ataque -->
+        <div class="slide">
+            <h2>Os Novos Vetores de Ataque</h2>
+            <div class="content-scroll">
+                <h3>Como Você Está Sendo Alvo SEM SABER</h3>
+                
+                <div class="highlight">
+                    <h3>1. LinkedIn - A Porta de Entrada Profissional</h3>
+                    <ul>
+                        <li>Proposta de emprego atraente</li>
+                        <li>Perfil falso extremamente convincente</li>
+                        <li>Processo seletivo que parece real</li>
+                    </ul>
+                </div>
+
+                <div class="highlight">
+                    <h3>2. Instagram/Redes Sociais</h3>
+                    <ul>
+                        <li>Direct com link malicioso</li>
+                        <li>Phishing disfarçado de oportunidade</li>
+                        <li>Infecção silenciosa</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <h3>3. A Invisibilidade do Golpe</h3>
+                    <ul>
+                        <li>Você clica, pega vírus, e segue sua vida</li>
+                        <li>Não há momento "eureka" de descoberta</li>
+                        <li>O dano é feito nos bastidores</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Casos Reais -->
+        <div class="slide">
+            <h2>Casos Reais de Golpes com IA</h2>
+            <div class="content-scroll">
+                <div class="case-study">
+                    <h4>1. Hong Kong - US$ 25 milhões (2024)</h4>
+                    <p>Funcionário de multinacional transferiu US$ 25 milhões após videoconferência falsa onde golpistas usaram deepfake do diretor financeiro e outros colegas da empresa</p>
+                    <a href="https://www.cnnbrasil.com.br/economia/negocios/golpistas-usam-deepfake-de-diretor-financeiro-e-roubam-us-25-milhoes/" class="link" target="_blank">Ver notícia completa</a>
+                </div>
+
+                <div class="case-study">
+                    <h4>2. Brasil - Marcos Mion (2025)</h4>
+                    <p>Quadrilha presa por usar deepfakes do apresentador Marcos Mion para promover falsas promoções da rede Outback</p>
+                    <a href="https://www.welivesecurity.com/pt/seguranca-digital/casos-reais-de-golpes-envolvendo-deepfakes/" class="link" target="_blank">Ver notícia completa</a>
+                </div>
+
+                <div class="case-study">
+                    <h4>3. EUA - Golpe do Sequestro com Voz Clonada (2023)</h4>
+                    <p>Mãe caiu em golpe de falso sequestro após criminosos clonarem a voz de sua filha adolescente usando IA</p>
+                    <a href="https://www.otempo.com.br/mundo/criminosos-usam-ia-para-clonar-voz-de-adolescente-em-golpe-do-sequestro-1.2862455" class="link" target="_blank">Ver notícia completa</a>
+                </div>
+
+                <div class="case-study">
+                    <h4>4. Brasil - Perdas Financeiras (2024)</h4>
+                    <p>Estudo global mostra que 36% das vítimas de clonagem de voz perderam entre US$500 e US$3.000, e 7% perderam entre US$5.000 e US$15.000</p>
+                    <a href="https://www.nvseguros.com.br/clonagem-de-voz" class="link" target="_blank">Ver estudo completo</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: O Perigo Invisível -->
+        <div class="slide">
+            <h2>O Perigo Invisível - Exposição de Dados</h2>
+            <div class="content-scroll">
+                <div class="warning">
+                    <h3>⚠️ AVISO CRÍTICO: Seus Dados São Públicos Por Padrão</h3>
+                    <p><strong>A menos que você DESATIVE manualmente:</strong></p>
+                    <ul>
+                        <li>ChatGPT compartilha suas conversas</li>
+                        <li>Gemini usa seus dados para treinamento</li>
+                        <li>Deepseek armazena tudo</li>
+                        <li>Grok, Meta AI, e outros fazem o mesmo</li>
+                    </ul>
+                </div>
+
+                <div class="highlight">
+                    <h3>🤔 O Teste do Instagram</h3>
+                    <p style="font-size: 1.3em; font-style: italic;">"Tem alguma informação ou arquivo que você JAMAIS colocaria em um post público no Instagram?"</p>
+                    <p style="margin-top: 20px;"><strong>Se SIM:</strong></p>
+                    <ul>
+                        <li>Esta informação NÃO deve ir para IA</li>
+                        <li>Se já foi, agora é PÚBLICA</li>
+                        <li>Não há como "desfazer"</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Informações Comprometidas -->
+        <div class="slide">
+            <h2>Exemplos de Informações Comprometidas</h2>
+            <div class="content-scroll">
+                <ul style="font-size: 1.3em;">
+                    <li>📄 Documentos pessoais (RG, CPF, comprovantes)</li>
+                    <li>🔑 Códigos e senhas</li>
+                    <li>🏥 Informações médicas</li>
+                    <li>💬 Conversas privadas</li>
+                    <li>💰 Dados financeiros</li>
+                    <li>🏢 Segredos empresariais</li>
+                </ul>
+
+                <div class="warning" style="margin-top: 40px;">
+                    <h3>O Ciclo de Exposição</h3>
+                    <ol style="font-size: 1.2em; line-height: 2;">
+                        <li>Você envia dados → IA</li>
+                        <li>IA usa para treinamento</li>
+                        <li>Outros usuários fazem perguntas</li>
+                        <li>IA "vaza" suas informações em respostas</li>
+                        <li>Dados ficam acessíveis eternamente</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Perigos para Desenvolvedores -->
+        <div class="slide">
+            <h2>O Problema dos Vibe Coders</h2>
+            <div class="content-scroll">
+                <h3>Como a IA Gera Código... e Perigos</h3>
+                
+                <div class="highlight">
+                    <h3>Funcionamento Básico:</h3>
+                    <ul>
+                        <li>IA gera texto aleatório baseado em probabilidades</li>
+                        <li>Usa dados de treinamento + contexto</li>
+                        <li>Conversas dos usuários → novos dados de treinamento</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <h3>⚠️ O Ataque Silencioso:</h3>
+                    <ol style="line-height: 2;">
+                        <li>Desenvolvedores maliciosos criam bibliotecas infectadas</li>
+                        <li>Geram código massivo importando essas bibliotecas</li>
+                        <li>Alimentam a IA com esse código</li>
+                        <li>IA aprende o padrão</li>
+                        <li>IA sugere a biblioteca infectada para você</li>
+                        <li><strong style="color: red; font-size: 1.2em;">VOCÊ ESTÁ COMPROMETIDO</strong></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: A Cadeia de Infecção -->
+        <div class="slide">
+            <h2>A Cadeia de Infecção</h2>
+            <div class="content-scroll">
+                <h3>Você Nem Precisa Usar IA Diretamente</h3>
+                
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Cenário 1: Desenvolvedor</h3>
+                        <ul>
+                            <li>Usa IA para acelerar código</li>
+                            <li>IA importa biblioteca maliciosa</li>
+                            <li>Código vai para produção</li>
+                            <li><strong>Vulnerabilidade ativa</strong></li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Cenário 2: Usuário Final</h3>
+                        <ul>
+                            <li>Instala extensão do navegador</li>
+                            <li>Joga um game indie</li>
+                            <li>Usa software gratuito</li>
+                            <li><strong>O desenvolvedor usou IA sem saber do problema</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <h3>Resultado:</h3>
+                    <ul>
+                        <li>❌ Não há notificação</li>
+                        <li>❌ Não há alerta</li>
+                        <li>❌ Backdoor silencioso instalado</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Desmistificando o Hacker -->
+        <div class="slide">
+            <h2>Quem Vai Te Hackear?</h2>
+            <div class="content-scroll">
+                <div class="two-column">
+                    <div class="column" style="background: #f8d7da;">
+                        <h3>❌ MITO:</h3>
+                        <ul>
+                            <li>Hacker genioso em quarto escuro</li>
+                            <li>Interesse específico em você</li>
+                            <li>Roubo de cartão de crédito</li>
+                        </ul>
+                    </div>
+                    <div class="column" style="background: #fff3cd;">
+                        <h3>✓ REALIDADE:</h3>
+                        <ul>
+                            <li>Adolescente com script pronto</li>
+                            <li>Ataque automatizado em massa</li>
+                            <li>Bots inteligentes coletando TUDO</li>
+                            <li>Não é pessoal, é industrial</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight" style="margin-top: 30px;">
+                    <p style="font-size: 1.4em; text-align: center; font-style: italic;">
+                        "Você acha mesmo que roubar seu cartão é o pior que pode acontecer?"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: O Que Pode Ser Feito -->
+        <div class="slide">
+            <h2>O Que Pode Ser Feito Com Seus Dados?</h2>
+            <div class="content-scroll">
+                <div class="case-study">
+                    <h4>Nível 1 - Básico:</h4>
+                    <p>Venda de senhas e números de cartão</p>
+                </div>
+
+                <div class="case-study">
+                    <h4>Nível 2 - Identidade:</h4>
+                    <ul>
+                        <li>Deepfakes com suas imagens</li>
+                        <li>Clonagem de voz</li>
+                        <li>Vídeos falsos convincentes</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>Nível 3 - Engenharia Social:</h4>
+                    <ul>
+                        <li>IA treinada em TODAS suas conversas do ChatGPT</li>
+                        <li>Bot que fala exatamente como você</li>
+                        <li>Acesso a informações íntimas e sensíveis</li>
+                        <li>Possibilidade de chantagear ou prejudicar</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>Nível 4 - Destruição de Reputação:</h4>
+                    <ul>
+                        <li>Criação de conteúdo falso atribuído a você</li>
+                        <li>Manipulação de evidências</li>
+                        <li>Impossibilidade de provar inocência</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Como Se Proteger -->
+        <div class="slide">
+            <h2>Como Se Proteger - Vulnerabilidade</h2>
+            <div class="content-scroll">
+                <div class="success">
+                    <h3>✓ Configure TODAS as IAs:</h3>
+                    <ul>
+                        <li>Desative compartilhamento de dados</li>
+                        <li>Nunca envie informações confidenciais</li>
+                        <li>Assuma que o padrão é inseguro</li>
+                    </ul>
+                </div>
+
+                <div class="success">
+                    <h3>✓ Regra de Ouro:</h3>
+                    <ul>
+                        <li>Se não publicaria, não envie para IA</li>
+                        <li>Nunca: documentos, senhas, dados pessoais</li>
+                        <li>Cuidado com: códigos proprietários, estratégias empresariais</li>
+                    </ul>
+                </div>
+
+                <div class="success">
+                    <h3>✓ Validação de Código:</h3>
+                    <ul>
+                        <li>Sempre revisar imports sugeridos pela IA</li>
+                        <li>Verificar bibliotecas desconhecidas</li>
+                        <li>Validar que nenhuma secret key está exposta no código</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Perigos Financeiros -->
+        <div class="slide">
+            <h2>Perigos Financeiros</h2>
+            <div class="content-scroll">
+                <div class="warning">
+                    <h3>Problema 1: Vazamento de Chaves</h3>
+                    <ul>
+                        <li>Milhões de bots vasculhando GitHub 24/7</li>
+                        <li>Chave exposta = descoberta em minutos</li>
+                        <li>Sua conta = cartão de crédito de hackers</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+                    <strong>❌ NUNCA:</strong> Chave direto no código<br>
+                    <strong>❌ NUNCA:</strong> Compartilhar com IA<br>
+                    <strong>✓ SEMPRE:</strong> Variáveis de ambiente<br>
+                    <strong>✓ SEMPRE:</strong> .gitignore configurado<br>
+                    <strong>✓ SEMPRE:</strong> Rotação periódica de chaves
+                </div>
+
+                <div class="warning">
+                    <h3>Problema 2: Agentes Descontrolados</h3>
+                    <ul>
+                        <li>Agente cria 50 tarefas desnecessárias</li>
+                        <li>Loop infinito de requisições</li>
+                        <li>Falha que se multiplica</li>
+                        <li>Conta imprevisível no final do mês</li>
+                    </ul>
+                </div>
+
+                <div class="success">
+                    <h3>SOLUÇÃO:</h3>
+                    <ul>
+                        <li>Definir limites claros de custo e de execução</li>
+                        <li>Monitoramento frequente</li>
+                        <li>Rate limiting</li>
+                        <li>Timeouts configurados</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Princípio Fundamental -->
+        <div class="slide">
+            <h2>Princípio Fundamental</h2>
+            <div class="content-scroll">
+                <h3>Quanto Mais Autônomo, Mais Arriscado</h3>
+                
+                <div style="background: linear-gradient(to bottom, #d4edda, #f8d7da); padding: 40px; border-radius: 10px; margin: 30px 0;">
+                    <p style="font-size: 1.3em; line-height: 2.5; text-align: center;">
+                        <strong>Baixo Risco:</strong> Copilot (sugestões)<br>
+                        ↓<br>
+                        <strong>Médio Risco:</strong> ChatGPT (conversa)<br>
+                        ↓<br>
+                        <strong>Alto Risco:</strong> Agentes com arquivos<br>
+                        ↓<br>
+                        <strong style="color: red;">Risco Crítico:</strong> Agentes com terminal/APIs
+                    </p>
+                </div>
+
+                <div class="highlight">
+                    <h3 style="text-align: center; font-size: 1.5em;">
+                        Regra: Imprevisibilidade ∝ Autonomia ∝ Custo
+                    </h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Divisor - Parte 2 -->
+        <div class="slide section-divider">
+            <h1>🚀 PARTE 2</h1>
+            <p>Os Avanços Revolucionários</p>
+        </div>
+
+        <!-- Slide 16: A Jornada do Desenvolvedor -->
+        <div class="slide">
+            <h2>A Jornada do Desenvolvedor</h2>
+            <div class="content-scroll">
+                <div class="case-study">
+                    <h4>ERA 1: Youtube e StackOverflow (até ~2022)</h4>
+                    <ul>
+                        <li>Dependência do "indiano salvador"</li>
+                        <li>Esperança de alguém ter tido o problema antes</li>
+                        <li>Horas procurando solução específica</li>
+                        <li>Se não achar = <strong>tempos difíceis</strong></li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>ERA 2: Primeiros Chatbots (2022-2023)</h4>
+                    <ul>
+                        <li>"Resolve 1 bug, cria 200 novos"</li>
+                        <li>Inventa funções que não existem</li>
+                        <li>Não segue instruções</li>
+                        <li>Alucina constantemente</li>
+                        <li>Frustrante mas promissor</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>ERA 3: IAs com "Pensamento" (2023-2024)</h4>
+                    <ul>
+                        <li>Camadas de avaliação</li>
+                        <li>Verifica próprias respostas</li>
+                        <li>Reduz alucinações significativamente</li>
+                        <li>Segue instruções melhor</li>
+                    </ul>
+                </div>
+
+                <div class="case-study" style="border: 3px solid #28a745; background: #d4edda;">
+                    <h4>ERA 4: Revolução Atual (2024-2025)</h4>
+                    <h3 style="text-align: center; font-size: 1.8em;">Tudo mudou</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Janela de Contexto -->
+        <div class="slide">
+            <h2>Janela de Contexto Gigante</h2>
+            <div class="content-scroll">
+                <h3>A Mudança que Possibilitou Tudo</h3>
+                
+                <div class="two-column">
+                    <div class="column" style="background: #f8d7da;">
+                        <h3>Antes:</h3>
+                        <ul>
+                            <li>Contexto limitado (~4k tokens)</li>
+                            <li>Esquece o início da conversa</li>
+                            <li>Impossível trabalhar com projetos grandes</li>
+                        </ul>
+                    </div>
+                    <div class="column" style="background: #d4edda;">
+                        <h3>Agora:</h3>
+                        <ul>
+                            <li><strong>Até 1 milhão de tokens de contexto</strong> (Gemini, Claude Sonnet 4)</li>
+                            <li>Projetos completos na memória</li>
+                            <li>Documentação + código + instrução + pesquisa</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight" style="margin-top: 30px;">
+                    <h3>O Que Isso Permite:</h3>
+                    <ul style="font-size: 1.2em;">
+                        <li>✓ Entendimento profundo do projeto</li>
+                        <li>✓ Edições consistentes</li>
+                        <li>✓ Refatoração inteligente</li>
+                        <li>✓ Menos alucinações</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: A Era dos Agentes -->
+        <div class="slide">
+            <h2>A Era dos Agentes</h2>
+            <div class="content-scroll">
+                <h3>IA Que Executa Ações Reais</h3>
+                
+                <div class="highlight">
+                    <h3>Evolução:</h3>
+                    <p style="font-size: 1.3em;">
+                        De "conversar" → para "fazer"<br>
+                        De "sugerir" → para "executar"
+                    </p>
+                </div>
+
+                <div class="success">
+                    <h3>Capacidades:</h3>
+                    <ul>
+                        <li>Criar, ler, editar arquivos</li>
+                        <li>Manipular imagens e áudios</li>
+                        <li>Abrir e controlar programas</li>
+                        <li>Interagir com interface do usuário</li>
+                        <li>Tomar decisões complexas</li>
+                    </ul>
+                </div>
+
+                <div class="code-block">
+                    <strong>Arquitetura:</strong><br><br>
+                    Prompt do Usuário<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                    Planejador (cria lista de tarefas)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                    Especialistas (cada um faz sua parte)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                    Avaliador (verifica qualidade)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                    Resultado Final
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Agentes Famosos -->
+        <div class="slide">
+            <h2>Agentes Famosos</h2>
+            <div class="content-scroll">
+                <h3>Lovable, Manus e a Popularização</h3>
+                
+                <div class="case-study">
+                    <h4>Lovable:</h4>
+                    <ul>
+                        <li>Especializado em criar aplicações web</li>
+                        <li>Interface → código em minutos</li>
+                        <li>Popularizou conceito de "no-code pro"</li>
+                    </ul>
+                </div>
+
+                <div class="case-study">
+                    <h4>Manus:</h4>
+                    <ul>
+                        <li>Foco em automação de tarefas</li>
+                        <li>Integração com ferramentas existentes</li>
+                        <li>Workflow inteligente</li>
+                    </ul>
+                </div>
+
+                <div class="success">
+                    <h3>Impacto:</h3>
+                    <ul style="font-size: 1.2em;">
+                        <li>✓ Barreira de entrada drasticamente reduzida</li>
+                        <li>✓ Prototipagem em velocidade impossível antes</li>
+                        <li>✓ Democratização do desenvolvimento</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Nova Geração -->
+        <div class="slide">
+            <h2>Nova Geração - Claude Code e Codex</h2>
+            <div class="content-scroll">
+                <h3>Agentes Profissionais</h3>
+                
+                <p style="font-size: 1.2em; margin-bottom: 20px;"><strong>Exemplos:</strong> Claude Code (Anthropic) e Codex (OpenAI)</p>
+
+                <div class="success">
+                    <h3>Capacidades:</h3>
+                    <ul>
+                        <li>Leem repositórios completos</li>
+                        <li>Entendem arquitetura do projeto</li>
+                        <li>Fazem code review profissional</li>
+                        <li>Encontram bugs sutis</li>
+                        <li>Sugerem melhorias arquiteturais</li>
+                        <li>Integração profunda com GitHub</li>
+                        <li>Controle total do terminal</li>
+                        <li>Execução de comandos</li>
+                        <li>Deploy automatizado</li>
+                        <li>Janela de contexto massiva</li>
+                        <li>Compreensão de código legado</li>
+                        <li>Refatoração inteligente</li>
+                        <li>Documentação automática</li>
+                        <li>Interação com ferramentas DevOps</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: MCP -->
+        <div class="slide">
+            <h2>MCP - Model Context Protocol</h2>
+            <div class="content-scroll">
+                <h3>O Fim das APIs Como Conhecemos</h3>
+                
+                <div class="warning">
+                    <h3>Problema Antigo:</h3>
+                    <div class="code-block">
+# API do Dólar<br>
+response_dolar = requests.get("api/dolar")<br>
+dolar = json.loads(response_dolar)['valor']<br><br>
+
+# API do Tempo<br>
+response_tempo = requests.post("api/tempo",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;json={"cidade": "São Paulo"})<br>
+tempo = parse_tempo(response_tempo)<br><br>
+
+# API de Notícias<br>
+response_news = requests.get("api/news",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;headers={"Auth": token})<br>
+noticias = processar_noticias(response_news)
+                    </div>
+                </div>
+
+                <div class="success">
+                    <h3>Nova Realidade com MCP:</h3>
+                    <div class="code-block">
+# Um comando, múltiplas fontes<br>
+dados = mcp.obter([<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"cotação dólar",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"previsão tempo São Paulo",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"notícias principais hoje"<br>
+])<br>
+# MCP cuida de tudo automaticamente
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: Como MCP Funciona -->
+        <div class="slide">
+            <h2>Como MCP Funciona</h2>
+            <div class="content-scroll">
+                <h3>Camada Inteligente de Abstração</h3>
+                
+                <div class="two-column">
+                    <div class="column" style="background: #fff3cd;">
+                        <h3>MCP Gerencia:</h3>
+                        <ul>
+                            <li>Escolha da API correta</li>
+                            <li>Formatação da requisição</li>
+                            <li>Autenticação</li>
+                            <li>Parsing da resposta</li>
+                            <li>Tratamento de erros</li>
+                            <li>Retry automático</li>
+                            <li>Cache inteligente</li>
+                        </ul>
+                    </div>
+                    <div class="column" style="background: #d4edda;">
+                        <h3>Desenvolvedor Foca Em:</h3>
+                        <ul>
+                            <li>O que precisa</li>
+                            <li>Qual formato quer receber</li>
+                            <li>O que fazer com os dados</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight" style="margin-top: 30px;">
+                    <h3>Resultado:</h3>
+                    <ul style="font-size: 1.3em;">
+                        <li>✓ Código 90% mais limpo</li>
+                        <li>✓ Manutenção simplificada</li>
+                        <li>✓ Integração de múltiplas fontes trivial</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: O Stack Moderno -->
+        <div class="slide">
+            <h2>O Stack Moderno de Desenvolvimento</h2>
+            <div class="content-scroll">
+                <h3>A Nova Realidade</h3>
+                
+                <div class="code-block" style="font-size: 1.2em; text-align: center; padding: 40px;">
+                    <strong>Agente IA</strong><br>
+                    +<br>
+                    <strong>MCP</strong> (acesso inteligente a APIs/dados)<br>
+                    +<br>
+                    <strong>GitHub Integration</strong><br>
+                    +<br>
+                    <strong>Janela de Contexto Gigante</strong><br>
+                    +<br>
+                    <strong>Documentação Automática</strong>
+                </div>
+
+                <div class="success" style="margin-top: 30px;">
+                    <h3>Resultado:</h3>
+                    <ul style="font-size: 1.4em;">
+                        <li>⚡ Desenvolvimento 10x mais rápido</li>
+                        <li>🎯 Precisão sem precedentes</li>
+                        <li>📝 Código consistente</li>
+                        <li>📚 Documentação sempre atualizada</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Desenvolvedor Antes vs Agora -->
+        <div class="slide">
+            <h2>O Desenvolvedor Antes vs Agora</h2>
+            <div class="content-scroll">
+                <h3>Transformação do Papel</h3>
+                
+                <div class="two-column">
+                    <div class="column" style="background: #f8d7da;">
+                        <h3>ANTES (Youtube/StackOverflow):</h3>
+                        <ul>
+                            <li>⏰ Horas pesquisando solução</li>
+                            <li>🤞 Esperança de alguém ter resolvido antes</li>
+                            <li>📚 Lendo documentação extensa</li>
+                            <li>🐛 Debug manual linha por linha</li>
+                            <li>😓 Frustração constante</li>
+                        </ul>
+                    </div>
+                    <div class="column" style="background: #d4edda;">
+                        <h3>AGORA (Agente + MCP + Contexto):</h3>
+                        <ul>
+                            <li>⚡ Solução em minutos</li>
+                            <li>🎯 IA acessa documentação necessária</li>
+                            <li>🤖 Código escrito mais rápido que humano</li>
+                            <li>🔍 Debug assistido e preciso</li>
+                            <li>🚀 Foco em arquitetura e decisões</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Ferramentas vs Habilidade -->
+        <div class="slide">
+            <h2>Ferramentas vs Habilidade</h2>
+            <div class="content-scroll">
+                <h3>IA É Uma Ferramenta Poderosa</h3>
+                
+                <div class="two-column">
+                    <div class="column" style="background: #d4edda;">
+                        <h3>✓ Desenvolvedor Experiente + IA:</h3>
+                        <ul>
+                            <li>Orientações claras</li>
+                            <li>Exemplos bem estruturados</li>
+                            <li>Entende o que a IA gerou</li>
+                            <li>Valida e refina resultados</li>
+                        </ul>
+                        <h3 style="text-align: center; color: #28a745; margin-top: 20px;">= Produtividade Exponencial</h3>
+                    </div>
+                    <div class="column" style="background: #f8d7da;">
+                        <h3>✗ Iniciante + IA:</h3>
+                        <ul>
+                            <li>Instruções vagas</li>
+                            <li>Não entende o código gerado</li>
+                            <li>Não sabe validar resultado</li>
+                            <li>Input ruim = Output ruim</li>
+                        </ul>
+                        <h3 style="text-align: center; color: #dc3545; margin-top: 20px;">= Muito dinheiro + Muita frustração + Projeto quebrado</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: A Equação da Qualidade -->
+        <div class="slide">
+            <h2>A Equação da Qualidade</h2>
+            <div class="content-scroll">
+                <h3>GIGO: Garbage In, Garbage Out</h3>
+                
+                <div class="highlight">
+                    <h3>Qualidade do Resultado Depende De:</h3>
+                    
+                    <div style="margin: 20px 0; padding: 15px; background: white; border-radius: 5px;">
+                        <h4>1. Clareza da Instrução (40%)</h4>
+                        <ul>
+                            <li>Específica vs vaga</li>
+                            <li>Com exemplos vs abstrata</li>
+                            <li>Contextualizada vs isolada</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin: 20px 0; padding: 15px; background: white; border-radius: 5px;">
+                        <h4>2. Conhecimento Técnico (30%)</h4>
+                        <ul>
+                            <li>Saber avaliar código</li>
+                            <li>Entender trade-offs</li>
+                            <li>Identificar problemas</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin: 20px 0; padding: 15px; background: white; border-radius: 5px;">
+                        <h4>3. Capacidade da IA (20%)</h4>
+                        <ul>
+                            <li>Modelo utilizado</li>
+                            <li>Janela de contexto</li>
+                            <li>Ferramentas disponíveis</li>
+                        </ul>
+                    </div>
+
+                    <div style="margin: 20px 0; padding: 15px; background: white; border-radius: 5px;">
+                        <h4>4. Iteração e Refinamento (10%)</h4>
+                        <ul>
+                            <li>Feedback constante</li>
+                            <li>Ajustes incrementais</li>
+                            <li>Validação contínua</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Casos de Uso -->
+        <div class="slide">
+            <h2>Casos de Uso Real</h2>
+            <div class="content-scroll">
+                <h3>Quando Funciona vs Quando Falha</h3>
+                
+                <div class="success">
+                    <h3>✓ SUCESSO:</h3>
+                    <ul style="font-size: 1.2em;">
+                        <li>Refatoração de código existente</li>
+                        <li>Implementação de funcionalidade bem definida</li>
+                        <li>Conversão entre linguagens</li>
+                        <li>Geração de testes</li>
+                        <li>Documentação automática</li>
+                    </ul>
+                </div>
+
+                <div class="warning">
+                    <h3>✗ FALHA:</h3>
+                    <ul style="font-size: 1.2em;">
+                        <li>"Crie um app completo de [ideia vaga]"</li>
+                        <li>Arquitetura complexa sem especificação</li>
+                        <li>Segurança crítica sem validação</li>
+                        <li>Performance otimizada sem métricas</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: Conclusão - O Cenário Atual -->
+        <div class="slide">
+            <h2>O Cenário Atual</h2>
+            <div class="content-scroll">
+                <h3>Vivemos Um Momento Único</h3>
+                
+                <div class="two-column">
+                    <div class="column" style="background: #f8d7da;">
+                        <h3>⚠️ Perigos Reais:</h3>
+                        <ul>
+                            <li>Golpes sofisticados e invisíveis</li>
+                            <li>Exposição massiva de dados</li>
+                            <li>Vulnerabilidades técnicas novas</li>
+                            <li>Custos imprevisíveis</li>
+                        </ul>
+                    </div>
+                    <div class="column" style="background: #d4edda;">
+                        <h3>🚀 Oportunidades Incríveis:</h3>
+                        <ul>
+                            <li>Produtividade nunca vista</li>
+                            <li>Democratização do desenvolvimento</li>
+                            <li>Solução de problemas impossíveis antes</li>
+                            <li>Criação em velocidade revolucionária</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: Princípios de Segurança -->
+        <div class="slide">
+            <h2>Princípios de Segurança</h2>
+            <div class="content-scroll">
+                <h3>Resumo - Como Se Proteger</h3>
+                
+                <div class="success">
+                    <ol style="font-size: 1.3em; line-height: 2;">
+                        <li><strong>Configure sua IA</strong> - Desative compartilhamento</li>
+                        <li><strong>Regra do Instagram</strong> - Se não publicaria, não envie</li>
+                        <li><strong>Variáveis de Ambiente</strong> - Sempre, sem exceção</li>
+                        <li><strong>Valide Dependências</strong> - Bibliotecas sugeridas pela IA</li>
+                        <li><strong>Limites de Custo</strong> - Sempre definidos</li>
+                        <li><strong>Menos Autonomia</strong> - Quando possível</li>
+                        <li><strong>Revisão Humana</strong> - Sempre a etapa final</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: Princípios de Produtividade -->
+        <div class="slide">
+            <h2>Princípios de Produtividade</h2>
+            <div class="content-scroll">
+                <h3>Como Aproveitar o Máximo</h3>
+                
+                <div class="success">
+                    <ol style="font-size: 1.3em; line-height: 2;">
+                        <li><strong>Invista em Aprendizado</strong> - IA não substitui conhecimento</li>
+                        <li><strong>Instruções Claras</strong> - Quanto mais específico, melhor</li>
+                        <li><strong>Use Exemplos</strong> - Mostre o que espera</li>
+                        <li><strong>Valide Sempre</strong> - Não confie cegamente</li>
+                        <li><strong>Itere Rapidamente</strong> - Refine constantemente</li>
+                        <li><strong>Documente Contexto</strong> - Para você e para a IA</li>
+                        <li><strong>Combine Ferramentas</strong> - Agente + MCP + GitHub</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 31: O Futuro É Agora -->
+        <div class="slide intro-slide">
+            <h1 style="font-size: 3em;">O Futuro É Agora</h1>
+            <div class="highlight" style="margin: 60px 0; padding: 40px;">
+                <p style="font-size: 1.6em; line-height: 1.8; font-style: italic; text-align: center;">
+                    "A IA não vai substituir desenvolvedores.<br><br>
+                    Desenvolvedores que usam IA vão substituir desenvolvedores que não usam.<br><br>
+                    A questão não é SE você vai usar, mas COMO você vai usar com segurança e eficiência."
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 32: Perguntas -->
+        <div class="slide intro-slide">
+            <h1 style="font-size: 4.5em;">Perguntas?</h1>
+            <p style="font-size: 1.5em; margin-top: 60px; color: #666;">Obrigado pela atenção!</p>
+        </div>
+    </div>
+
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">32</span>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prev-btn" onclick="previousSlide()">← Anterior</button>
+        <button class="nav-btn" id="next-btn" onclick="nextSlide()">Próximo →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = n;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            if (currentSlide < 0) currentSlide = 0;
+            
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            // Scroll to top when changing slides
+            const contentScroll = slides[currentSlide].querySelector('.content-scroll');
+            if (contentScroll) {
+                contentScroll.scrollTop = 0;
+            }
+            
+            // Update button states
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

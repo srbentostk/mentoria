@@ -349,11 +349,9 @@
 }
 
 .models__group-header {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
 }
 
 .models__group-title {
@@ -368,10 +366,80 @@
   text-transform: uppercase;
 }
 
+.models__group-hint {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.models__vendor-group {
+  display: grid;
+  gap: 1rem;
+}
+
+.models__vendor-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  background: rgba(12, 16, 24, 0.55);
+  color: var(--fg);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
+}
+
+.models__vendor-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.models__vendor-label {
+  flex: 1;
+  margin: 0;
+}
+
+.models__vendor-meta {
+  margin-left: auto;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.models__vendor-chevron {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-right: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: rotate(-45deg);
+  transition: transform 160ms ease, border-color 160ms ease;
+}
+
+.models__vendor-group[data-state='expanded'] .models__vendor-toggle {
+  border-color: var(--accent);
+  background: rgba(154, 216, 193, 0.12);
+}
+
+[data-theme='advanced'] .models__vendor-group[data-state='expanded'] .models__vendor-toggle {
+  background: rgba(125, 21, 48, 0.18);
+}
+
+.models__vendor-group[data-state='expanded'] .models__vendor-chevron {
+  transform: rotate(135deg);
+  border-color: var(--accent);
+}
+
 .models__cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.25rem;
+  margin-top: 1.25rem;
 }
 
 .model-card {
@@ -421,6 +489,14 @@
   font-size: 0.9rem;
   color: var(--muted);
   margin: 0;
+}
+
+.model-card__context {
+  margin: 0.35rem 0 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
 
 .tooltip-button {

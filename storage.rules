@@ -13,5 +13,13 @@ service firebase.storage {
           || request.resource.contentType.matches('application/pdf')
           || request.resource.contentType.matches('video/.*'));
     }
+
+    // Avatares gerados por IA
+    match /avatars/{uid}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isOwner(uid)
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/png');
+    }
   }
 }

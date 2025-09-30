@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IA: Perigos e Avanços para Desenvolvedores</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
@@ -16,6 +20,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             overflow: hidden;
             height: 100vh;
+            font-family: 'Roboto', sans-serif;
         }
 
         .presentation {
@@ -39,10 +44,7 @@
             flex-direction: column;
             position: relative;
             overflow: hidden;
-            transform-origin: top center;
-            --slide-scale: 1;
-            --slide-offset: 0px;
-            transform: translateY(var(--slide-offset)) scale(var(--slide-scale));
+            justify-content: flex-start;
         }
 
         .slide.active {
@@ -136,11 +138,12 @@
             padding: 20px;
             border-radius: 8px;
             font-family: 'Courier New', monospace;
+            font-size: 1.1em;
             margin: 20px 0;
-            overflow-x: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+           
+            word-break: break-word;
+            line-height: 1.4;
+            text-align: center;
         }
 
         .navigation {
@@ -192,6 +195,7 @@
         .content-scroll {
             flex: 1;
             padding-right: 12px;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 20px;
@@ -206,13 +210,13 @@
         .layout-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            align-items: start;
+            gap: 24px;
+            align-items: stretch;
         }
 
         .layout-grid > h3,
         .layout-grid > p {
-            grid-column: 1 / -1;
+            grid-column: 1 / -1; /* Span across all columns */
         }
 
         .grid-two {
@@ -220,6 +224,7 @@
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 20px;
             align-items: start;
+            align-items: stretch;
         }
 
         .list-columns {
@@ -482,7 +487,7 @@ back</p>
 
                     <div class="warning" style="margin-top: 0;">
                         <h3>O Ciclo de Exposição</h3>
-                        <ol style="font-size: 1.2em; line-height: 2;">
+                        <ol style="font-size: 1.2em; line-height: 2; margin-left: 20px;">
                             <li>Você envia dados → IA</li>
                             <li>IA usa para treinamento</li>
                             <li>Outros usuários fazem perguntas</li>
@@ -512,7 +517,7 @@ back</p>
 
                     <div class="warning">
                         <h3>⚠️ O Ataque Silencioso:</h3>
-                        <ol style="line-height: 2;">
+                        <ol style="line-height: 2; margin-left: 20px;">
                             <li>Desenvolvedores maliciosos criam bibliotecas infectadas</li>
                             <li>Geram código massivo importando essas bibliotecas</li>
                             <li>Alimentam a IA com esse código</li>
@@ -554,7 +559,7 @@ back</p>
 
                 <div class="warning">
                     <h3>Resultado:</h3>
-                    <ul>
+                    <ul style="margin-bottom: 0;">
                         <li>❌ Não há notificação</li>
                         <li>❌ Não há alerta</li>
                         <li>❌ Backdoor silencioso instalado</li>
@@ -1012,7 +1017,7 @@ dados = mcp.obter([<br>
             <div class="content-scroll">
                 <h3>A Nova Realidade</h3>
                 
-                <div class="code-block" style="font-size: 1.2em; text-align: center; padding: 40px;">
+                <div class="code-block" style="font-size: 1.2em; padding: 40px; margin: 20px auto; max-width: 80%;">
                     <strong>Agente IA</strong><br>
                     +<br>
                     <strong>MCP</strong> (acesso inteligente a APIs/dados)<br>
@@ -1211,7 +1216,7 @@ dados = mcp.obter([<br>
                 <h3>Resumo - Como Se Proteger</h3>
                 
                 <div class="success">
-                    <ol style="font-size: 1.3em; line-height: 2;">
+                    <ol style="font-size: 1.3em; line-height: 2; margin-left: 20px;">
                         <li><strong>Configure sua IA</strong> - Desative compartilhamento</li>
                         <li><strong>Regra do Instagram</strong> - Se não publicaria, não envie</li>
                         <li><strong>Variáveis de Ambiente</strong> - Sempre, sem exceção</li>
@@ -1231,7 +1236,7 @@ dados = mcp.obter([<br>
                 <h3>Como Aproveitar o Máximo</h3>
                 
                 <div class="success">
-                    <ol style="font-size: 1.3em; line-height: 2;">
+                    <ol style="font-size: 1.3em; line-height: 2; margin-left: 20px;">
                         <li><strong>Invista em Aprendizado</strong> - IA não substitui conhecimento</li>
                         <li><strong>Instruções Claras</strong> - Quanto mais específico, melhor</li>
                         <li><strong>Use Exemplos</strong> - Mostre o que espera</li>
@@ -1288,7 +1293,6 @@ dados = mcp.obter([<br>
 
             const activeSlide = slides[currentSlide];
             activeSlide.classList.add('active');
-            adjustSlide(activeSlide);
             document.getElementById('current-slide').textContent = currentSlide + 1;
 
             document.getElementById('prev-btn').disabled = currentSlide === 0;
@@ -1296,55 +1300,6 @@ dados = mcp.obter([<br>
         }
 
         function adjustSlide(slide) {
-            const wasHidden = !slide.classList.contains('active');
-            const originalDisplay = slide.style.display;
-            const originalPosition = slide.style.position;
-            const originalVisibility = slide.style.visibility;
-            const originalLeft = slide.style.left;
-            const originalTop = slide.style.top;
-            const originalTransform = slide.style.transform;
-
-            slide.style.setProperty('--slide-scale', '1');
-            slide.style.setProperty('--slide-offset', '0px');
-
-            if (wasHidden) {
-                slide.style.display = 'flex';
-                slide.style.position = 'absolute';
-                slide.style.visibility = 'hidden';
-                slide.style.left = '-9999px';
-                slide.style.top = '0';
-            }
-
-            slide.style.transform = 'none';
-
-            const availableWidth = slide.clientWidth;
-            const availableHeight = slide.clientHeight;
-            const contentWidth = slide.scrollWidth;
-            const contentHeight = slide.scrollHeight;
-
-            slide.style.transform = originalTransform;
-
-            if (wasHidden) {
-                slide.style.display = originalDisplay;
-                slide.style.position = originalPosition;
-                slide.style.visibility = originalVisibility;
-                slide.style.left = originalLeft;
-                slide.style.top = originalTop;
-            }
-
-            if (!availableWidth || !availableHeight || !contentWidth || !contentHeight) {
-                return;
-            }
-
-            const scale = Math.min(1, availableWidth / contentWidth, availableHeight / contentHeight);
-            slide.style.setProperty('--slide-scale', scale.toString());
-
-            const offset = Math.max(0, (availableHeight - contentHeight * scale) / 2);
-            slide.style.setProperty('--slide-offset', `${offset}px`);
-        }
-
-        function adjustAllSlides() {
-            slides.forEach((slide) => adjustSlide(slide));
         }
 
         function nextSlide() {
@@ -1367,13 +1322,10 @@ dados = mcp.obter([<br>
         });
 
         function initializeDeck() {
-            adjustAllSlides();
             showSlide(0);
         }
 
         window.addEventListener('resize', () => {
-            adjustAllSlides();
-            adjustSlide(slides[currentSlide]);
         });
 
         window.addEventListener('load', initializeDeck);

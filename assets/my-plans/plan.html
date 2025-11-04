@@ -80,17 +80,22 @@
     </section>
 
     <section class="bg-white rounded-2xl p-0 shadow-soft overflow-hidden">
-      <div class="overflow-auto">
-        <table id="grid" class="min-w-full text-sm">
-          <thead class="bg-slate-100 text-left"><tr id="grid-head"></tr></thead>
-          <tbody id="grid-body" class="divide-y divide-slate-100"></tbody>
-        </table>
+      <div class="p-6 space-y-4" id="card-wrapper">
+        <div id="card-empty" class="text-center text-slate-500 text-sm">
+          Carregue a planilha para visualizar os cards.
+        </div>
+        <div id="card-view" class="hidden"></div>
       </div>
-      <div class="flex items-center justify-between p-3">
-        <div class="text-xs text-slate-500">Edite e clique “Salvar”</div>
-        <div class="flex items-center gap-2">
-          <button id="btn-save-selected" class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">Salvar linhas selecionadas</button>
-          <button id="btn-reload" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300">Recarregar</button>
+      <div class="border-t border-slate-100 bg-slate-50">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 p-4">
+          <div id="card-meta" class="text-xs text-slate-500">0 de 0 cards</div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="btn-prev" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300">Anterior</button>
+            <button id="btn-next" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300">Próximo</button>
+            <button id="btn-toggle-select" class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">Selecionar card</button>
+            <button id="btn-save-selected" class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">Salvar cards selecionados</button>
+            <button id="btn-reload" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300">Recarregar</button>
+          </div>
         </div>
       </div>
     </section>
@@ -105,9 +110,19 @@
     let accessToken=null, tokenClient=null;
 
     const $ = s=>document.querySelector(s);
-    const $head = $('#grid-head'), $body = $('#grid-body');
+    const $cardWrapper = $('#card-wrapper');
+    const $cardView = $('#card-view');
+    const $cardEmpty = $('#card-empty');
+    const $cardMeta = $('#card-meta');
+    const $btnPrev = $('#btn-prev');
+    const $btnNext = $('#btn-next');
+    const $btnToggleSelect = $('#btn-toggle-select');
     const $filterFase = $('#filter-fase'), $filterStatus = $('#filter-status'), $filterSearch = $('#filter-search');
     let filters = { fase:'', status:'', search:'' };
+    let filteredRowIdxs = [];
+    let currentCardIdx = 0;
+    const selectedRows = new Set();
+    const dirtyRows = new Set();
 
     window.onload = () => {
       $('#btn-auth').onclick = handleAuthClick;
@@ -116,13 +131,16 @@
       $('#btn-reload').onclick = loadAndRender;
       $('#btn-clear-filters').onclick = ()=>{
         $filterFase.value=''; $filterStatus.value=''; $filterSearch.value='';
-        filters = { fase:'', status:'', search:'' }; renderTable();
+        filters = { fase:'', status:'', search:'' }; applyFiltersAndRender();
       };
       $('#btn-save-selected').onclick = saveSelectedRows;
+      $btnPrev.onclick = ()=>navigateCard(-1);
+      $btnNext.onclick = ()=>navigateCard(1);
+      $btnToggleSelect.onclick = toggleCurrentSelection;
 
-      $filterFase.onchange = ()=>{ filters.fase = $filterFase.value; renderTable(); };
-      $filterStatus.onchange = ()=>{ filters.status = $filterStatus.value; renderTable(); };
-      $filterSearch.oninput = ()=>{ filters.search = $filterSearch.value.toLowerCase(); renderTable(); };
+      $filterFase.onchange = ()=>{ filters.fase = $filterFase.value; applyFiltersAndRender(); };
+      $filterStatus.onchange = ()=>{ filters.status = $filterStatus.value; applyFiltersAndRender(); };
+      $filterSearch.oninput = ()=>{ filters.search = $filterSearch.value.toLowerCase(); applyFiltersAndRender(); };
       gapi.load('client', ()=>{ /* pronto pra init quando clicar carregar */ });
     };
 
@@ -174,9 +192,10 @@
 
       const values = res.result.values || [];
       headers = values[0] || [];
-      rows = values.slice(1);
+      rows = values.slice(1).map(r=>Array.from({length: headers.length},(_,idx)=>r?.[idx] ?? ''));
+      selectedRows.clear(); dirtyRows.clear(); currentCardIdx = 0;
 
-      fillFaseFilter(); renderTable();
+      fillFaseFilter(); applyFiltersAndRender();
     }
 
     function fillFaseFilter() {
@@ -187,68 +206,170 @@
       $filterFase.innerHTML = ['<option value="">Todas</option>', ...Array.from(set).map(v=>`<option>${escapeHtml(v)}</option>`)].join('');
     }
 
-    function renderTable() {
-      $head.innerHTML = '';
-      const cols = headers.concat(['Selecionar','Ações']);
-      cols.forEach(h=>{
-        const th=document.createElement('th');
-        th.className='px-3 py-2 text-slate-700 text-xs font-semibold uppercase tracking-wide';
-        th.textContent=h; $head.appendChild(th);
-      });
-
-      $body.innerHTML='';
+    function applyFiltersAndRender() {
+      if (!headers.length) { renderCurrentCard(); return; }
       const colStatus=headers.indexOf('Status'), colFase=headers.indexOf('Fase');
-
-      rows.map((r,i)=>({r,i})).filter(({r})=>{
-        const faseOk=!filters.fase||(r[colFase]||'')===filters.fase;
-        const statusOk=!filters.status||(r[colStatus]||'')===filters.status;
-        const searchOk=!filters.search||r.join(' ').toLowerCase().includes(filters.search);
-        return faseOk&&statusOk&&searchOk;
-      }).forEach(({r,i})=>{
-        const tr=document.createElement('tr'); tr.className='hover:bg-slate-50';
-
-        for (let c=0;c<headers.length;c++){
-          const td=document.createElement('td'); td.className='px-3 py-2 align-top';
-          const header=headers[c];
-          if (header==='Status'){
-            const select=document.createElement('select'); select.className='rounded-lg border-slate-300 text-sm';
-            SUGGESTED_STATUS.forEach(s=>{
-              const opt=document.createElement('option'); opt.value=s; opt.textContent=s;
-              if ((r[c]||'')===s) opt.selected=true; select.appendChild(opt);
-            });
-            select.dataset.row=i; select.dataset.col=c; select.onchange=markRowDirty; td.appendChild(select);
-          } else {
-            const div=document.createElement('div'); div.className='cell-editable'; div.contentEditable=true;
-            div.textContent=r[c]??''; div.dataset.row=i; div.dataset.col=c; div.oninput=markRowDirty; td.appendChild(div);
-          }
-          tr.appendChild(td);
-        }
-
-        const tdSel=document.createElement('td'); tdSel.className='px-3 py-2';
-        const cb=document.createElement('input'); cb.type='checkbox'; cb.className='w-4 h-4'; cb.dataset.row=i;
-        tdSel.appendChild(cb); tr.appendChild(tdSel);
-
-        const tdAct=document.createElement('td'); tdAct.className='px-3 py-2';
-        const btn=document.createElement('button'); btn.textContent='Salvar linha';
-        btn.className='px-3 py-1 rounded-lg bg-emerald-600 text-white text-xs hover:bg-emerald-700';
-        btn.onclick=()=>saveRowsBatch([i]); tdAct.appendChild(btn); tr.appendChild(tdAct);
-
-        $body.appendChild(tr);
+      filteredRowIdxs = rows.map((_,idx)=>idx).filter(idx=>{
+        const r = rows[idx];
+        const faseOk = !filters.fase || (r[colFase]||'')===filters.fase;
+        const statusOk = !filters.status || (r[colStatus]||'')===filters.status;
+        const searchOk = !filters.search || r.join(' ').toLowerCase().includes(filters.search);
+        return faseOk && statusOk && searchOk;
       });
+      if (filteredRowIdxs.length === 0) {
+        currentCardIdx = 0;
+      } else if (currentCardIdx >= filteredRowIdxs.length) {
+        currentCardIdx = filteredRowIdxs.length - 1;
+      } else if (currentCardIdx < 0) {
+        currentCardIdx = 0;
+      }
+      renderCurrentCard();
+    }
+
+    function renderCurrentCard(){
+      if (!$cardView) return;
+      $cardView.innerHTML='';
+      if (!headers.length || !rows.length){
+        showEmpty('Carregue a planilha para visualizar os cards.');
+        updateMeta(); updateNavState(); return;
+      }
+      if (!filteredRowIdxs.length){
+        showEmpty('Nenhum card encontrado com os filtros atuais.');
+        updateMeta(); updateNavState(); return;
+      }
+      const rowIdx = filteredRowIdxs[currentCardIdx];
+      const rowValues = Array.from({length: headers.length}, (_,c)=>rows[rowIdx]?.[c] ?? '');
+      const card=document.createElement('div');
+      card.className='space-y-4 rounded-2xl border border-slate-200 bg-white p-4 md:p-6 shadow-sm transition ring-offset-2';
+      if (selectedRows.has(rowIdx)){
+        card.classList.add('ring-2','ring-indigo-300');
+      } else if (dirtyRows.has(rowIdx)){
+        card.classList.add('ring-2','ring-amber-300');
+      }
+
+      headers.forEach((header,c)=>{
+        const field=document.createElement('div');
+        field.className='space-y-1';
+        const label=document.createElement('div');
+        label.className='text-xs font-semibold uppercase tracking-wide text-slate-500';
+        label.textContent=header || `Coluna ${c+1}`;
+        field.appendChild(label);
+
+        if ((header||'').toLowerCase()==='status'){
+          const select=document.createElement('select');
+          select.className='w-full rounded-xl border border-slate-300 bg-white p-3 text-sm';
+          const uniqueOptions=new Set(SUGGESTED_STATUS);
+          if (rowValues[c] && !uniqueOptions.has(rowValues[c])) uniqueOptions.add(rowValues[c]);
+          select.appendChild(new Option('',''));
+          Array.from(uniqueOptions).forEach(value=>{
+            const opt=new Option(value,value,value===rowValues[c], value===rowValues[c]);
+            select.appendChild(opt);
+          });
+          select.dataset.row=rowIdx; select.dataset.col=c;
+          select.onchange=markRowDirty;
+          field.appendChild(select);
+        } else {
+          const div=document.createElement('div');
+          div.className='cell-editable block rounded-xl border border-slate-200 bg-white p-3 text-sm';
+          div.contentEditable=true;
+          div.dataset.row=rowIdx; div.dataset.col=c;
+          div.textContent=rowValues[c];
+          div.oninput=markRowDirty;
+          field.appendChild(div);
+        }
+        card.appendChild(field);
+      });
+
+      $cardView.appendChild(card);
+      $cardEmpty.classList.add('hidden');
+      $cardView.classList.remove('hidden');
+      updateMeta(); updateNavState(); updateToggleButton();
+    }
+
+    function showEmpty(message){
+      if ($cardEmpty){
+        $cardEmpty.textContent=message;
+        $cardEmpty.classList.remove('hidden');
+      }
+      if ($cardView) $cardView.classList.add('hidden');
+    }
+
+    function updateMeta(){
+      if (!$cardMeta) return;
+      const total = filteredRowIdxs.length;
+      const current = total ? currentCardIdx + 1 : 0;
+      const selectedCount = selectedRows.size;
+      const dirtyCount = dirtyRows.size;
+      const parts = [`${current} de ${total} cards`];
+      if (selectedCount) parts.push(`${selectedCount} selecionado${selectedCount>1?'s':''}`);
+      if (dirtyCount) parts.push(`${dirtyCount} alterado${dirtyCount>1?'s':''}`);
+      $cardMeta.textContent = parts.join(' • ');
+    }
+
+    function updateNavState(){
+      const total = filteredRowIdxs.length;
+      setButtonState($btnPrev, total===0 || currentCardIdx===0);
+      setButtonState($btnNext, total===0 || currentCardIdx===total-1);
+      setButtonState($btnToggleSelect, total===0);
+    }
+
+    function setButtonState(btn, disabled){
+      if (!btn) return;
+      btn.disabled = disabled;
+      if (disabled){
+        btn.classList.add('opacity-50','cursor-not-allowed');
+      } else {
+        btn.classList.remove('opacity-50','cursor-not-allowed');
+      }
+    }
+
+    function updateToggleButton(){
+      if (!$btnToggleSelect) return;
+      const rowIdx = filteredRowIdxs[currentCardIdx];
+      if (rowIdx===undefined){
+        $btnToggleSelect.textContent='Selecionar card';
+        return;
+      }
+      $btnToggleSelect.textContent = selectedRows.has(rowIdx) ? 'Remover seleção' : 'Selecionar card';
+    }
+
+    function navigateCard(delta){
+      if (!filteredRowIdxs.length) return;
+      currentCardIdx = Math.min(Math.max(currentCardIdx + delta, 0), filteredRowIdxs.length - 1);
+      renderCurrentCard();
+    }
+
+    function toggleCurrentSelection(){
+      if (!filteredRowIdxs.length) return;
+      const rowIdx = filteredRowIdxs[currentCardIdx];
+      if (selectedRows.has(rowIdx)){
+        selectedRows.delete(rowIdx);
+      } else {
+        selectedRows.add(rowIdx);
+      }
+      renderCurrentCard();
     }
 
     function markRowDirty(e){
       const row=+e.target.dataset.row, col=+e.target.dataset.col;
-      if (Number.isFinite(row)&&Number.isFinite(col)){
-        rows[row][col] = (e.target.tagName==='SELECT') ? e.target.value : e.target.textContent;
-        const tr=e.target.closest('tr'); tr && tr.classList.add('bg-amber-50');
+      if (!Number.isFinite(row) || !Number.isFinite(col)) return;
+      if (!rows[row]) rows[row] = Array.from({length: headers.length}, (_,idx)=>rows[row]?.[idx] ?? '');
+      rows[row][col] = (e.target.tagName==='SELECT') ? e.target.value : e.target.textContent;
+      dirtyRows.add(row);
+      const currentRowIdx = filteredRowIdxs[currentCardIdx];
+      if (currentRowIdx===row){
+        const card=$cardView?.firstElementChild;
+        if (card){
+          card.classList.remove('ring-indigo-300');
+          card.classList.add('ring-2','ring-amber-300');
+        }
       }
+      updateMeta();
     }
 
     async function saveSelectedRows(){
-      const idxs=Array.from(document.querySelectorAll('#grid-body input[type="checkbox"]:checked')).map(cb=>+cb.dataset.row);
-      if (!idxs.length){ alert('Selecione ao menos uma linha.'); return; }
-      await saveRowsBatch(idxs);
+      if (!selectedRows.size){ alert('Selecione ao menos um card.'); return; }
+      await saveRowsBatch(Array.from(selectedRows).sort((a,b)=>a-b));
     }
 
     async function saveRowsBatch(rowIdxs){
@@ -259,7 +380,6 @@
       const lastColLetter = toColumnLetter(headers.length);
       const data = rowIdxs.map(idx=>{
         const range = `${SHEET_NAME}!A${idx+2}:${lastColLetter}${idx+2}`;
-        // garante comprimento das células
         const rowValues = Array.from({length: headers.length}, (_,c)=> rows[idx][c] ?? '');
         return { range, values: [ rowValues ] };
       });
@@ -269,14 +389,11 @@
           spreadsheetId: SHEET_ID,
           resource: { valueInputOption: 'RAW', data }
         });
-
-        Array.from(document.querySelectorAll('#grid-body tr')).forEach(tr=>{
-          const cb=tr.querySelector('input[type="checkbox"]'); if (!cb) return;
-          if (rowIdxs.includes(+cb.dataset.row)){
-            tr.classList.remove('bg-amber-50'); tr.classList.add('bg-emerald-50');
-            setTimeout(()=>tr.classList.remove('bg-emerald-50'), 1200); cb.checked=false;
-          }
+        rowIdxs.forEach(idx=>{
+          dirtyRows.delete(idx);
+          selectedRows.delete(idx);
         });
+        renderCurrentCard();
       } catch (err) {
         console.error(err); alert('Erro ao salvar (ver console).');
       }

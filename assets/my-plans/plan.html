@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>6em60 — Painel de Conteúdo (Sheets)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .cell-editable[contenteditable="true"]:focus { outline: 2px solid rgba(59,130,246,.5); border-radius: .375rem; }
+    .shadow-soft { box-shadow: 0 10px 25px rgba(0,0,0,.05); }
+    .scroll-thin::-webkit-scrollbar { height: 8px; width: 8px; }
+    .scroll-thin::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:6px; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+  <div class="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
+    <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold">6em60 — Painel de Conteúdo</h1>
+        <p class="text-slate-600">Leia, filtre, edite e salve na sua planilha do Google Sheets.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btn-auth" class="px-4 py-2 rounded-xl bg-black text-white hover:bg-slate-800">Conectar Google</button>
+        <button id="btn-signout" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 hidden">Desconectar</button>
+      </div>
+    </header>
+
+    <section class="bg-white rounded-2xl p-4 md:p-6 shadow-soft space-y-3">
+      <div class="grid gap-3 md:grid-cols-3">
+        <label class="block">
+          <span class="text-sm text-slate-600">SHEET_ID</span>
+          <input id="inp-sheet-id" class="mt-1 w-full rounded-xl border-slate-300" placeholder="1AbCDEF..." />
+        </label>
+        <label class="block">
+          <span class="text-sm text-slate-600">ABA (Sheet Name)</span>
+          <input id="inp-sheet-name" class="mt-1 w-full rounded-xl border-slate-300" value="6em60_Preenchido" />
+        </label>
+        <label class="block">
+          <span class="text-sm text-slate-600">Intervalo</span>
+          <input id="inp-range" class="mt-1 w-full rounded-xl border-slate-300" value="A1:AZ" />
+        </label>
+      </div>
+      <div class="grid gap-3 md:grid-cols-3">
+        <label class="block">
+          <span class="text-sm text-slate-600">CLIENT_ID (OAuth Web)</span>
+          <input id="inp-client-id" class="mt-1 w-full rounded-xl border-slate-300" placeholder="xxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com" />
+        </label>
+        <label class="block">
+          <span class="text-sm text-slate-600">API_KEY</span>
+          <input id="inp-api-key" class="mt-1 w-full rounded-xl border-slate-300" placeholder="AIza..." />
+        </label>
+        <div class="flex items-end">
+          <button id="btn-load" class="w-full px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700">Carregar Dados</button>
+        </div>
+      </div>
+      <p class="text-xs text-slate-500">
+        Rode via <strong>http://localhost:PORTA</strong>. No Google Cloud: habilite Sheets API, use a API Key com restrição de HTTP referrers para seu localhost,
+        e adicione o mesmo origin em Authorized JavaScript Origins do OAuth Client.
+      </p>
+    </section>
+
+    <section class="bg-white rounded-2xl p-4 md:p-6 shadow-soft space-y-4">
+      <div class="flex flex-col md:flex-row gap-3 md:items-end">
+        <label class="block w-full md:w-1/4">
+          <span class="text-sm text-slate-600">Fase</span>
+          <select id="filter-fase" class="mt-1 w-full rounded-xl border-slate-300"><option value="">Todas</option></select>
+        </label>
+        <label class="block w-full md:w-1/4">
+          <span class="text-sm text-slate-600">Status</span>
+          <select id="filter-status" class="mt-1 w-full rounded-xl border-slate-300">
+            <option value="">Todos</option><option>A fazer</option><option>Em andamento</option><option>Concluído</option>
+          </select>
+        </label>
+        <label class="block w-full md:w-1/2">
+          <span class="text-sm text-slate-600">Busca</span>
+          <input id="filter-search" class="mt-1 w-full rounded-xl border-slate-300" placeholder="Digite para filtrar..." />
+        </label>
+        <button id="btn-clear-filters" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300">Limpar Filtros</button>
+      </div>
+    </section>
+
+    <section class="bg-white rounded-2xl p-0 shadow-soft overflow-hidden">
+      <div class="overflow-auto">
+        <table id="grid" class="min-w-full text-sm">
+          <thead class="bg-slate-100 text-left"><tr id="grid-head"></tr></thead>
+          <tbody id="grid-body" class="divide-y divide-slate-100"></tbody>
+        </table>
+      </div>
+      <div class="flex items-center justify-between p-3">
+        <div class="text-xs text-slate-500">Edite e clique “Salvar”</div>
+        <div class="flex items-center gap-2">
+          <button id="btn-save-selected" class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">Salvar linhas selecionadas</button>
+          <button id="btn-reload" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300">Recarregar</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script>
+    const SUGGESTED_STATUS = ['A fazer','Em andamento','Concluído'];
+    let headers = [], rows = [];
+    let SHEET_ID='', SHEET_NAME='', RANGE='A1:AZ', API_KEY='', CLIENT_ID='';
+    let accessToken=null, tokenClient=null;
+
+    const $ = s=>document.querySelector(s);
+    const $head = $('#grid-head'), $body = $('#grid-body');
+    const $filterFase = $('#filter-fase'), $filterStatus = $('#filter-status'), $filterSearch = $('#filter-search');
+    let filters = { fase:'', status:'', search:'' };
+
+    window.onload = () => {
+      $('#btn-auth').onclick = handleAuthClick;
+      $('#btn-signout').onclick = handleSignoutClick;
+      $('#btn-load').onclick = loadAndRender;
+      $('#btn-reload').onclick = loadAndRender;
+      $('#btn-clear-filters').onclick = ()=>{
+        $filterFase.value=''; $filterStatus.value=''; $filterSearch.value='';
+        filters = { fase:'', status:'', search:'' }; renderTable();
+      };
+      $('#btn-save-selected').onclick = saveSelectedRows;
+
+      $filterFase.onchange = ()=>{ filters.fase = $filterFase.value; renderTable(); };
+      $filterStatus.onchange = ()=>{ filters.status = $filterStatus.value; renderTable(); };
+      $filterSearch.oninput = ()=>{ filters.search = $filterSearch.value.toLowerCase(); renderTable(); };
+      gapi.load('client', ()=>{ /* pronto pra init quando clicar carregar */ });
+    };
+
+    function initGapiIfNeeded() {
+      return gapi.client && gapi.client.sheets ? Promise.resolve() :
+        gapi.client.init({
+          apiKey: API_KEY,
+          discoveryDocs: ['https://sheets.googleapis.com/$discovery/rest?version=v4'],
+        });
+    }
+
+    function handleAuthClick() {
+      CLIENT_ID = $('#inp-client-id').value.trim();
+      if (!CLIENT_ID) { alert('Preencha o CLIENT_ID'); return; }
+      tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: 'https://www.googleapis.com/auth/spreadsheets',
+        callback: (resp)=>{
+          if (resp.error) { console.error(resp); return; }
+          accessToken = resp.access_token;
+          $('#btn-auth').classList.add('hidden');
+          $('#btn-signout').classList.remove('hidden');
+        }
+      });
+      tokenClient.requestAccessToken({ prompt: 'consent' });
+    }
+
+    function handleSignoutClick() {
+      if (accessToken) google.accounts.oauth2.revoke(accessToken);
+      accessToken=null;
+      $('#btn-auth').classList.remove('hidden');
+      $('#btn-signout').classList.add('hidden');
+    }
+
+    async function loadAndRender() {
+      SHEET_ID = $('#inp-sheet-id').value.trim();
+      SHEET_NAME = $('#inp-sheet-name').value.trim() || '6em60_Preenchido';
+      RANGE = $('#inp-range').value.trim() || 'A1:AZ';
+      API_KEY = $('#inp-api-key').value.trim();
+      if (!SHEET_ID || !API_KEY) { alert('Preencha SHEET_ID e API_KEY'); return; }
+
+      await initGapiIfNeeded();
+
+      const res = await gapi.client.sheets.spreadsheets.values.get({
+        spreadsheetId: SHEET_ID,
+        range: `${SHEET_NAME}!${RANGE}`,
+        majorDimension: 'ROWS'
+      });
+
+      const values = res.result.values || [];
+      headers = values[0] || [];
+      rows = values.slice(1);
+
+      fillFaseFilter(); renderTable();
+    }
+
+    function fillFaseFilter() {
+      const colFase = headers.indexOf('Fase');
+      if (colFase === -1) return;
+      const set = new Set();
+      for (const r of rows) { const v = (r[colFase]||'').trim(); if (v) set.add(v); }
+      $filterFase.innerHTML = ['<option value="">Todas</option>', ...Array.from(set).map(v=>`<option>${escapeHtml(v)}</option>`)].join('');
+    }
+
+    function renderTable() {
+      $head.innerHTML = '';
+      const cols = headers.concat(['Selecionar','Ações']);
+      cols.forEach(h=>{
+        const th=document.createElement('th');
+        th.className='px-3 py-2 text-slate-700 text-xs font-semibold uppercase tracking-wide';
+        th.textContent=h; $head.appendChild(th);
+      });
+
+      $body.innerHTML='';
+      const colStatus=headers.indexOf('Status'), colFase=headers.indexOf('Fase');
+
+      rows.map((r,i)=>({r,i})).filter(({r})=>{
+        const faseOk=!filters.fase||(r[colFase]||'')===filters.fase;
+        const statusOk=!filters.status||(r[colStatus]||'')===filters.status;
+        const searchOk=!filters.search||r.join(' ').toLowerCase().includes(filters.search);
+        return faseOk&&statusOk&&searchOk;
+      }).forEach(({r,i})=>{
+        const tr=document.createElement('tr'); tr.className='hover:bg-slate-50';
+
+        for (let c=0;c<headers.length;c++){
+          const td=document.createElement('td'); td.className='px-3 py-2 align-top';
+          const header=headers[c];
+          if (header==='Status'){
+            const select=document.createElement('select'); select.className='rounded-lg border-slate-300 text-sm';
+            SUGGESTED_STATUS.forEach(s=>{
+              const opt=document.createElement('option'); opt.value=s; opt.textContent=s;
+              if ((r[c]||'')===s) opt.selected=true; select.appendChild(opt);
+            });
+            select.dataset.row=i; select.dataset.col=c; select.onchange=markRowDirty; td.appendChild(select);
+          } else {
+            const div=document.createElement('div'); div.className='cell-editable'; div.contentEditable=true;
+            div.textContent=r[c]??''; div.dataset.row=i; div.dataset.col=c; div.oninput=markRowDirty; td.appendChild(div);
+          }
+          tr.appendChild(td);
+        }
+
+        const tdSel=document.createElement('td'); tdSel.className='px-3 py-2';
+        const cb=document.createElement('input'); cb.type='checkbox'; cb.className='w-4 h-4'; cb.dataset.row=i;
+        tdSel.appendChild(cb); tr.appendChild(tdSel);
+
+        const tdAct=document.createElement('td'); tdAct.className='px-3 py-2';
+        const btn=document.createElement('button'); btn.textContent='Salvar linha';
+        btn.className='px-3 py-1 rounded-lg bg-emerald-600 text-white text-xs hover:bg-emerald-700';
+        btn.onclick=()=>saveRowsBatch([i]); tdAct.appendChild(btn); tr.appendChild(tdAct);
+
+        $body.appendChild(tr);
+      });
+    }
+
+    function markRowDirty(e){
+      const row=+e.target.dataset.row, col=+e.target.dataset.col;
+      if (Number.isFinite(row)&&Number.isFinite(col)){
+        rows[row][col] = (e.target.tagName==='SELECT') ? e.target.value : e.target.textContent;
+        const tr=e.target.closest('tr'); tr && tr.classList.add('bg-amber-50');
+      }
+    }
+
+    async function saveSelectedRows(){
+      const idxs=Array.from(document.querySelectorAll('#grid-body input[type="checkbox"]:checked')).map(cb=>+cb.dataset.row);
+      if (!idxs.length){ alert('Selecione ao menos uma linha.'); return; }
+      await saveRowsBatch(idxs);
+    }
+
+    async function saveRowsBatch(rowIdxs){
+      if (!accessToken){ alert('Conecte Google (botão Conectar Google).'); return; }
+      if (!SHEET_ID || !SHEET_NAME){ alert('Configure SHEET_ID e ABA.'); return; }
+      await initGapiIfNeeded();
+
+      const lastColLetter = toColumnLetter(headers.length);
+      const data = rowIdxs.map(idx=>{
+        const range = `${SHEET_NAME}!A${idx+2}:${lastColLetter}${idx+2}`;
+        // garante comprimento das células
+        const rowValues = Array.from({length: headers.length}, (_,c)=> rows[idx][c] ?? '');
+        return { range, values: [ rowValues ] };
+      });
+
+      try {
+        await gapi.client.sheets.spreadsheets.values.batchUpdate({
+          spreadsheetId: SHEET_ID,
+          resource: { valueInputOption: 'RAW', data }
+        });
+
+        Array.from(document.querySelectorAll('#grid-body tr')).forEach(tr=>{
+          const cb=tr.querySelector('input[type="checkbox"]'); if (!cb) return;
+          if (rowIdxs.includes(+cb.dataset.row)){
+            tr.classList.remove('bg-amber-50'); tr.classList.add('bg-emerald-50');
+            setTimeout(()=>tr.classList.remove('bg-emerald-50'), 1200); cb.checked=false;
+          }
+        });
+      } catch (err) {
+        console.error(err); alert('Erro ao salvar (ver console).');
+      }
+    }
+
+    // Utils
+    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[m]); }
+    function toColumnLetter(n){ let s=''; while(n>0){ let m=(n-1)%26; s=String.fromCharCode(65+m)+s; n=Math.floor((n-1)/26); } return s; }
+  </script>
+</body>
+</html>

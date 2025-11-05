@@ -10,6 +10,21 @@
     .shadow-soft { box-shadow: 0 10px 25px rgba(0,0,0,.05); }
     .scroll-thin::-webkit-scrollbar { height: 8px; width: 8px; }
     .scroll-thin::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:6px; }
+
+    body[data-theme="dark"] { background:#0f172a; color:#e2e8f0; }
+    body[data-theme="dark"] .bg-white { background-color:#1e293b !important; }
+    body[data-theme="dark"] .bg-slate-50 { background-color:#0f172a !important; }
+    body[data-theme="dark"] .bg-slate-200 { background-color:#1e293b !important; color:#cbd5f5; }
+    body[data-theme="dark"] .bg-slate-300 { background-color:#334155 !important; }
+    body[data-theme="dark"] .text-slate-600 { color:#cbd5f5 !important; }
+    body[data-theme="dark"] .text-slate-500 { color:#94a3b8 !important; }
+    body[data-theme="dark"] .text-slate-700 { color:#e2e8f0 !important; }
+    body[data-theme="dark"] input,
+    body[data-theme="dark"] select,
+    body[data-theme="dark"] textarea { background-color:#0f172a; color:#e2e8f0; border-color:#475569 !important; }
+    body[data-theme="dark"] .cell-editable { background-color:#0f172a; border-color:#475569; }
+    body[data-theme="dark"] .shadow-soft { box-shadow:0 10px 30px rgba(15,23,42,.6); }
+    body[data-theme="dark"] button { border-color:transparent; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-900">
@@ -19,7 +34,8 @@
         <h1 class="text-2xl md:text-3xl font-bold">6em60 — Painel de Conteúdo</h1>
         <p class="text-slate-600">Leia, filtre, edite e salve na sua planilha do Google Sheets.</p>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btn-theme-toggle" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300">Modo escuro</button>
         <button id="btn-auth" class="px-4 py-2 rounded-xl bg-black text-white hover:bg-slate-800">Conectar Google</button>
         <button id="btn-signout" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 hidden">Desconectar</button>
       </div>
@@ -57,6 +73,12 @@
         Rode via <strong>http://localhost:PORTA</strong>. No Google Cloud: habilite Sheets API, use a API Key com restrição de HTTP referrers para seu localhost,
         e adicione o mesmo origin em Authorized JavaScript Origins do OAuth Client.
       </p>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="btn-save-credentials" class="px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">Salvar dados localmente</button>
+        <button id="btn-load-credentials" class="px-4 py-2 rounded-xl bg-slate-200 text-slate-700 hover:bg-slate-300">Carregar dados salvos</button>
+        <button id="btn-clear-credentials" class="px-4 py-2 rounded-xl bg-rose-600 text-white hover:bg-rose-700">Apagar dados salvos</button>
+        <span class="text-xs text-slate-500">Os dados ficam criptografados em AES-256 e protegidos por senha local.</span>
+      </div>
     </section>
 
     <section class="bg-white rounded-2xl p-4 md:p-6 shadow-soft space-y-4">
@@ -110,6 +132,7 @@
     let accessToken=null, tokenClient=null;
 
     const $ = s=>document.querySelector(s);
+    const $btnThemeToggle = $('#btn-theme-toggle');
     const $cardWrapper = $('#card-wrapper');
     const $cardView = $('#card-view');
     const $cardEmpty = $('#card-empty');
@@ -117,12 +140,17 @@
     const $btnPrev = $('#btn-prev');
     const $btnNext = $('#btn-next');
     const $btnToggleSelect = $('#btn-toggle-select');
+    const $btnSaveCredentials = $('#btn-save-credentials');
+    const $btnLoadCredentials = $('#btn-load-credentials');
+    const $btnClearCredentials = $('#btn-clear-credentials');
     const $filterFase = $('#filter-fase'), $filterStatus = $('#filter-status'), $filterSearch = $('#filter-search');
     let filters = { fase:'', status:'', search:'' };
     let filteredRowIdxs = [];
     let currentCardIdx = 0;
     const selectedRows = new Set();
     const dirtyRows = new Set();
+    const THEME_STORAGE_KEY = 'plan.theme.v1';
+    const CREDENTIALS_STORAGE_KEY = 'plan.credentials.v1';
 
     window.onload = () => {
       $('#btn-auth').onclick = handleAuthClick;
@@ -134,6 +162,10 @@
         filters = { fase:'', status:'', search:'' }; applyFiltersAndRender();
       };
       $('#btn-save-selected').onclick = saveSelectedRows;
+      if ($btnThemeToggle) $btnThemeToggle.onclick = toggleTheme;
+      if ($btnSaveCredentials) $btnSaveCredentials.onclick = ()=>handleSaveCredentials();
+      if ($btnLoadCredentials) $btnLoadCredentials.onclick = ()=>handleLoadCredentials();
+      if ($btnClearCredentials) $btnClearCredentials.onclick = ()=>handleClearCredentials();
       $btnPrev.onclick = ()=>navigateCard(-1);
       $btnNext.onclick = ()=>navigateCard(1);
       $btnToggleSelect.onclick = toggleCurrentSelection;
@@ -142,6 +174,9 @@
       $filterStatus.onchange = ()=>{ filters.status = $filterStatus.value; applyFiltersAndRender(); };
       $filterSearch.oninput = ()=>{ filters.search = $filterSearch.value.toLowerCase(); applyFiltersAndRender(); };
       gapi.load('client', ()=>{ /* pronto pra init quando clicar carregar */ });
+
+      initTheme();
+      tryAutoLoadCredentials();
     };
 
     function initGapiIfNeeded() {
@@ -175,6 +210,24 @@
       $('#btn-signout').classList.add('hidden');
     }
 
+    function initTheme(){
+      const stored = localStorage.getItem(THEME_STORAGE_KEY);
+      const theme = stored === 'dark' ? 'dark' : 'light';
+      setTheme(theme);
+    }
+
+    function setTheme(theme){
+      document.body.dataset.theme = theme;
+      if ($btnThemeToggle) $btnThemeToggle.textContent = theme === 'dark' ? 'Modo claro' : 'Modo escuro';
+      localStorage.setItem(THEME_STORAGE_KEY, theme);
+    }
+
+    function toggleTheme(){
+      const current = document.body.dataset.theme === 'dark' ? 'dark' : 'light';
+      const next = current === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+    }
+
     async function loadAndRender() {
       SHEET_ID = $('#inp-sheet-id').value.trim();
       SHEET_NAME = $('#inp-sheet-name').value.trim() || '6em60_Preenchido';
@@ -196,6 +249,101 @@
       selectedRows.clear(); dirtyRows.clear(); currentCardIdx = 0;
 
       fillFaseFilter(); applyFiltersAndRender();
+    }
+
+    function collectCredentials(){
+      return {
+        sheetId: $('#inp-sheet-id').value.trim(),
+        sheetName: $('#inp-sheet-name').value.trim(),
+        range: $('#inp-range').value.trim(),
+        apiKey: $('#inp-api-key').value.trim(),
+        clientId: $('#inp-client-id').value.trim(),
+      };
+    }
+
+    function populateCredentialInputs(data){
+      if (!data) return;
+      if (data.sheetId) $('#inp-sheet-id').value = data.sheetId;
+      if (data.sheetName) $('#inp-sheet-name').value = data.sheetName;
+      if (data.range) $('#inp-range').value = data.range;
+      if (data.apiKey) $('#inp-api-key').value = data.apiKey;
+      if (data.clientId) $('#inp-client-id').value = data.clientId;
+    }
+
+    async function handleSaveCredentials(){
+      if (!window.crypto?.subtle){ alert('Criptografia não suportada neste navegador.'); return; }
+      const creds = collectCredentials();
+      if (!creds.sheetId || !creds.apiKey){
+        alert('Preencha ao menos SHEET_ID e API_KEY para salvar.'); return;
+      }
+      const password = prompt('Digite uma senha para proteger as credenciais:');
+      if (!password){ return; }
+      try {
+        const salt = crypto.getRandomValues(new Uint8Array(16));
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+        const key = await deriveKeyFromPassword(password, salt);
+        const encoded = new TextEncoder().encode(JSON.stringify(creds));
+        const encrypted = new Uint8Array(await crypto.subtle.encrypt({ name:'AES-GCM', iv }, key, encoded));
+        const payload = {
+          version: 1,
+          iv: toBase64(iv),
+          salt: toBase64(salt),
+          data: toBase64(encrypted),
+        };
+        localStorage.setItem(CREDENTIALS_STORAGE_KEY, JSON.stringify(payload));
+        alert('Dados salvos com sucesso (apenas neste navegador).');
+      } catch (error) {
+        console.error('Erro ao salvar credenciais', error);
+        alert('Não foi possível salvar as credenciais.');
+      }
+    }
+
+    async function handleLoadCredentials(skipConfirm=false){
+      if (!window.crypto?.subtle){ alert('Criptografia não suportada neste navegador.'); return; }
+      const raw = localStorage.getItem(CREDENTIALS_STORAGE_KEY);
+      if (!raw){
+        if (!skipConfirm) alert('Nenhum dado salvo encontrado.');
+        return;
+      }
+      if (!skipConfirm && !confirm('Carregar dados salvos localmente?')){
+        return;
+      }
+      try {
+        const payload = JSON.parse(raw);
+        if (payload.version !== 1) { alert('Versão de dados desconhecida.'); return; }
+        const password = prompt('Digite a senha usada ao salvar:');
+        if (!password){ return; }
+        const salt = fromBase64(payload.salt);
+        const iv = fromBase64(payload.iv);
+        const encrypted = fromBase64(payload.data);
+        const key = await deriveKeyFromPassword(password, salt);
+        const decrypted = await crypto.subtle.decrypt({ name:'AES-GCM', iv }, key, encrypted);
+        const decoded = JSON.parse(new TextDecoder().decode(decrypted));
+        populateCredentialInputs(decoded);
+        alert('Credenciais carregadas nos campos.');
+      } catch (error) {
+        console.error('Erro ao carregar credenciais', error);
+        alert('Não foi possível decodificar os dados. Verifique a senha informada.');
+      }
+    }
+
+    function handleClearCredentials(){
+      if (!localStorage.getItem(CREDENTIALS_STORAGE_KEY)){
+        alert('Nenhum dado salvo para apagar.');
+        return;
+      }
+      if (!confirm('Deseja remover os dados salvos deste navegador?')){
+        return;
+      }
+      localStorage.removeItem(CREDENTIALS_STORAGE_KEY);
+      alert('Dados locais removidos.');
+    }
+
+    function tryAutoLoadCredentials(){
+      if (!localStorage.getItem(CREDENTIALS_STORAGE_KEY)){ return; }
+      if (confirm('Encontramos dados salvos localmente. Deseja carregá-los agora?')){
+        handleLoadCredentials(true);
+      }
     }
 
     function fillFaseFilter() {
@@ -400,6 +548,30 @@
     }
 
     // Utils
+    async function deriveKeyFromPassword(password, salt){
+      const encoder = new TextEncoder();
+      const baseKey = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveKey']);
+      return crypto.subtle.deriveKey({
+        name: 'PBKDF2',
+        salt,
+        iterations: 120000,
+        hash: 'SHA-256',
+      }, baseKey, { name:'AES-GCM', length:256 }, false, ['encrypt','decrypt']);
+    }
+
+    function toBase64(bytes){
+      return btoa(String.fromCharCode(...bytes));
+    }
+
+    function fromBase64(str){
+      const binary = atob(str);
+      const bytes = new Uint8Array(binary.length);
+      for (let i=0; i<binary.length; i++){
+        bytes[i] = binary.charCodeAt(i);
+      }
+      return bytes;
+    }
+
     function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[m]); }
     function toColumnLetter(n){ let s=''; while(n>0){ let m=(n-1)%26; s=String.fromCharCode(65+m)+s; n=Math.floor((n-1)/26); } return s; }
   </script>
